@@ -1,0 +1,321 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/04/2010  08:27:55  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE “∫æßœ‘ æ.obj TO  µ—ÈœÓƒø
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  “∫æßœ‘ æ.obj (“∫æßœ‘ æ)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:   µ—ÈœÓƒø (“∫æßœ‘ æ)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000AH     UNIT         _DATA_GROUP_
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0184H     UNIT         ?PR?MAIN?“∫æßœ‘ æ
+            CODE    0187H     0140H     UNIT         ?CO?“∫æßœ‘ æ
+            CODE    02C7H     007AH     UNIT         ?PR?_DISPLAY?“∫æßœ‘ æ
+            CODE    0341H     0021H     UNIT         ?PR?INITLCD?“∫æßœ‘ æ
+            CODE    0362H     0020H     UNIT         ?PR?_DELAY?“∫æßœ‘ æ
+            CODE    0382H     001FH     UNIT         ?PR?_CLEARSCREEN?“∫æßœ‘ æ
+            CODE    03A1H     001AH     UNIT         ?PR?CHECKSTATE?“∫æßœ‘ æ
+            CODE    03BBH     001AH     UNIT         ?PR?_SELECTSCREEN?“∫æßœ‘ æ
+            CODE    03D5H     0010H     UNIT         ?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ
+            CODE    03E5H     0010H     UNIT         ?PR?_WRITEBYTE?“∫æßœ‘ æ
+            CODE    03F5H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0401H     0009H     UNIT         ?PR?_SETCOLUMN?“∫æßœ‘ æ
+            CODE    040AH     0006H     UNIT         ?PR?_SETLINE?“∫æßœ‘ æ
+            CODE    0410H     0006H     UNIT         ?PR?_SETSTARTLINE?“∫æßœ‘ æ
+            CODE    0416H     0006H     UNIT         ?PR?_SETONOFF?“∫æßœ‘ æ
+
+
+
+OVERLAY MAP OF MODULE:    µ—ÈœÓƒø (“∫æßœ‘ æ)
+
+
+SEGMENT                                  DATA_GROUP 
+  +--> CALLED SEGMENT                  START    LENGTH
+------------------------------------------------------
+?C_C51STARTUP                          -----    -----
+  +--> ?PR?MAIN?“∫æßœ‘ æ
+
+?PR?MAIN?“∫æßœ‘ æ                      0008H    0006H
+  +--> ?PR?INITLCD?“∫æßœ‘ æ
+  +--> ?PR?_DISPLAY?“∫æßœ‘ æ
+  +--> ?PR?_DELAY?“∫æßœ‘ æ
+
+?PR?INITLCD?“∫æßœ‘ æ                   -----    -----
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  08:27:55  PAGE 2
+
+
+  +--> ?PR?CHECKSTATE?“∫æßœ‘ æ
+  +--> ?PR?_SELECTSCREEN?“∫æßœ‘ æ
+  +--> ?PR?_SETONOFF?“∫æßœ‘ æ
+  +--> ?PR?_CLEARSCREEN?“∫æßœ‘ æ
+  +--> ?PR?_SETSTARTLINE?“∫æßœ‘ æ
+
+?PR?_SETONOFF?“∫æßœ‘ æ                 -----    -----
+  +--> ?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ
+
+?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ         -----    -----
+  +--> ?PR?CHECKSTATE?“∫æßœ‘ æ
+
+?PR?_CLEARSCREEN?“∫æßœ‘ æ              -----    -----
+  +--> ?PR?_SELECTSCREEN?“∫æßœ‘ æ
+  +--> ?PR?_SETLINE?“∫æßœ‘ æ
+  +--> ?PR?_SETCOLUMN?“∫æßœ‘ æ
+  +--> ?PR?_WRITEBYTE?“∫æßœ‘ æ
+
+?PR?_SETLINE?“∫æßœ‘ æ                  -----    -----
+  +--> ?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ
+
+?PR?_SETCOLUMN?“∫æßœ‘ æ                -----    -----
+  +--> ?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ
+
+?PR?_WRITEBYTE?“∫æßœ‘ æ                -----    -----
+  +--> ?PR?CHECKSTATE?“∫æßœ‘ æ
+
+?PR?_SETSTARTLINE?“∫æßœ‘ æ             -----    -----
+  +--> ?PR?_SENDCOMMANDTOLCD?“∫æßœ‘ æ
+
+?PR?_DISPLAY?“∫æßœ‘ æ                  000EH    0004H
+  +--> ?PR?_SELECTSCREEN?“∫æßœ‘ æ
+  +--> ?PR?_SETLINE?“∫æßœ‘ æ
+  +--> ?PR?_SETCOLUMN?“∫æßœ‘ æ
+  +--> ?CO?“∫æßœ‘ æ
+  +--> ?PR?_WRITEBYTE?“∫æßœ‘ æ
+
+
+
+SYMBOL TABLE OF MODULE:   µ—ÈœÓƒø (“∫æßœ‘ æ)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        “∫æßœ‘ æ
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  B:00A0H.3       PUBLIC        cs1
+  C:0416H         PUBLIC        _SetOnOff
+  B:00A0H.4       PUBLIC        cs2
+  C:0362H         PUBLIC        _delay
+  B:00A0H.2       PUBLIC        EN
+  C:0401H         PUBLIC        _SetColumn
+  C:03E5H         PUBLIC        _WriteByte
+  B:00A0H.0       PUBLIC        RS
+  C:0003H         PUBLIC        main
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  08:27:55  PAGE 3
+
+
+  B:00A0H.1       PUBLIC        RW
+  C:0187H         PUBLIC        Hzk
+  C:040AH         PUBLIC        _SetLine
+  C:03BBH         PUBLIC        _SelectScreen
+  C:0410H         PUBLIC        _SetStartLine
+  C:0382H         PUBLIC        _ClearScreen
+  C:02C7H         PUBLIC        _Display
+  C:03A1H         PUBLIC        CheckState
+  C:03D5H         PUBLIC        _SendCommandToLCD
+  C:0341H         PUBLIC        InitLCD
+  -------         PROC          CHECKSTATE
+  -------         DO            
+  D:0007H         SYMBOL        dat
+  -------         ENDDO         
+  C:03A1H         LINE#         64
+  C:03A1H         LINE#         65
+  C:03A1H         LINE#         66
+  C:03A3H         LINE#         67
+  C:03A5H         LINE#         68
+  C:03A8H         LINE#         69
+  C:03AAH         LINE#         70
+  C:03ACH         LINE#         71
+  C:03AEH         LINE#         72
+  C:03B1H         LINE#         73
+  C:03BAH         LINE#         74
+  -------         ENDPROC       CHECKSTATE
+  -------         PROC          _SENDCOMMANDTOLCD
+  D:0006H         SYMBOL        com
+  C:03D5H         LINE#         76
+  C:03D7H         LINE#         77
+  C:03DAH         LINE#         78
+  C:03DCH         LINE#         79
+  C:03DEH         LINE#         80
+  C:03E0H         LINE#         81
+  C:03E2H         LINE#         82
+  C:03E4H         LINE#         83
+  -------         ENDPROC       _SENDCOMMANDTOLCD
+  -------         PROC          _SETLINE
+  D:0007H         SYMBOL        page
+  C:040AH         LINE#         85
+  C:040AH         LINE#         86
+  C:040DH         LINE#         87
+  -------         ENDPROC       _SETLINE
+  -------         PROC          _SETSTARTLINE
+  D:0007H         SYMBOL        startline
+  C:0410H         LINE#         90
+  C:0410H         LINE#         91
+  C:0413H         LINE#         92
+  -------         ENDPROC       _SETSTARTLINE
+  -------         PROC          _SETCOLUMN
+  D:0007H         SYMBOL        column
+  C:0401H         LINE#         95
+  C:0401H         LINE#         96
+  C:0404H         LINE#         97
+  C:0407H         LINE#         98
+  -------         ENDPROC       _SETCOLUMN
+  -------         PROC          _SETONOFF
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  08:27:55  PAGE 4
+
+
+  D:0007H         SYMBOL        onoff
+  C:0416H         LINE#         101
+  C:0416H         LINE#         102
+  C:0419H         LINE#         103
+  -------         ENDPROC       _SETONOFF
+  -------         PROC          _WRITEBYTE
+  D:0006H         SYMBOL        dat
+  C:03E5H         LINE#         106
+  C:03E7H         LINE#         107
+  C:03EAH         LINE#         108
+  C:03ECH         LINE#         109
+  C:03EEH         LINE#         110
+  C:03F0H         LINE#         111
+  C:03F2H         LINE#         112
+  C:03F4H         LINE#         113
+  -------         ENDPROC       _WRITEBYTE
+  -------         PROC          _SELECTSCREEN
+  D:0007H         SYMBOL        screen
+  C:03BBH         LINE#         115
+  C:03BBH         LINE#         116
+  C:03C6H         LINE#         117
+  C:03C8H         LINE#         118
+  C:03CAH         LINE#         119
+  C:03CBH         LINE#         120
+  C:03CDH         LINE#         121
+  C:03CFH         LINE#         122
+  C:03D0H         LINE#         123
+  C:03D2H         LINE#         124
+  C:03D4H         LINE#         125
+  C:03D4H         LINE#         126
+  C:03D4H         LINE#         127
+  -------         ENDPROC       _SELECTSCREEN
+  -------         PROC          _CLEARSCREEN
+  D:0007H         SYMBOL        screen
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0382H         LINE#         129
+  C:0382H         LINE#         130
+  C:0382H         LINE#         131
+  C:0385H         LINE#         132
+  C:0387H         LINE#         133
+  C:038CH         LINE#         134
+  C:0391H         LINE#         135
+  C:0393H         LINE#         136
+  C:039CH         LINE#         137
+  C:03A0H         LINE#         138
+  -------         ENDPROC       _CLEARSCREEN
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        z
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0362H         LINE#         140
+  C:0362H         LINE#         141
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  08:27:55  PAGE 5
+
+
+  C:0362H         LINE#         142
+  C:036CH         LINE#         143
+  C:0381H         LINE#         144
+  -------         ENDPROC       _DELAY
+  -------         PROC          INITLCD
+  C:0341H         LINE#         146
+  C:0341H         LINE#         147
+  C:0344H         LINE#         148
+  C:0349H         LINE#         149
+  C:034CH         LINE#         150
+  C:0351H         LINE#         151
+  C:0355H         LINE#         152
+  C:035AH         LINE#         153
+  C:035DH         LINE#         154
+  -------         ENDPROC       INITLCD
+  -------         PROC          _DISPLAY
+  D:0006H         SYMBOL        ss
+  D:0005H         SYMBOL        page
+  D:0004H         SYMBOL        column
+  D:0011H         SYMBOL        number
+  -------         DO            
+  D:0002H         SYMBOL        i
+  -------         ENDDO         
+  C:02C7H         LINE#         157
+  C:02C9H         LINE#         158
+  C:02C9H         LINE#         159
+  C:02CCH         LINE#         160
+  C:02CFH         LINE#         161
+  C:02D4H         LINE#         162
+  C:02D9H         LINE#         163
+  C:02DCH         LINE#         164
+  C:0307H         LINE#         165
+  C:030DH         LINE#         166
+  C:0312H         LINE#         167
+  C:0315H         LINE#         168
+  C:0340H         LINE#         169
+  -------         ENDPROC       _DISPLAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:000AH         SYMBOL        j
+  D:000CH         SYMBOL        n
+  -------         ENDDO         
+  C:0003H         LINE#         185
+  C:0003H         LINE#         186
+  C:0008H         LINE#         187
+  C:000BH         LINE#         188
+  C:000BH         LINE#         189
+  C:0010H         LINE#         190
+  C:0016H         LINE#         191
+  C:002EH         LINE#         192
+  C:0051H         LINE#         193
+  C:0074H         LINE#         194
+  C:008CH         LINE#         195
+  C:00A0H         LINE#         196
+  C:00B4H         LINE#         197
+  C:00C8H         LINE#         198
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  08:27:55  PAGE 6
+
+
+  C:00D9H         LINE#         199
+  C:00EAH         LINE#         200
+  C:0106H         LINE#         202
+  C:010BH         LINE#         203
+  C:011DH         LINE#         204
+  C:0132H         LINE#         205
+  C:0145H         LINE#         206
+  C:0158H         LINE#         207
+  C:0169H         LINE#         208
+  C:017AH         LINE#         209
+  C:0181H         LINE#         210
+  C:0184H         LINE#         211
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        “∫æßœ‘ æ
+
+Program Size: data=19.0 xdata=0 code=1052
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

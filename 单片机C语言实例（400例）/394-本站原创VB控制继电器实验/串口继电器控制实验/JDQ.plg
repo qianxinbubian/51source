@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\光盘\RZ-51V20\RZ-51V20 实例程序\25-本站原创VB控制继电器实验\串口继电器控制实验\JDQ.uv2
+Project File Date:  07/22/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling JDQ.c...
+linking...
+Program Size: data=24.0 xdata=0 code=176
+creating hex file from "JDQ"...
+"JDQ" - 0 Error(s), 0 Warning(s).

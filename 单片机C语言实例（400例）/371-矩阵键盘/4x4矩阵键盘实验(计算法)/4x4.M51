@@ -1,0 +1,181 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        06/23/2009  00:03:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 4x4.obj TO 4x4
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  4x4.obj (4X4)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
+
+
+LINK MAP OF MODULE:  4x4 (4X4)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     007AH     UNIT         ?PR?_KEYDISPALY?4X4
+            CODE    007DH     0048H     UNIT         ?PR?KEYCAN?4X4
+            CODE    00C5H     0026H     UNIT         ?C?LIB_CODE
+            CODE    00EBH     0010H     UNIT         ?CO?4X4
+            CODE    00FBH     000EH     UNIT         ?PR?_DISPLAY?4X4
+            CODE    0109H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0115H     0009H     UNIT         ?PR?DELAY?4X4
+            CODE    011EH     0008H     UNIT         ?PR?MAIN?4X4
+
+
+
+OVERLAY MAP OF MODULE:   4x4 (4X4)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?4X4
+
+?PR?MAIN?4X4
+  +--> ?PR?KEYCAN?4X4
+  +--> ?PR?_KEYDISPALY?4X4
+
+?PR?KEYCAN?4X4
+  +--> ?PR?DELAY?4X4
+
+?PR?_KEYDISPALY?4X4
+  +--> ?PR?_DISPLAY?4X4
+
+?PR?_DISPLAY?4X4
+  +--> ?CO?4X4
+  +--> ?PR?DELAY?4X4
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2009  00:03:42  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  4x4 (4X4)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        4X4
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:00EBH         PUBLIC        table
+  C:0115H         PUBLIC        delay
+  C:011EH         PUBLIC        main
+  C:00FBH         PUBLIC        _display
+  C:007DH         PUBLIC        Keycan
+  C:0003H         PUBLIC        _KeyDispaly
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        n
+  D:0006H         SYMBOL        m
+  -------         ENDDO         
+  C:0115H         LINE#         6
+  C:0115H         LINE#         7
+  C:0115H         LINE#         9
+  C:0117H         LINE#         10
+  C:011DH         LINE#         11
+  -------         ENDPROC       DELAY
+  -------         PROC          _DISPLAY
+  D:0007H         SYMBOL        S
+  C:00FBH         LINE#         12
+  C:00FBH         LINE#         13
+  C:00FBH         LINE#         14
+  C:0102H         LINE#         15
+  C:0105H         LINE#         16
+  C:0108H         LINE#         17
+  -------         ENDPROC       _DISPLAY
+  -------         PROC          KEYCAN
+  -------         DO            
+  D:0007H         SYMBOL        rcode
+  D:0006H         SYMBOL        ccode
+  -------         ENDDO         
+  C:007DH         LINE#         18
+  C:007DH         LINE#         19
+  C:007DH         LINE#         21
+  C:0080H         LINE#         22
+  C:0088H         LINE#         23
+  C:0088H         LINE#         24
+  C:008BH         LINE#         25
+  C:0093H         LINE#         26
+  C:0095H         LINE#         27
+  C:0099H         LINE#         28
+  C:0099H         LINE#         29
+  C:009BH         LINE#         30
+  C:00A3H         LINE#         31
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2009  00:03:42  PAGE 3
+
+
+  C:00A3H         LINE#         32
+  C:00AAH         LINE#         33
+  C:00B2H         LINE#         34
+  C:00BAH         LINE#         35
+  C:00BAH         LINE#         37
+  C:00C0H         LINE#         38
+  C:00C2H         LINE#         39
+  C:00C2H         LINE#         40
+  C:00C2H         LINE#         41
+  C:00C4H         LINE#         42
+  -------         ENDPROC       KEYCAN
+  -------         PROC          _KEYDISPALY
+  D:0007H         SYMBOL        key
+  C:0003H         LINE#         43
+  C:0003H         LINE#         44
+  C:0003H         LINE#         45
+  C:003BH         LINE#         46
+  C:003BH         LINE#         47
+  C:003FH         LINE#         48
+  C:0043H         LINE#         49
+  C:0047H         LINE#         50
+  C:004BH         LINE#         51
+  C:004FH         LINE#         52
+  C:0053H         LINE#         53
+  C:0057H         LINE#         54
+  C:005BH         LINE#         55
+  C:005FH         LINE#         56
+  C:0063H         LINE#         57
+  C:0067H         LINE#         58
+  C:006BH         LINE#         59
+  C:006FH         LINE#         60
+  C:0073H         LINE#         61
+  C:0077H         LINE#         62
+  C:007CH         LINE#         63
+  C:007CH         LINE#         64
+  C:007CH         LINE#         65
+  -------         ENDPROC       _KEYDISPALY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0005H         SYMBOL        Key
+  -------         ENDDO         
+  C:011EH         LINE#         66
+  C:011EH         LINE#         67
+  C:011EH         LINE#         69
+  C:011EH         LINE#         70
+  C:011EH         LINE#         71
+  C:0121H         LINE#         72
+  C:0124H         LINE#         73
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        4X4
+
+  -------         MODULE        ?C?CCASE
+  C:00C5H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+Program Size: data=9.0 xdata=0 code=294
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

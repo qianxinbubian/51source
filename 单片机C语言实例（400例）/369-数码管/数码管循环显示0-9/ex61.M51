@@ -1,0 +1,102 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/04/2010  13:06:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE ex61.obj TO ex61 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ex61.obj (EX61)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ex61 (EX61)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0015H     UNIT         ?PR?MAIN?EX61
+            CODE    0018H     000DH     UNIT         ?PR?DELAY?EX61
+            CODE    0025H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0031H     000AH     UNIT         ?CO?EX61
+
+
+
+OVERLAY MAP OF MODULE:   ex61 (EX61)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX61
+
+?PR?MAIN?EX61
+  +--> ?CO?EX61
+  +--> ?PR?DELAY?EX61
+
+
+
+SYMBOL TABLE OF MODULE:  ex61 (EX61)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX61
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:06:06  PAGE 2
+
+
+  C:0018H         PUBLIC        delay
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:0018H         LINE#         6
+  C:0018H         LINE#         7
+  C:0018H         LINE#         9
+  C:001AH         LINE#         10
+  C:0024H         LINE#         12
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0005H         SYMBOL        i
+  C:0031H         SYMBOL        Tab
+  -------         ENDDO         
+  C:0003H         LINE#         16
+  C:0003H         LINE#         17
+  C:0003H         LINE#         22
+  C:0006H         LINE#         23
+  C:0006H         LINE#         24
+  C:0006H         LINE#         25
+  C:0008H         LINE#         26
+  C:0008H         LINE#         27
+  C:000FH         LINE#         28
+  C:0012H         LINE#         29
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX61
+
+Program Size: data=9.0 xdata=0 code=59
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

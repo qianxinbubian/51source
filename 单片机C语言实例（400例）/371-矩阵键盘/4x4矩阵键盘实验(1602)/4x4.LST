@@ -1,0 +1,103 @@
+C51 COMPILER V9.00   4X4                                                                   02/16/2011 10:41:06 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 4X4
+OBJECT MODULE PLACED IN 4x4.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 4x4.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <AT89X52.H> 
+   2          #include<lcd.h>
+   3          #include<stdio.h>
+   4          uchar code DIS[]= {"4X4-JIANPAN-TEST"};//
+   5          uchar code DIS1[]={"PRESS_KEY_IS--"};//
+   6          
+   7          void delay1()                   //延时子程序
+   8          {
+   9   1       unsigned char n, m;
+  10   1       for (n = 100; n > 0; n--)
+  11   1        for (m = 300; m > 0; m--);    
+  12   1      }
+  13          
+  14          unsigned char Keycan(void) //按键扫描程序 P1.0--P1.3为行线 P1.4--P1.7为列线
+  15          {
+  16   1        unsigned char rcode, ccode;
+  17   1        P1 = 0xF0;      // 发全0行扫描码，列线输入
+  18   1        if((P1&0xF0) != 0xF0) // 若有键按下
+  19   1        {
+  20   2          delay1();// 延时去抖动 
+  21   2          if((P1&0xF0) != 0xF0)
+  22   2          {  rcode = 0xFE;         // 逐行扫描初值
+  23   3          while((rcode&0x10) != 0)
+  24   3          {
+  25   4             P1 = rcode;         // 输出行扫描码
+  26   4          if((P1&0xF0) != 0xF0) // 本行有键按下
+  27   4          {
+  28   5             ccode = (P1&0xF0)|0x0F;
+  29   5             do{;}while((P1&0xF0) != 0xF0); //等待键释放
+  30   5             return ((~rcode) + (~ccode)); // 返回键编码
+  31   5          }
+  32   4          else
+  33   4          rcode = (rcode<<1)|0x01; // 行扫描码左移一位
+  34   4          }
+  35   3       }
+  36   2        }  
+  37   1        return 0; // 无键按下，返回值为0
+  38   1      }
+  39          void KeyDispaly(unsigned char key)
+  40          {
+  41   1         switch(key)
+  42   1         {
+  43   2         case 0x11: displayonechar(14,1,'0'); break;
+  44   2         case 0x21: displayonechar(14,1,'1'); break;
+  45   2         case 0x41: displayonechar(14,1,'2'); break;
+  46   2         case 0x81: displayonechar(14,1,'3'); break;
+  47   2         case 0x12: displayonechar(14,1,'4'); break;
+  48   2         case 0x22: displayonechar(14,1,'5'); break;
+  49   2         case 0x42: displayonechar(14,1,'6'); break;
+  50   2         case 0x82: displayonechar(14,1,'7'); break;
+  51   2         case 0x14: displayonechar(14,1,'8'); break;
+  52   2         case 0x24: displayonechar(14,1,'9'); break;
+  53   2         case 0x44: displayonechar(14,1,'A'); break;
+  54   2         case 0x84: displayonechar(14,1,'B'); break;
+  55   2         case 0x18: displayonechar(14,1,'C'); break;
+C51 COMPILER V9.00   4X4                                                                   02/16/2011 10:41:06 PAGE 2   
+
+  56   2         case 0x28: displayonechar(14,1,'D'); break;
+  57   2         case 0x48: displayonechar(14,1,'E'); break;
+  58   2         case 0x88: displayonechar(14,1,'F'); break;
+  59   2         default: break;
+  60   2         }
+  61   1      }
+  62          int main(void)
+  63          {    unsigned char Key; 
+  64   1      delay400ms();//延时400MS 
+  65   1        initialization();//LCD复位;
+  66   1            displaylistchar(0,0,DIS);
+  67   1              displaylistchar(0,1,DIS1);
+  68   1              displayonechar(15,1,'-');
+  69   1       
+  70   1         while(1)
+  71   1         {
+  72   2       
+  73   2           Key = Keycan();   
+  74   2           KeyDispaly(Key);
+  75   2      
+  76   2         } 
+  77   1      return 0;
+  78   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    264    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+D:\π‚≈Ã\4x4æÿ’Ûº¸≈Ã µ—È(1602)\4x4.uv2
+Project File Date:  02/16/2011
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 4x4.c...
+compiling lcd.c...
+linking...
+Program Size: data=19.0 xdata=0 code=650
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 0 Warning(s).

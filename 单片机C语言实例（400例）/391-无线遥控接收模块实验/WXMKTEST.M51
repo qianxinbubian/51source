@@ -1,0 +1,175 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        05/23/2015  00:44:19  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE WXMKTEST.obj TO WXMKTEST RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  WXMKTEST.obj (WXMKTEST)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  WXMKTEST (WXMKTEST)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?WXMKTEST
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002BH     UNIT         ?PR?MAIN?WXMKTEST
+            CODE    002EH     001AH     UNIT         ?PR?BEEP1?WXMKTEST
+            CODE    0048H     0016H     UNIT         ?PR?_DELAY1MS?WXMKTEST
+            CODE    005EH     000CH     UNIT         ?C_C51STARTUP
+            CODE    006AH     000AH     UNIT         ?PR?BEEP?WXMKTEST
+            CODE    0074H     0007H     UNIT         ?PR?DELAY500US?WXMKTEST
+
+
+
+OVERLAY MAP OF MODULE:   WXMKTEST (WXMKTEST)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?WXMKTEST
+
+?PR?MAIN?WXMKTEST
+  +--> ?PR?BEEP1?WXMKTEST
+
+?PR?BEEP1?WXMKTEST
+  +--> ?PR?BEEP?WXMKTEST
+  +--> ?PR?_DELAY1MS?WXMKTEST
+
+?PR?BEEP?WXMKTEST
+  +--> ?PR?DELAY500US?WXMKTEST
+
+
+
+SYMBOL TABLE OF MODULE:  WXMKTEST (WXMKTEST)
+
+  VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.00                                                      05/23/2015  00:44:19  PAGE 2
+
+
+  ----------------------------------
+
+  -------         MODULE        WXMKTEST
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0074H         PUBLIC        delay500us
+  B:00A0H.7       PUBLIC        P2_7
+  D:00B8H         PUBLIC        IP
+  B:00B0H.7       PUBLIC        P3_7
+  C:006AH         PUBLIC        beep
+  C:0048H         PUBLIC        _delay1ms
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00B0H.6       PUBLIC        fmq
+  C:002EH         PUBLIC        beep1
+  D:00C8H         PUBLIC        T2CON
+  D:0008H         PUBLIC        i
+  D:0009H         PUBLIC        j
+  B:0090H.0       PUBLIC        D0
+  B:0090H.1       PUBLIC        D1
+  B:0090H.2       PUBLIC        D2
+  B:0090H.3       PUBLIC        D3
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY1MS
+  D:0006H         SYMBOL        i
+  -------         DO            
+  D:0005H         SYMBOL        j
+  -------         ENDDO         
+  C:0048H         LINE#         13
+  C:0048H         LINE#         14
+  C:0048H         LINE#         17
+  C:0052H         LINE#         18
+  C:0052H         LINE#         19
+  C:005AH         LINE#         20
+  C:005AH         LINE#         22
+  C:005DH         LINE#         25
+  C:005DH         LINE#         27
+  -------         ENDPROC       _DELAY1MS
+  -------         PROC          DELAY500US
+  -------         DO            
+  D:0007H         SYMBOL        j
+  -------         ENDDO         
+  C:0074H         LINE#         29
+  C:0074H         LINE#         30
+  C:0074H         LINE#         34
+  C:0076H         LINE#         35
+  C:0076H         LINE#         37
+  C:007AH         LINE#         38
+  -------         ENDPROC       DELAY500US
+  -------         PROC          BEEP
+  C:006AH         LINE#         40
+  C:006AH         LINE#         41
+BL51 BANKED LINKER/LOCATER V6.00                                                      05/23/2015  00:44:19  PAGE 3
+
+
+  C:006AH         LINE#         42
+  C:006CH         LINE#         43
+  C:006FH         LINE#         44
+  C:0071H         LINE#         45
+  -------         ENDPROC       BEEP
+  -------         PROC          BEEP1
+  -------         DO            
+  D:0004H         SYMBOL        k
+  -------         ENDDO         
+  C:002EH         LINE#         48
+  C:002EH         LINE#         49
+  C:002EH         LINE#         51
+  C:0031H         LINE#         52
+  C:0031H         LINE#         53
+  C:0034H         LINE#         55
+  C:003FH         LINE#         56
+  C:0041H         LINE#         57
+  -------         ENDPROC       BEEP1
+  -------         PROC          MAIN
+  C:0003H         LINE#         65
+  C:0003H         LINE#         66
+  C:0003H         LINE#         67
+  C:0005H         LINE#         68
+  C:0008H         LINE#         69
+  C:000BH         LINE#         71
+  C:000BH         LINE#         77
+  C:000EH         LINE#         78
+  C:000EH         LINE#         79
+  C:0011H         LINE#         80
+  C:0014H         LINE#         81
+  C:0014H         LINE#         82
+  C:0017H         LINE#         83
+  C:0017H         LINE#         84
+  C:001AH         LINE#         85
+  C:001CH         LINE#         86
+  C:001CH         LINE#         87
+  C:001FH         LINE#         88
+  C:001FH         LINE#         89
+  C:0022H         LINE#         90
+  C:0024H         LINE#         91
+  C:0024H         LINE#         92
+  C:0027H         LINE#         93
+  C:0027H         LINE#         94
+  C:002AH         LINE#         95
+  C:002CH         LINE#         96
+  C:002CH         LINE#         97
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        WXMKTEST
+
+Program Size: data=11.0 xdata=0 code=123
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

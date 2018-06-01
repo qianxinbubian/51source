@@ -1,0 +1,529 @@
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE LCD_CLOCK
+OBJECT MODULE PLACED IN lcd_clock.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE lcd_clock.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //按K1按键进入设定状态
+   2          //按K2,依次进入闹钟功能是否启用，闹钟时,分秒,年,月,日及时间时,分,秒的设置,直到退出设置状态
+   3          //按K3,调整是否起用闹钟和调节闹钟时,分,秒,年,月,日,时间的时,分,秒的数字
+   4          //LCD第二排中间显示小喇叭，表示启用闹钟功能，无则禁止闹钟功能（可在调整状态进行设置）
+   5          //正常状态,LCD上排最前面显示自定义字符,LCD下排最前面闪动"RICHMCU"
+   6          //设置状态,LCD上排最前面显示"P",下排最前面在设置闹钟时间时显示"alarm:",其它状态显示"time"
+   7          //年代变化2000--2099,星期自动转换
+   8          //程序中有自定义字符写入
+   9          #include <reg51.h>
+  10          #include <intrins.h>
+  11          unsigned char code dis_week[]={"SUN,MON,TUE,WED,THU,FRI,SAT"};
+  12          unsigned char code para_month[13]={0,0,3,3,6,1,4,6,2,5,0,3,5};  //星期月参变数
+  13          unsigned char data dis_buf1[16];                //lcd上排显示缓冲区
+  14          unsigned char data dis_buf2[16];                //lcd下排显示缓冲区             
+  15          unsigned char data year,month,date,week;//年、月、日、星期
+  16          unsigned char data armhour,armmin,armsec;//闹钟时、分、秒
+  17          unsigned char data hour,min,sec,sec100; //时、分、秒、百分之一秒
+  18          unsigned char data flag,vkey,skey;//设置状态计数标志、按键先前值、按键当前值    
+  19          bit     alarm;  //标识是否启用闹钟，1--启用，0--关闭
+  20          sbit     rs = P2^0;                             //LCD数据/命令选择端(H/L)
+  21          sbit     rw = P2^1;                             //LCD读/写选择端(H/L)
+  22          sbit     ep = P2^2;                             //LCD使能控制
+  23          sbit    PRE = P3^3;                             //调整键(AN3)
+  24          sbit    SET = P3^4;                             //调整键(AN4)
+  25          sbit    SPK = P3^6;                             
+  26          void delayms(unsigned char ms); //延时程序
+  27          bit  lcd_busy();                                //测试LCD忙碌状态程序
+  28          void lcd_wcmd(char cmd);                //写入指令到LCD程序
+  29          void lcd_wdat(char dat);                //写入数据到LCD程序
+  30          void lcd_pos(char pos);                 //LCD数据指针位置程序
+  31          void lcd_init();                                //LCD初始化设定程序
+  32          void pro_timedate();                    //时间日期处理程序
+  33          void pro_display();                             //显示处理程序
+  34          void pro_key();                                 //按键处理程序
+  35          void time_alarm();                              //定时报警功能(闹钟)
+  36          unsigned char scan_key();               //按键扫描程序
+  37          unsigned char week_proc();              //星期自动计算与显示函数
+  38          bit leap_year();                                //判断是否为闰年
+  39          void lcd_sef_chr();                             //LCD自定义字符程序
+  40          void update_disbuf(unsigned char t1,unsigned char t2[],unsigned char dis_h,unsigned char dis_m,unsigned ch
+             -ar dis_s);                        
+  41                                                                          //更新显示缓冲区函数
+  42           
+  43          
+  44          // 延时程序
+  45          void delay(unsigned char ms)
+  46          {       while(ms--)
+  47   1              {       unsigned char i;
+  48   2                      for(i = 0; i< 250; i++)     
+  49   2                      {
+  50   3                              _nop_();                           //执行一条_nop_()指令为一个机器周期
+  51   3                              _nop_();
+  52   3                              _nop_();
+  53   3                              _nop_();
+  54   3                      }
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 2   
+
+  55   2              }
+  56   1      }               
+  57                  
+  58          
+  59          //测试LCD忙碌状态
+  60          bit lcd_busy()
+  61          {       
+  62   1              bit result;
+  63   1              rs = 0;
+  64   1              rw = 1;
+  65   1              ep = 1;
+  66   1              _nop_();
+  67   1              _nop_();
+  68   1              _nop_();
+  69   1              _nop_();
+  70   1              result =(bit)(P0&0x80); //LCD的D0--D7中,D7=1为忙碌,D7=0为空闲
+  71   1              ep = 0;
+  72   1              return result;  
+  73   1      }
+  74          
+  75          //写入指令到LCD
+  76          void lcd_wcmd(char cmd)
+  77          {                                                       
+  78   1              while(lcd_busy());      //当lcd_busy为1时,再次检测LCD忙碌状态,lcd-busy为0时,开始写指令
+  79   1              rs = 0;
+  80   1              rw = 0;
+  81   1              ep = 0;
+  82   1              _nop_();
+  83   1              _nop_();        
+  84   1              P0 = cmd;
+  85   1              _nop_();
+  86   1              _nop_();
+  87   1              _nop_();
+  88   1              _nop_();
+  89   1              ep = 1;
+  90   1              _nop_();
+  91   1              _nop_();
+  92   1              _nop_();
+  93   1              _nop_();
+  94   1              ep = 0;         
+  95   1      }
+  96          
+  97          //写入数据到LCD
+  98          void lcd_wdat(char dat) 
+  99          {                                                       
+ 100   1              while(lcd_busy());      //当lcd_busy为1时,再次检测LCD忙碌状态,lcd-busy为0时,开始写数据
+ 101   1              rs = 1;
+ 102   1              rw = 0;
+ 103   1              ep = 0;
+ 104   1              P0 = dat;
+ 105   1              _nop_();
+ 106   1              _nop_();
+ 107   1              _nop_();
+ 108   1              _nop_();
+ 109   1              ep = 1;
+ 110   1              _nop_();
+ 111   1              _nop_();
+ 112   1              _nop_();
+ 113   1              _nop_();
+ 114   1              ep = 0; 
+ 115   1      }
+ 116          
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 3   
+
+ 117          //LCD数据指针位置程序
+ 118          void lcd_pos(char pos)
+ 119          {                                               
+ 120   1              lcd_wcmd(pos|0x80);     //数据指针=80+地址码(00H~27H,40H~67H)
+ 121   1      }
+ 122          
+ 123          
+ 124          //设定二个自定义字符,(注意：LCD1602中自定义字符的地址为0x00--0x07,即可定义8个字符)
+ 125          //这里我们设定把一个自定义字符放在0x00位置（000）,另一个放在0x01位子（001）
+ 126          void lcd_sef_chr()
+ 127          {       //第一个自定义字符
+ 128   1              lcd_wcmd(0x40); //"01 000 000"  第1行地址 (D7D6为地址设定命令形式D5D4D3为字符存放位置(0--7)，D2D1D0为字
+             -符行地址(0--7)）
+ 129   1              lcd_wdat(0x1f); //"XXX 11111"   第1行数据（D7D6D5为XXX，表示为任意数(一般用000），D4D3D2D1D0为字符行数据(
+             -1-点亮，0-熄灭）
+ 130   1              lcd_wcmd(0x41); //"01 000 001"  第2行地址
+ 131   1              lcd_wdat(0x11); //"XXX 10001"   第2行数据
+ 132   1              lcd_wcmd(0x42); //"01 000 010"  第3行地址
+ 133   1              lcd_wdat(0x15); //"XXX 10101"   第3行数据
+ 134   1              lcd_wcmd(0x43); //"01 000 011"  第4行地址
+ 135   1              lcd_wdat(0x11); //"XXX 10001"   第4行数据
+ 136   1              lcd_wcmd(0x44); //"01 000 100"  第5行地址
+ 137   1              lcd_wdat(0x1f); //"XXX 11111"   第5行数据
+ 138   1              lcd_wcmd(0x45); //"01 000 101"  第6行地址
+ 139   1              lcd_wdat(0x0a); //"XXX 01010"   第6行数据
+ 140   1              lcd_wcmd(0x46); //"01 000 110"  第7行地址
+ 141   1              lcd_wdat(0x1f); //"XXX 11111"   第7行数据
+ 142   1              lcd_wcmd(0x47); //"01 000 111"  第8行地址
+ 143   1              lcd_wdat(0x00); //"XXX 00000"   第8行数据 
+ 144   1              //第二个自定义字符
+ 145   1              lcd_wcmd(0x48); //"01 001 000"  第1行地址  
+ 146   1              lcd_wdat(0x01); //"XXX 00001"   第1行数据 
+ 147   1              lcd_wcmd(0x49); //"01 001 001"  第2行地址
+ 148   1              lcd_wdat(0x1b); //"XXX 11011"   第2行数据
+ 149   1              lcd_wcmd(0x4a); //"01 001 010"  第3行地址
+ 150   1              lcd_wdat(0x1d); //"XXX 11101"   第3行数据
+ 151   1              lcd_wcmd(0x4b); //"01 001 011"  第4行地址
+ 152   1              lcd_wdat(0x19); //"XXX 11001"   第4行数据
+ 153   1              lcd_wcmd(0x4c); //"01 001 100"  第5行地址
+ 154   1              lcd_wdat(0x1d); //"XXX 11101"   第5行数据
+ 155   1              lcd_wcmd(0x4d); //"01 001 101"  第6行地址
+ 156   1              lcd_wdat(0x1b); //"XXX 11011"   第6行数据
+ 157   1              lcd_wcmd(0x4e); //"01 001 110"  第7行地址
+ 158   1              lcd_wdat(0x01); //"XXX 00001"   第7行数据
+ 159   1              lcd_wcmd(0x4f); //"01 001 111"  第8行地址
+ 160   1              lcd_wdat(0x00); //"XXX 00000"   第8行数据 
+ 161   1      
+ 162   1      
+ 163   1      
+ 164   1       
+ 165   1      }
+ 166          
+ 167          //LCD初始化设定
+ 168          void lcd_init()
+ 169          {                                               
+ 170   1              lcd_wcmd(0x38);         //设置LCD为16X2显示,5X7点阵,八位数据借口
+ 171   1              delay(1);
+ 172   1              lcd_wcmd(0x0c);         //LCD开显示及光标设置(光标不闪烁,不显示"-")
+ 173   1              delay(1);
+ 174   1              lcd_wcmd(0x06);         //LCD显示光标移动设置(光标地址指针加1,整屏显示不移动)
+ 175   1              delay(1);
+ 176   1              lcd_wcmd(0x01);         //清除LCD的显示内容
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 4   
+
+ 177   1              delay(1);
+ 178   1      }
+ 179          
+ 180          //闰年的计算
+ 181          bit leap_year()
+ 182          {
+ 183   1              bit leap;
+ 184   1              if((year%4==0&&year%100!=0)||year%400==0)//闰年的条件
+ 185   1                      leap=1;
+ 186   1              else
+ 187   1                      leap=0;
+ 188   1              return leap;
+ 189   1      }
+ 190          
+ 191          //星期的自动运算和处理
+ 192          unsigned char week_proc()
+ 193          {       unsigned char num_leap; 
+ 194   1              unsigned char c;
+ 195   1              num_leap=year/4-year/100+year/400;//自00年起到year所经历的闰年数
+ 196   1              if( leap_year()&& month<=2 )      //既是闰年且是1月和2月        
+ 197   1                      c=5;
+ 198   1              else 
+ 199   1                      c=6;
+ 200   1              week=(year+para_month[month]+date+num_leap+c)%7;//计算对应的星期
+ 201   1              return week;
+ 202   1      }       
+ 203          
+ 204          //更新显示缓冲区
+ 205          void update_disbuf(unsigned char t1,unsigned char t2[],unsigned char dis_h,unsigned char dis_m,unsigned ch
+             -ar dis_s)        
+ 206          {       dis_buf1[0]=t1;                         //
+ 207   1              dis_buf1[1]=0x20;                       //空格
+ 208   1              dis_buf1[2]=50;                         //'2' 
+ 209   1              dis_buf1[3]=48;             //'0'
+ 210   1              dis_buf1[4]=year/10+48; 
+ 211   1              dis_buf1[5]=year%10+48; 
+ 212   1              dis_buf1[6]=0x2d;
+ 213   1              dis_buf1[7]=month/10+48;
+ 214   1              dis_buf1[8]=month%10+48; 
+ 215   1              dis_buf1[9]=0x2d;                       //'-'
+ 216   1              dis_buf1[10]=date/10+48;
+ 217   1              dis_buf1[11]=date%10+48;
+ 218   1              dis_buf1[12]=0x20;
+ 219   1              dis_buf1[13]=dis_week[4*week];
+ 220   1              dis_buf1[14]=dis_week[4*week+1];
+ 221   1              dis_buf1[15]=dis_week[4*week+2];
+ 222   1      
+ 223   1              dis_buf2[0]=t2[0]; 
+ 224   1              dis_buf2[1]=t2[1]; 
+ 225   1              dis_buf2[2]=t2[2]; 
+ 226   1              dis_buf2[3]=t2[3];
+ 227   1              dis_buf2[4]=t2[4]; 
+ 228   1              dis_buf2[5]=t2[5];
+ 229   1              dis_buf2[6]=t2[6];                      //空格
+ 230   1              if (alarm)
+ 231   1                      dis_buf2[7]=0x01;               //alarm=1，显示闹钟启用标致（第二个自定义字符）
+ 232   1              else
+ 233   1                      dis_buf2[7]=0x20;               //alarm=0，不显示闹钟启用标致
+ 234   1              dis_buf2[8]=dis_h/10+48; 
+ 235   1              dis_buf2[9]=dis_h%10+48; 
+ 236   1              dis_buf2[10]=0x3a;                      //':'
+ 237   1              dis_buf2[11]=dis_m/10+48;
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 5   
+
+ 238   1              dis_buf2[12]=dis_m%10+48;
+ 239   1              dis_buf2[13]=0x3a;
+ 240   1              dis_buf2[14]=dis_s/10+48;
+ 241   1              dis_buf2[15]=dis_s%10+48;
+ 242   1      
+ 243   1      }
+ 244          
+ 245          //时间和日期处理程序
+ 246          void pro_timedate()
+ 247          {       
+ 248   1              sec++;
+ 249   1              if(sec > 59)
+ 250   1                      {sec = 0;
+ 251   2                       min++;
+ 252   2                       if(min>59)
+ 253   2                              {min=0;
+ 254   3                               hour++;
+ 255   3                               if(hour>23)
+ 256   3                                      {hour=0;
+ 257   4                                       date++;
+ 258   4                                       if (month==1||month==3||month==5||month==7||month==8||month==10||month==12)
+ 259   4                                               if (date>31) {date=1;month++;}                                 //大月31天
+ 260   4                                       if (month==4||month==6||month==9||month==11)           
+ 261   4                                               if (date>30) {date=1;month++;}                                 //小月30天
+ 262   4                                       if (month==2)                  
+ 263   4                                               {if( leap_year())                                                              //闰年的条件
+ 264   5                                                      {if (date>29) {date=1;month++;}}                        //闰年2月为29天
+ 265   5                                               else
+ 266   5                                                      {if (date>28) {date=1;month++;}}                        //平年2月为28天 
+ 267   5                                               }                              
+ 268   4                                       if (month>12) {month=1;year++;}
+ 269   4                                       if (year>99) year=0;
+ 270   4                                      }
+ 271   3                              }
+ 272   2                      }
+ 273   1              week_proc();
+ 274   1              if (sec==armsec && min==armmin && hour==armhour)                                
+ 275   1                      {if (alarm)
+ 276   2                              TR1=1;                                  //闹钟启用时，报警时间到,启动Timer1
+ 277   2                      }
+ 278   1      
+ 279   1      }
+ 280          
+ 281          //显示处理程序
+ 282          void pro_display()
+ 283          {       unsigned char i;
+ 284   1              lcd_pos(0x00);
+ 285   1              for (i=0;i<=15;i++)
+ 286   1                      {lcd_wdat(dis_buf1[i]);}
+ 287   1      
+ 288   1              lcd_pos(0x40);
+ 289   1              for (i=0;i<=15;i++)
+ 290   1                      {lcd_wdat(dis_buf2[i]);}
+ 291   1      }
+ 292          
+ 293          //Timer0中断处理程序,秒的产生
+ 294          void timer0() interrupt 1 
+ 295          {
+ 296   1              TH0=0xD8;                       
+ 297   1              TL0=0xF0;               
+ 298   1              sec100++;
+ 299   1              if(sec100 >= 100)       //1秒时间 (100*10ms=1000ms=1s)
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 6   
+
+ 300   1                      {sec100 = 0;
+ 301   2                       pro_timedate();//调用时间和日期处理程序
+ 302   2                      }
+ 303   1              if (sec&0x01)                                                                           //"RICHMCU"闪一秒，停一秒
+ 304   1                      update_disbuf(0x00,"       ",hour,min,sec);        //0x00表示显示00位置的自定义字符             
+ 305   1              else 
+ 306   1        update_disbuf(0x00,"RICHMCU",hour,min,sec); 
+ 307   1       pro_display();  //调用显示处理函数
+ 308   1      
+ 309   1      
+ 310   1      
+ 311   1      }       
+ 312                  
+ 313          //按键扫描程序
+ 314          unsigned char  scan_key()
+ 315          {       
+ 316   1              skey=0x00;                                                                      //给变量vkey置初值
+ 317   1              skey|=PRE;                                                                      //读取PRE键的状态
+ 318   1              skey=skey<<1;                                                           //将PRE键的状态存于skey的B1位
+ 319   1              skey|=SET;                                                                      //读取SET键的状态,并存于skey的B0位
+ 320   1              return skey;                                                            //返回skey的键值(即PRE,SET的状态)
+ 321   1      
+ 322   1      }
+ 323          
+ 324          //外部中断INT0中断处理程序
+ 325          void int0() interrupt 0 
+ 326          {               
+ 327   1                      TR0=0;                                                                  //禁止Timer0
+ 328   1                      IE=0;                                                                   //禁止中断
+ 329   1                      lcd_wcmd(0x0e);                                                 //显示光标"_",整个光标不闪烁
+ 330   1                      alarm=1;
+ 331   1                      update_disbuf(0x50,"alarm:",armhour,armmin,armsec);     //更新显示数据，0x50表示要显示"P"       
+ 332   1                      pro_display();                                                  //调用显示处理程序
+ 333   1                      lcd_pos(0x47);                                          //使光标位于第一个调整项下                                              
+ 334   1                      flag=0;                                                                 
+ 335   1                      vkey=0x03;
+ 336   1                      while(flag^0x0a)
+ 337   1                              {skey = scan_key();                                     //扫描按键状态
+ 338   2                              if (skey^vkey)                                          //若skey与vkey相同,跳出循环,相异执行循环体
+ 339   2                                      {       delay(10);                                      //去按键抖动    
+ 340   3                                              skey = scan_key();                      //转回扫描按键状态                      
+ 341   3                                              if (skey^vkey)                          //若skey与vkey相同,跳出循环,相异执行循环体              
+ 342   3                                                      {       vkey=skey;                      //将skey的值付给vkey    
+ 343   4                                                              if (skey==0x01)         //PRE键按下
+ 344   4                                                                      {        flag++;        //调整标志位加1 
+ 345   5                                                                                      switch (flag)   //将光标置于相应调整位置
+ 346   5                                                                                      {       
+ 347   6                                                                                                      
+ 348   6                                                                                              case 1: lcd_pos(0x49);break;            //光标置小时报警设置位置                                                 
+ 349   6                                                                                              case 2: lcd_pos(0x4c);break;            //光标置分钟报警设置位置                
+ 350   6                                                                                              case 3: lcd_pos(0x4f);break;            //光标置秒时报警设置位置
+ 351   6                                                                                              
+ 352   6                                                                                              case 4: update_disbuf(0x50,"time: ",hour,min,sec);
+ 353   6                                                                                                              pro_display();
+ 354   6                                                                                                              lcd_pos(0x05);break;            //光标置年调整位置                                                                                      
+ 355   6                                                                                              case 5: lcd_pos(0x08);break;            //光标置月调整位置
+ 356   6                                                                                              case 6: lcd_pos(0x0b);break;            //光标置日调整位置
+ 357   6                                                                                              
+ 358   6                                                                                              case 7: lcd_pos(0x49);break;            //光标置时调整位置
+ 359   6                                                                                              case 8: lcd_pos(0x4c);break;            //光标置分调整位置
+ 360   6                                                                                              case 9: lcd_pos(0x4f);break;            //光标置秒调整位置
+ 361   6                                                                                                      
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 7   
+
+ 362   6                                                                                              default:break;
+ 363   6                                                                                      }
+ 364   5                                                                      }
+ 365   4                                                              if (skey==0x02)             //SET键按下
+ 366   4                                                                      {       pro_key();              //转设置按键处理程序
+ 367   5                                                                      }
+ 368   4                                                      }
+ 369   3                                      }                                                                
+ 370   2                              }                                                                
+ 371   1                      lcd_wcmd(0x0c);                                                 //设置LCD开显示及光标不闪烁,不显示"-"
+ 372   1                      lcd_wcmd(0x01);                                             //清除LCD的显示内容
+ 373   1                      IE=0x8f;                                                        //CPU开中断,INT0,INT1,开中断
+ 374   1                      TR0=1;                                                                  //Timer0启动
+ 375   1      }
+ 376          
+ 377          
+ 378          //主程序,初始化及初值设定
+ 379          void main()
+ 380          {       
+ 381   1              lcd_init();                                     //初始化LCD
+ 382   1              lcd_sef_chr();                                          //写入自定义字符号
+ 383   1              hour=0;min=0;sec=0;                                 //开机时的时,分,秒显示
+ 384   1              armhour=0;armmin=0;armsec=0;            //开机时的时,分,秒报警初值
+ 385   1              year= 5; month=1;date=1;                //开机时的年,月,日,星期显示
+ 386   1              week_proc();
+ 387   1              alarm=1;                                                        //初始开机，启用闹钟
+ 388   1              IE = 0x8f;                                                      //CPU开中断,INT0,INT1,Timer0,Timer1开中断
+ 389   1              IP = 0x04;                                                      //设置INT0为中断最高优先级
+ 390   1              IT0=0;IT1=0;                                            //外部INT0,INT1设置为电平触发方式（注意，触发不要选边沿方式，易误动）
+ 391   1              TMOD = 0x11;                                            //Timer0,Timer1工作于模式1, 16位定时方式
+ 392   1              TH0 = 0xdc;TL0 = 0x00;                          //Timer0置10ms定时初值  
+ 393   1              TH1 = 0xff;TL1 = 0x00;                          //Timer1置初值  
+ 394   1              TR0 = 1;                                                        //Timer0启动
+ 395   1              TR1 = 0;
+ 396   1              while(1);
+ 397   1      }
+ 398          
+ 399          //设置按键处理程序
+ 400          void pro_key()
+ 401          {
+ 402   1              switch (flag)
+ 403   1                      { 
+ 404   2                      case 0:alarm=!alarm;                    //启用或关闭闹钟（alarm=1:启用,alarm=0:关闭)
+ 405   2                                      update_disbuf(0x50,"alarm:",armhour,armmin,armsec); //更新显示数据
+ 406   2                                      pro_display();                                                                          //调用显示处理
+ 407   2                                      lcd_pos(0x47);break;                                                            //光标回到原调整位置 
+ 408   2                      case 1:armhour++;
+ 409   2                                      if (armhour>23) armhour=0;
+ 410   2                                      update_disbuf(0x50,"alarm:",armhour,armmin,armsec); //更新显示数据
+ 411   2                                      pro_display();                                                                          //调用显示处理
+ 412   2                                      lcd_pos(0x49);break;                                                            //光标回到原调整位置
+ 413   2                      case 2:armmin++;
+ 414   2                                      if (armmin>59) armmin=0;
+ 415   2                                      update_disbuf(0x50,"alarm:",armhour,armmin,armsec);
+ 416   2                                      pro_display();
+ 417   2                                      lcd_pos(0x4c);break;
+ 418   2                      case 3:armsec++;
+ 419   2                                      if (armsec>59) armsec=0;
+ 420   2                                      update_disbuf(0x50,"alarm:",armhour,armmin,armsec);
+ 421   2                                      pro_display();
+ 422   2                                      lcd_pos(0x4f);break;
+ 423   2      
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 8   
+
+ 424   2                      case 4:year++;
+ 425   2                                      if      (year> 99) year= 0;
+ 426   2                                      week_proc();                        //星期自动运算
+ 427   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 428   2                                      pro_display();
+ 429   2                                      lcd_pos(0x05);break;
+ 430   2                      case 5:month++;
+ 431   2                                      if (month>12) month=1;
+ 432   2                                      week_proc();                                            //星期自动运算
+ 433   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 434   2                                      pro_display();
+ 435   2                                      lcd_pos(0x08);break;
+ 436   2                      case 6:date++;
+ 437   2                                      if (month==1||month==3||month==5||month==7||month==8||month==10||month==12)
+ 438   2                                              if (date>31) date=1;                    //大月31天
+ 439   2                                      if (month==4||month==6||month==9||month==11)            
+ 440   2                                              if (date>30) date=1;                    //小月30天
+ 441   2                                      if (month==2)                   
+ 442   2                                              {if(leap_year())                                //闰年的条件
+ 443   3                                                      {if (date>29) date=1;}          //闰年2月为29天
+ 444   3                                               else
+ 445   3                                                      {if (date>28) date=1;}}         //平年2月为28天 
+ 446   2                                      week_proc();                                        //星期自动运算
+ 447   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 448   2                                      pro_display();
+ 449   2                                      lcd_pos(0x0b);break;
+ 450   2                      
+ 451   2                      case 7:hour++;
+ 452   2                                      if (hour>23) hour=0;
+ 453   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 454   2                                      pro_display();
+ 455   2                                      lcd_pos(0x49);break;    
+ 456   2                      case 8:min++;
+ 457   2                                      if (min>59) min=0;
+ 458   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 459   2                                      pro_display();
+ 460   2                                      lcd_pos(0x4c);break;
+ 461   2                      case 9:sec++;
+ 462   2                                      if (sec>59) sec=0;
+ 463   2                                      update_disbuf(0x50,"time: ",hour,min,sec);
+ 464   2                                      pro_display();
+ 465   2                                      lcd_pos(0x4f);break;
+ 466   2                      default: break ;                                                                                                 
+ 467   2                      }
+ 468   1      }       
+ 469          
+ 470          //Timer1中断处理程序,产生报警的声音
+ 471          void timer1() interrupt 3 
+ 472          {
+ 473   1              TH1=0xff;                               
+ 474   1              TL1=0x00;
+ 475   1              SPK=~SPK;
+ 476   1               
+ 477   1                                      
+ 478   1      }
+ 479          
+ 480          //外部中断INT1中断处理程序,停止报警声音
+ 481          void int1() interrupt 2
+ 482          {
+ 483   1              if(TR1)
+ 484   1                      TR1=0;                          
+ 485   1      
+C51 COMPILER V8.02   LCD_CLOCK                                                             07/24/2009 14:54:59 PAGE 9   
+
+ 486   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1891    ----
+   CONSTANT SIZE    =     71    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     46       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1       2
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

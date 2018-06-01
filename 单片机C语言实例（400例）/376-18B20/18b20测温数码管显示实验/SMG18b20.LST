@@ -1,0 +1,220 @@
+C51 COMPILER V8.05a   SMG18B20                                                             01/20/2016 22:42:53 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE SMG18B20
+OBJECT MODULE PLACED IN SMG18b20.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SMG18b20.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          //DS18B20的读写程序,数据脚P3.3                     //
+   3          //温度传感器18B20汇编程序,采用器件默认的12位转化   //
+   4          //最大转化时间750微秒,显示温度-55到+125度,显示精度 //
+   5          //为0.1度，显示采用4位LED共阳显示测温值            //
+   6          //P0口为段码输入,P24~P27为位选                       //
+   7          /***************************************************/
+   8          
+   9          #include "reg51.h"
+  10          #include "intrins.h"                            //_nop_();延时函数用
+  11          #define  Disdata P0                             //段码输出口
+  12          #define  discan  P2                             //扫描口
+  13          #define  uchar unsigned char
+  14          #define  uint  unsigned int
+  15          sbit     DQ=P3^3;                               //温度输入口
+  16          sbit     DIN=P0^7;                              //LED小数点控制
+  17          uint     h; 
+  18          uchar flag;
+  19          //**************温度小数部分用查表法***********//
+  20          uchar code ditab[16]=
+  21          {0x00,0x01,0x01,0x02,0x03,0x03,0x04,0x04,0x05,0x06,0x06,0x07,0x08,0x08,0x09,0x09};
+  22          //
+  23          uchar code dis_7[12]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0xff,0xbf};
+  24          //共阳LED段码表        "0"  "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9" "不亮" "-"              
+  25          uchar code scan_con[4]={0x7f,0xbf,0xdf,0xef};    //列扫描控制字
+  26          uchar data temp_data[2]={0x00,0x00};             //读出温度暂放
+  27          uchar data display[5]={0x00,0x00,0x00,0x00,0x00};     //显示单元数据，共4个数据和一个运算暂用
+  28          
+  29          //
+  30          //
+  31          //
+  32          /***********11微秒延时函数**********/
+  33          //
+  34          void delay(uint t)
+  35          {
+  36   1      for(;t>0;t--);
+  37   1      }
+  38          //
+  39          /***********显示扫描函数**********/
+  40          scan()
+  41          {
+  42   1      char k;
+  43   1          for(k=0;k<4;k++)         //四位LED扫描控制
+  44   1           {
+  45   2               Disdata=0xff;
+  46   2            Disdata=dis_7[display[k]];
+  47   2            if(k==1){DIN=0;}
+  48   2            discan=scan_con[k];delay(90);
+  49   2                discan=0xff;
+  50   2           }
+  51   1      }
+  52          //
+  53          //
+  54          /***********18B20复位函数**********/
+  55          ow_reset(void)
+C51 COMPILER V8.05a   SMG18B20                                                             01/20/2016 22:42:53 PAGE 2   
+
+  56          {
+  57   1      char presence=1;
+  58   1      while(presence)
+  59   1      {
+  60   2      while(presence)
+  61   2      {
+  62   3      DQ=1;_nop_();_nop_();
+  63   3      DQ=0;    //
+  64   3      delay(50); // 550us
+  65   3      DQ=1;    // 
+  66   3      delay(6); // 66us
+  67   3      presence=DQ; // presence=0继续下一步
+  68   3         }
+  69   2      delay(45);    //延时500us
+  70   2      presence = ~DQ;
+  71   2      }
+  72   1      DQ=1;
+  73   1      } 
+  74          //
+  75          //
+  76          /**********18B20写命令函数*********/
+  77          //向 1-WIRE 总线上写一个字节
+  78          void write_byte(uchar val)
+  79          {
+  80   1      uchar i;
+  81   1      for (i=8; i>0; i--) //
+  82   1      {
+  83   2      DQ=1;_nop_();_nop_(); 
+  84   2      DQ = 0;_nop_();_nop_();_nop_();_nop_();_nop_();//5us
+  85   2      DQ = val&0x01;      //最低位移出
+  86   2      delay(6);           //66us
+  87   2      val=val/2;          //右移一位
+  88   2      }
+  89   1      DQ = 1;
+  90   1      delay(1); 
+  91   1      }
+  92          //
+  93          /*********18B20读1个字节函数********/
+  94          //从总线上读取一个字节
+  95          uchar read_byte(void)
+  96          {
+  97   1      uchar i;
+  98   1      uchar value = 0;
+  99   1      for (i=8;i>0;i--)
+ 100   1      {
+ 101   2      DQ=1;_nop_();_nop_();
+ 102   2      value>>=1;
+ 103   2      DQ = 0;             //
+ 104   2      _nop_();_nop_();_nop_();_nop_();   //4us
+ 105   2      DQ = 1;_nop_();_nop_();_nop_();_nop_();   //4us 
+ 106   2      if(DQ)value|=0x80;
+ 107   2      delay(6);           //66us
+ 108   2      }
+ 109   1      DQ=1;
+ 110   1      return(value);
+ 111   1      }
+ 112          //
+ 113          /***********读出温度函数**********/
+ 114          //
+ 115          read_temp()
+ 116          {
+ 117   1      ow_reset();       //总线复位
+C51 COMPILER V8.05a   SMG18B20                                                             01/20/2016 22:42:53 PAGE 3   
+
+ 118   1      write_byte(0xCC); // 发Skip ROM命令
+ 119   1      write_byte(0xBE); // 发读命令
+ 120   1      temp_data[0]=read_byte(); //温度低8位
+ 121   1      temp_data[1]=read_byte(); //温度高8位
+ 122   1      ow_reset();
+ 123   1      write_byte(0xCC); // Skip ROM
+ 124   1      write_byte(0x44); // 发转换命令
+ 125   1      }
+ 126          //
+ 127          /***********温度数据处理函数**********/
+ 128          void work_temp()
+ 129          {
+ 130   1      uchar n=0;
+ 131   1      uchar doth,dotl;
+ 132   1      uchar flag3=1,flag2=1;       //数字显示修正标记
+ 133   1      if((temp_data[1]&0xf8)!=0x00)
+ 134   1      {
+ 135   2         temp_data[1]=~(temp_data[1]);
+ 136   2         temp_data[0]=~(temp_data[0])+1;
+ 137   2         n=1;
+ 138   2         flag=1;
+ 139   2      }//负温度求补码
+ 140   1      if(temp_data[0]>255)
+ 141   1      {
+ 142   2      temp_data[1]++; 
+ 143   2      }
+ 144   1      display[4]=temp_data[0]&0x0f;
+ 145   1      display[0]=ditab[display[4]];
+ 146   1      doth=display[0]/10;
+ 147   1      dotl=display[0]%10;
+ 148   1      display[4]=((temp_data[0]&0xf0)>>4)|((temp_data[1]&0x07)<<4);
+ 149   1      display[3]=display[4]/100;
+ 150   1      display[2]=display[4]/10%10;
+ 151   1      display[1]=display[4]%10;
+ 152   1      if(!display[3])
+ 153   1         {
+ 154   2          display[3]=0x0a;
+ 155   2          flag3=0;
+ 156   2          if(!display[2])
+ 157   2          {
+ 158   3           display[2]=0x0a;
+ 159   3           flag2=0;
+ 160   3          }
+ 161   2         }//最高位为0时都不显示
+ 162   1      if(n)
+ 163   1      {
+ 164   2         display[3]=0x0b;//负温度时最高位显示"-"
+ 165   2         flag3=0;
+ 166   2      }
+ 167   1      }
+ 168          
+ 169          // 
+ 170          //
+ 171          /**************主函数****************/
+ 172          main()
+ 173          {
+ 174   1      Disdata=0xff;    //初始化端口
+ 175   1      discan=0xff;
+ 176   1      for(h=0;h<4;h++){display[h]=8;}//开机显示8888
+ 177   1      ow_reset();       // 开机先转换一次
+ 178   1      write_byte(0xCC); // Skip ROM
+ 179   1      write_byte(0x44); // 发转换命令
+C51 COMPILER V8.05a   SMG18B20                                                             01/20/2016 22:42:53 PAGE 4   
+
+ 180   1      for(h=0;h<500;h++)
+ 181   1         {scan();}          //开机显示"8888"2秒
+ 182   1      while(1)
+ 183   1      {
+ 184   2      read_temp();         //读出18B20温度数据
+ 185   2      work_temp();         //处理温度数据
+ 186   2      
+ 187   2         scan();        //显示温度值2秒
+ 188   2      }
+ 189   1      }
+ 190          //
+ 191          //*********************结束**************************//
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    436    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

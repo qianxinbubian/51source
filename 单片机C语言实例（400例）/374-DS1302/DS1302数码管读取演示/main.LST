@@ -1,0 +1,82 @@
+C51 COMPILER V8.02   MAIN                                                                  11/12/2009 11:47:15 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #include "ds1302.h"
+   3          #define uchar unsigned char
+   4          #define uint unsigned int
+   5          
+   6          uchar code dis[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xFF,0xBF};
+   7          //共阴数码管"0-9","灭","-"编码
+   8          
+   9          uchar code wei[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};
+  10          //位选编码
+  11          
+  12          uchar data dis1[]={0x00,0x00,0x0b,0x00,0x00,0x0b,0x00,0x00};
+  13          //时分秒显示缓冲区
+  14          
+  15          uchar data chuzhi[]={0x23,0x59,0x50};//送十六进制数
+  16          //时分秒初值
+  17          
+  18          uchar data time1302[]={0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+  19          //延时1ms子程序
+  20          void delay(uint z)
+  21          {
+  22   1              uint x,y;
+  23   1              for(x=z;z>0;z--)
+  24   1                      for(y=110;y>0;y--)
+  25   1                              ;
+  26   1      }
+  27          
+  28          //显示子函数
+  29          void display()
+  30          {
+  31   1              uchar k;
+  32   1              dis1[7]=chuzhi[2]%10;
+  33   1              dis1[6]=chuzhi[2]/10;
+  34   1              dis1[4]=chuzhi[1]%10;
+  35   1              dis1[3]=chuzhi[1]/10;
+  36   1              dis1[1]=chuzhi[0]%10;
+  37   1              dis1[0]=chuzhi[0]/10;
+  38   1              for(k=0;k<8;k++)
+  39   1              {               
+  40   2                      P2=wei[k];              
+  41   2                      P0=dis[dis1[k]];
+  42   2                      delay(1);//让数码管正常显示出来
+  43   2              }
+  44   1      }
+  45          
+  46          void main()
+  47          {       
+  48   1              init1302();     
+  49   1              while(1)
+  50   1              {
+  51   2                                              
+  52   2                      chuzhi[2]=Read1302(0x81);
+  53   2                      chuzhi[1]=Read1302(0x83);
+  54   2                      chuzhi[0]=Read1302(0x85);
+  55   2                      display();      
+C51 COMPILER V8.02   MAIN                                                                  11/12/2009 11:47:15 PAGE 2   
+
+  56   2              }
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    295    ----
+   CONSTANT SIZE    =     20    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     18       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

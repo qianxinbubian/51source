@@ -1,0 +1,52 @@
+C51 COMPILER V8.18   EX62                                                                  01/04/2010 13:05:00 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE EX62
+OBJECT MODULE PLACED IN ex62.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ex62.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //用数码管慢速动态扫描显示数字"1234"
+   2          #include<reg52.h>        //  包含51单片机寄存器定义的头文件
+   3           void delay(void)        //延时函数，延时一段时间
+   4          {
+   5   1         unsigned char i,j;
+   6   1              for(i=0;i<250;i++)
+   7   1               for(j=0;j<250;j++)
+   8   1                   ;
+   9   1       }
+  10          void main(void)
+  11          {
+  12   1         while(1)    //无限循环
+  13   1         {
+  14   2           P2=0xfe;   //P2.0引脚输出低电平，DS0点亮
+  15   2                P0=0xf9;  //数字1的段码
+  16   2                delay();
+  17   2                P2=0xfd ;  //P2.1引脚输出低电平，DS1点亮
+  18   2                P0=0xa4;  //数字2的段码
+  19   2                delay();       
+  20   2           P2=0xfb;   //P2.2引脚输出低电平，DS2点亮
+  21   2                P0=0xb0;  //数字3的段码
+  22   2                delay();
+  23   2           P2=0xf7;   //P2.3引脚输出低电平，DS3点亮
+  24   2                P0=0x99;  //数字4的段码
+  25   2                delay();
+  26   2           P2=0xff;      
+  27   2         } 
+  28   1      }
+  29          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     54    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

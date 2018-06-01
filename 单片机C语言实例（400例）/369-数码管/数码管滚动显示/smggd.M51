@@ -1,0 +1,133 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/21/2009  18:55:17  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE smggd.obj TO smggd RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  smggd.obj (SMGGD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  smggd (SMGGD)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     001BH     UNIT         ?DT?SMGGD
+            IDATA   0023H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0026H     UNIT         ?PR?DISP?SMGGD
+            CODE    00B5H     001FH     UNIT         ?C_INITSEG
+            CODE    00D4H     001DH     UNIT         ?PR?MAIN?SMGGD
+            CODE    00F1H     0016H     UNIT         ?PR?_DELAYMS?SMGGD
+
+
+
+OVERLAY MAP OF MODULE:   smggd (SMGGD)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?SMGGD
+  +--> ?C_INITSEG
+
+?PR?MAIN?SMGGD
+  +--> ?PR?DISP?SMGGD
+
+?PR?DISP?SMGGD
+  +--> ?PR?_DELAYMS?SMGGD
+
+
+
+SYMBOL TABLE OF MODULE:  smggd (SMGGD)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        SMGGD
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/21/2009  18:55:17  PAGE 2
+
+
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:0008H         PUBLIC        shift
+  C:00D4H         PUBLIC        main
+  C:008FH         PUBLIC        disp
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:00F1H         PUBLIC        _delayms
+  D:00C8H         PUBLIC        T2CON
+  D:0009H         PUBLIC        j
+  D:000AH         PUBLIC        display
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAYMS
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0005H         SYMBOL        t
+  -------         ENDDO         
+  C:00F1H         LINE#         25
+  C:00F1H         LINE#         27
+  C:00F1H         LINE#         31
+  C:00FBH         LINE#         34
+  C:00FBH         LINE#         35
+  C:0106H         LINE#         36
+  C:0106H         LINE#         37
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          DISP
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:008FH         LINE#         43
+  C:008FH         LINE#         45
+  C:008FH         LINE#         47
+  C:0092H         LINE#         49
+  C:0094H         LINE#         51
+  C:0097H         LINE#         52
+  C:00A0H         LINE#         53
+  C:00A3H         LINE#         54
+  C:00ABH         LINE#         55
+  C:00B2H         LINE#         58
+  C:00B4H         LINE#         60
+  -------         ENDPROC       DISP
+  -------         PROC          MAIN
+  -------         DO            
+  D:0003H         SYMBOL        k
+  -------         ENDDO         
+  C:00D4H         LINE#         66
+  C:00D4H         LINE#         67
+  C:00D4H         LINE#         70
+  C:00D7H         LINE#         71
+  C:00DAH         LINE#         74
+  C:00DAH         LINE#         77
+  C:00DAH         LINE#         78
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/21/2009  18:55:17  PAGE 3
+
+
+  C:00DDH         LINE#         79
+  C:00DDH         LINE#         82
+  C:00DFH         LINE#         83
+  C:00E6H         LINE#         84
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        SMGGD
+
+Program Size: data=36.0 xdata=0 code=263
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

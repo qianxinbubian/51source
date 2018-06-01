@@ -1,0 +1,2643 @@
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN TCMain.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE TCMain.src PR(.\TCMain.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\TCMain.SRC generated from: TCMain.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE TCMain.c ROM(SMALL) BROWSE DEBUG OBJECTEXTEND SRC(.\TCMain
+                             .SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    TCMAIN
+                       8     
+  0080                 9     P0      DATA    080H
+  0090                10     P1      DATA    090H
+  00A0                11     P2      DATA    0A0H
+  00B0                12     P3      DATA    0B0H
+  00D6                13     AC      BIT     0D0H.6
+  00B4                14     T0      BIT     0B0H.4
+  00B5                15     T1      BIT     0B0H.5
+  00AF                16     EA      BIT     0A8H.7
+  00A8                17     IE      DATA    0A8H
+  0080                18     P0_0    BIT     080H.0
+  0090                19     P1_0    BIT     090H.0
+  0081                20     P0_1    BIT     080H.1
+  00A0                21     P2_0    BIT     0A0H.0
+  0091                22     P1_1    BIT     090H.1
+  0082                23     P0_2    BIT     080H.2
+  00B0                24     P3_0    BIT     0B0H.0
+  00A1                25     P2_1    BIT     0A0H.1
+  0092                26     P1_2    BIT     090H.2
+  0083                27     P0_3    BIT     080H.3
+  00B1                28     P3_1    BIT     0B0H.1
+  00A2                29     P2_2    BIT     0A0H.2
+  0093                30     P1_3    BIT     090H.3
+  0084                31     P0_4    BIT     080H.4
+  00B2                32     P3_2    BIT     0B0H.2
+  00A3                33     P2_3    BIT     0A0H.3
+  0094                34     P1_4    BIT     090H.4
+  0085                35     P0_5    BIT     080H.5
+  00B7                36     RD      BIT     0B0H.7
+  00B3                37     P3_3    BIT     0B0H.3
+  00A4                38     P2_4    BIT     0A0H.4
+  0095                39     P1_5    BIT     090H.5
+  0086                40     P0_6    BIT     080H.6
+  00B4                41     P3_4    BIT     0B0H.4
+  00A5                42     P2_5    BIT     0A0H.5
+  0096                43     P1_6    BIT     090H.6
+  0087                44     P0_7    BIT     080H.7
+  00B5                45     P3_5    BIT     0B0H.5
+  00AC                46     ES      BIT     0A8H.4
+  00A6                47     P2_6    BIT     0A0H.6
+  0097                48     P1_7    BIT     090H.7
+  00B6                49     P3_6    BIT     0B0H.6
+  00A7                50     P2_7    BIT     0A0H.7
+  00B8                51     IP      DATA    0B8H
+  00B7                52     P3_7    BIT     0B0H.7
+  0098                53     RI      BIT     098H.0
+  00D7                54     CY      BIT     0D0H.7
+  00B2                55     INT0    BIT     0B0H.2
+  00B3                56     INT1    BIT     0B0H.3
+  0099                57     TI      BIT     098H.1
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     2
+
+  00BC                58     PS      BIT     0B8H.4
+  0081                59     SP      DATA    081H
+  00D2                60     OV      BIT     0D0H.2
+  00B6                61     WR      BIT     0B0H.6
+  0099                62     SBUF    DATA    099H
+  0087                63     PCON    DATA    087H
+  0098                64     SCON    DATA    098H
+  0089                65     TMOD    DATA    089H
+  0088                66     TCON    DATA    088H
+  0089                67     IE0     BIT     088H.1
+  008B                68     IE1     BIT     088H.3
+  00F0                69     B       DATA    0F0H
+  00E0                70     ACC     DATA    0E0H
+  00A9                71     ET0     BIT     0A8H.1
+  00AB                72     ET1     BIT     0A8H.3
+  008D                73     TF0     BIT     088H.5
+  00AD                74     ET2     BIT     0A8H.5
+  008F                75     TF1     BIT     088H.7
+  009A                76     RB8     BIT     098H.2
+  008C                77     TH0     DATA    08CH
+  00A8                78     EX0     BIT     0A8H.0
+  0088                79     IT0     BIT     088H.0
+  008D                80     TH1     DATA    08DH
+  00AA                81     EX1     BIT     0A8H.2
+  009B                82     TB8     BIT     098H.3
+  008A                83     IT1     BIT     088H.2
+  00D0                84     P       BIT     0D0H.0
+  009F                85     SM0     BIT     098H.7
+  008A                86     TL0     DATA    08AH
+  009E                87     SM1     BIT     098H.6
+  008B                88     TL1     DATA    08BH
+  009D                89     SM2     BIT     098H.5
+  00B9                90     PT0     BIT     0B8H.1
+  00D3                91     RS0     BIT     0D0H.3
+  00BB                92     PT1     BIT     0B8H.3
+  00D4                93     RS1     BIT     0D0H.4
+  00BD                94     PT2     BIT     0B8H.5
+  008C                95     TR0     BIT     088H.4
+  008E                96     TR1     BIT     088H.6
+  00B8                97     PX0     BIT     0B8H.0
+  00BA                98     PX1     BIT     0B8H.2
+  0083                99     DPH     DATA    083H
+  0082               100     DPL     DATA    082H
+  009C               101     REN     BIT     098H.4
+  00B0               102     RXD     BIT     0B0H.0
+  00B1               103     TXD     BIT     0B0H.1
+  00D5               104     F0      BIT     0D0H.5
+  00D1               105     F1      BIT     0D0H.1
+  00D0               106     PSW     DATA    0D0H
+                     107     ?PR?init_serialcomm?TCMAIN               SEGMENT CODE INBLOCK 
+                     108     ?PR?_send_char_com?TCMAIN                SEGMENT CODE INBLOCK 
+                     109     ?PR?_send_string_com?TCMAIN              SEGMENT CODE INBLOCK 
+                     110     ?DT?_send_string_com?TCMAIN              SEGMENT DATA OVERLAYABLE 
+                     111     ?PR?serial?TCMAIN    SEGMENT CODE INBLOCK 
+                     112     ?DT?serial?TCMAIN    SEGMENT DATA OVERLAYABLE 
+                     113     ?PR?main?TCMAIN      SEGMENT CODE INBLOCK 
+                     114     ?PR?KeyAndDis_Time0?TCMAIN               SEGMENT CODE INBLOCK 
+                     115     ?PR?V2ToV?TCMAIN     SEGMENT CODE INBLOCK 
+                     116     ?PR?InitDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+                     117     ?PR?ROMDS1820?TCMAIN SEGMENT CODE INBLOCK 
+                     118     ?PR?TMVDS1820?TCMAIN SEGMENT CODE INBLOCK 
+                     119     ?PR?TMRDS1820?TCMAIN SEGMENT CODE INBLOCK 
+                     120     ?PR?TMWDS1820?TCMAIN SEGMENT CODE INBLOCK 
+                     121     ?PR?TMREDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+                     122     ?PR?TMERDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+                     123     ?PR?WriteDS1820?TCMAIN                   SEGMENT CODE INBLOCK 
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     3
+
+                     124     ?PR?ReadDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+                     125     ?PR?Delay_510?TCMAIN SEGMENT CODE INBLOCK 
+                     126     ?PR?Delay_110?TCMAIN SEGMENT CODE INBLOCK 
+                     127     ?PR?Delay_10ms?TCMAIN                    SEGMENT CODE INBLOCK 
+                     128     ?PR?Delay_4s?TCMAIN  SEGMENT CODE INBLOCK 
+                     129     ?C_INITSEG           SEGMENT CODE 
+                     130     ?CO?TCMAIN           SEGMENT CODE 
+                     131     ?DT?TCMAIN           SEGMENT DATA 
+                     132     ?BA?TCMAIN           SEGMENT DATA BITADDRESSABLE 
+                     133             EXTRN   CODE (?C?CLDOPTR)
+                     134             EXTRN   CODE (?C_STARTUP)
+                     135             EXTRN   CODE (?C?SCDIV)
+                     136             EXTRN   CODE (?C?IMUL)
+                     137             EXTRN   CODE (?C?SIDIV)
+                     138             PUBLIC  count3
+                     139             PUBLIC  dis_8
+                     140             PUBLIC  PowTF
+                     141             PUBLIC  inbuf2
+                     142             PUBLIC  inbuf1
+                     143             PUBLIC  SetTF
+                     144             PUBLIC  KeyTF
+                     145             PUBLIC  KeySETDown
+                     146             PUBLIC  DS1820ON
+                     147             PUBLIC  LEDDis
+                     148             PUBLIC  Delay_4s
+                     149             PUBLIC  Delay_10ms
+                     150             PUBLIC  Delay_110
+                     151             PUBLIC  Delay_510
+                     152             PUBLIC  ReadDS1820
+                     153             PUBLIC  WriteDS1820
+                     154             PUBLIC  TMERDS1820
+                     155             PUBLIC  TMREDS1820
+                     156             PUBLIC  TMWDS1820
+                     157             PUBLIC  TMRDS1820
+                     158             PUBLIC  TMVDS1820
+                     159             PUBLIC  ROMDS1820
+                     160             PUBLIC  InitDS1820
+                     161             PUBLIC  V2ToV
+                     162             PUBLIC  KeyAndDis_Time0
+                     163             PUBLIC  main
+                     164             PUBLIC  serial
+                     165             PUBLIC  _send_string_com
+                     166             PUBLIC  _send_char_com
+                     167             PUBLIC  init_serialcomm
+                     168     
+----                 169             DSEG  AT  026H
+0026                 170              TMSetV:   DS   1
+                     171     
+----                 172             DSEG  AT  027H
+0027                 173              TMRomV:   DS   1
+                     174     
+----                 175             DSEG  AT  028H
+0028                 176                 THV:   DS   1
+                     177     
+----                 178             DSEG  AT  029H
+0029                 179                 TLV:   DS   1
+                     180     
+----                 181             RSEG  ?DT?serial?TCMAIN
+0000                 182     ?serial?BYTE:
+0000                 183              ch?344:   DS   1
+                     184     
+----                 185             RSEG  ?DT?_send_string_com?TCMAIN
+0000                 186     ?_send_string_com?BYTE:
+0000                 187             str?241:   DS   3
+0003                 188             ORG  3
+0003                 189          strlen?242:   DS   2
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     4
+
+                     190     
+----                 191             RSEG  ?DT?TCMAIN
+0000                 192                KeyV:   DS   1
+0001                 193             IntNum2:   DS   1
+0002                 194             IntNum3:   DS   1
+0003                 195                Sign:   DS   1
+0004                 196              KSDNum:   DS   1
+0005                 197            TempKeyV:   DS   1
+0006                 198                flag:   DS   1
+0007                 199           LED_Three:   DS   1
+0008                 200              inbuf1:   DS   5
+000D                 201              inbuf2:   DS   50
+003F                 202             LED_One:   DS   1
+0040                 203               dis_8:   DS   12
+004C                 204              IntNum:   DS   1
+004D                 205              Second:   DS   1
+004E                 206              count3:   DS   1
+004F                 207             LED_Two:   DS   1
+0050                 208                 TMV:   DS   1
+                     209     
+----                 210             RSEG  ?BA?TCMAIN
+0000                 211            StateREG:   DS   1
+  0000               212     DS1820ON        EQU     (StateREG+0).0
+  0002               213     KeySETDown      EQU     (StateREG+0).2
+  0004               214     KeyTF   EQU     (StateREG+0).4
+  0001               215     SetTF   EQU     (StateREG+0).1
+  0003               216     PowTF   EQU     (StateREG+0).3
+                     217     
+----                 218             RSEG  ?CO?TCMAIN
+0000                 219     LEDDis:
+0000 C0              220             DB      0C0H
+0001 F9              221             DB      0F9H
+0002 A4              222             DB      0A4H
+0003 B0              223             DB      0B0H
+0004 99              224             DB      099H
+0005 92              225             DB      092H
+0006 82              226             DB      082H
+0007 F8              227             DB      0F8H
+0008 80              228             DB      080H
+0009 90              229             DB      090H
+000A FF              230             DB      0FFH
+000B BF              231             DB      0BFH
+                     232     
+                     233     
+----                 234             RSEG  ?C_INITSEG
+0000 05              235             DB      005H
+0001 00       F      236             DB      inbuf1
+0002 30              237             DB      030H
+0003 30              238             DB      030H
+0004 30              239             DB      030H
+0005 30              240             DB      030H
+0006 30              241             DB      030H
+                     242     
+0007 0C              243             DB      00CH
+0008 00       F      244             DB      dis_8
+0009 30              245             DB      030H
+000A 31              246             DB      031H
+000B 32              247             DB      032H
+000C 33              248             DB      033H
+000D 34              249             DB      034H
+000E 35              250             DB      035H
+000F 36              251             DB      036H
+0010 37              252             DB      037H
+0011 38              253             DB      038H
+0012 39              254             DB      039H
+0013 20              255             DB      020H
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     5
+
+0014 2D              256             DB      02DH
+                     257     
+                     258     ; #include <AT89X51.H>
+                     259     ; #include <intrins.h>
+                     260     ; #define Key_UP            P1_4 
+                     261     ; #define Key_DOWN          P1_5   
+                     262     ; #define Key_SET           P1_6   
+                     263     ; #define RelayOutPort      P3_7  
+                     264     ; #define LEDPort           P0      
+                     265     ; #define DELPort           P3_6   
+                     266     ; #define LEDTwoC           P2_6    
+                     267     ; #define LEDThreeC         P2_7    
+                     268     ; #define TMPort                          P3_3
+                     269     ; #define INBUF_LEN 5 //Ê¾Ý³¤¶È
+                     270     ; unsigned char inbuf1[INBUF_LEN]={'0','0','0','0','0'};//·¢ËÍ»º³åÇø
+                     271     ; unsigned char inbuf2[50];//½ÓÊÕ»º³åÇø
+                     272     ; unsigned char count3;
+                     273     ; void init_serialcomm( void )
+                     274     
+----                 275             RSEG  ?PR?init_serialcomm?TCMAIN
+0000                 276     init_serialcomm:
+                     277                             ; SOURCE LINE # 16
+                     278     ; {
+                     279                             ; SOURCE LINE # 17
+                     280     ; SCON = 0x50 ; //SCON: serail mode 1, 8-bit UART, enable ucvr
+                     281                             ; SOURCE LINE # 18
+0000 759850          282             MOV     SCON,#050H
+                     283     ; TMOD |= 0x20 ; //TMOD: timer 1, mode 2, 8-bit reload
+                     284                             ; SOURCE LINE # 19
+0003 438920          285             ORL     TMOD,#020H
+                     286     ; PCON |= 0x80 ; //SMOD=1;
+                     287                             ; SOURCE LINE # 20
+0006 438780          288             ORL     PCON,#080H
+                     289     ; TH1 = 0xFA ; //Baud:4800 fosc=11.0592MHz
+                     290                             ; SOURCE LINE # 21
+0009 758DFA          291             MOV     TH1,#0FAH
+                     292     ; IE |= 0x90 ; //Enable Serial Interrupt
+                     293                             ; SOURCE LINE # 22
+000C 43A890          294             ORL     IE,#090H
+                     295     ; TR1 = 1 ; // timer 1 run
+                     296                             ; SOURCE LINE # 23
+000F D28E            297             SETB    TR1
+                     298     ; }
+                     299                             ; SOURCE LINE # 24
+0011 22              300             RET     
+                     301     ; END OF init_serialcomm
+                     302     
+                     303     ; //Ïò´®¿Ú·¢ËÍÒ»¸ö×Ö·û
+                     304     ; void send_char_com( unsigned char ch)
+                     305     
+----                 306             RSEG  ?PR?_send_char_com?TCMAIN
+0000                 307     L?0099:
+                     308             USING   2
+0000 7F4F            309             MOV     R7,#04FH
+0002                 310     L?0100:
+0002 1100     F      311             ACALL   _send_char_com
+0004 1100     F      312             ACALL   _send_char_com
+0006                 313     _send_char_com:
+                     314                             ; SOURCE LINE # 26
+                     315     ;---- Variable 'ch?140' assigned to Register 'R7' ----
+                     316     ; {
+                     317                             ; SOURCE LINE # 27
+                     318     ; SBUF=ch;
+                     319                             ; SOURCE LINE # 28
+0006 8F99            320             MOV     SBUF,R7
+0008                 321     ?C0002:
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     6
+
+                     322     ; while (TI== 0 );
+                     323                             ; SOURCE LINE # 29
+0008 3099FD          324             JNB     TI,?C0002
+000B                 325     ?C0003:
+                     326     ; TI= 0 ;
+                     327                             ; SOURCE LINE # 30
+000B C299            328             CLR     TI
+                     329     ; }
+                     330                             ; SOURCE LINE # 31
+000D 22              331             RET     
+                     332     ; END OF _send_char_com
+                     333     
+                     334     ; //Ïò´®¿Ú·¢ËÍÒ»¸ö×Ö·û´®£¬strlen Îª¸Ã×Ö·û´®³¤¶È
+                     335     ; void send_string_com( unsigned char *str, unsigned int strlen)
+                     336     
+----                 337             RSEG  ?PR?_send_string_com?TCMAIN
+0000                 338     _send_string_com:
+                     339             USING   0
+                     340                             ; SOURCE LINE # 33
+0000 8B00     F      341             MOV     str?241,R3
+0002 8A00     F      342             MOV     str?241+01H,R2
+0004 8900     F      343             MOV     str?241+02H,R1
+0006 8C00     F      344             MOV     strlen?242,R4
+0008 8D00     F      345             MOV     strlen?242+01H,R5
+                     346     ; {
+                     347                             ; SOURCE LINE # 34
+                     348     ; unsigned int k= 0 ;
+                     349                             ; SOURCE LINE # 35
+                     350     ;---- Variable 'k?243' assigned to Register 'R4/R5' ----
+000A E4              351             CLR     A
+000B FD              352             MOV     R5,A
+000C FC              353             MOV     R4,A
+000D                 354     ?C0007:
+                     355     ; do
+                     356     ; {
+                     357                             ; SOURCE LINE # 37
+                     358     ; send_char_com(*(str + k));
+                     359                             ; SOURCE LINE # 38
+000D AB00     F      360             MOV     R3,str?241
+000F AA00     F      361             MOV     R2,str?241+01H
+0011 A900     F      362             MOV     R1,str?241+02H
+0013 8D82            363             MOV     DPL,R5
+0015 8C83            364             MOV     DPH,R4
+0017 1100     F      365             ACALL   ?C?CLDOPTR
+0019 FF              366             MOV     R7,A
+001A 1100     F      367             ACALL   _send_char_com
+                     368     ; k++;
+                     369                             ; SOURCE LINE # 39
+001C 0D              370             INC     R5
+001D BD0001          371             CJNE    R5,#00H,?C0089
+0020 0C              372             INC     R4
+0021                 373     ?C0089:
+                     374     ; } while (k < strlen);
+                     375                             ; SOURCE LINE # 40
+0021 C3              376             CLR     C
+0022 ED              377             MOV     A,R5
+0023 9500     F      378             SUBB    A,strlen?242+01H
+0025 EC              379             MOV     A,R4
+0026 9500     F      380             SUBB    A,strlen?242
+0028 40E3            381             JC      ?C0007
+                     382     ; }
+                     383                             ; SOURCE LINE # 41
+002A 22              384             RET     
+                     385     ; END OF _send_string_com
+                     386     
+----                 387     CSEG    AT      00023H
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     7
+
+0023 0100     F      388             AJMP    serial
+                     389     
+                     390     ; //´®¿Ú½ÓÊÕÖÐ¶Ïº¯Ê
+                     391     ; void serial () interrupt 4 using 3
+                     392     
+----                 393             RSEG  ?PR?serial?TCMAIN
+                     394             USING   3
+0000                 395     serial:
+0000 C0E0            396             PUSH    ACC
+0002 C0D0            397             PUSH    PSW
+                     398             USING   3
+0004 75D018          399             MOV     PSW,#018H
+                     400                             ; SOURCE LINE # 43
+                     401     ; {
+                     402     ; if (RI) //RI==¿ªÊ¼½ÓÊÕ
+                     403                             ; SOURCE LINE # 45
+0007 30981A          404             JNB     RI,?C0012
+                     405     ; {
+                     406                             ; SOURCE LINE # 46
+                     407     ; unsigned char ch;
+                     408     ; RI = 0 ; //Èí¼þRI=0
+                     409                             ; SOURCE LINE # 48
+000A C298            410             CLR     RI
+                     411     ; ch=SBUF;
+                     412                             ; SOURCE LINE # 49
+000C 859900   F      413             MOV     ch?344,SBUF
+                     414     ; if (ch> 1 )
+                     415                             ; SOURCE LINE # 50
+000F E500     F      416             MOV     A,ch?344
+0011 D3              417             SETB    C
+0012 9401            418             SUBB    A,#01H
+0014 4005            419             JC      ?C0010
+                     420     ; {
+                     421                             ; SOURCE LINE # 51
+                     422     ; count3= 0 ;
+                     423                             ; SOURCE LINE # 52
+0016 750000   F      424             MOV     count3,#00H
+                     425     ; inbuf2[count3]=ch;
+                     426                             ; SOURCE LINE # 53
+                     427     ; }
+                     428                             ; SOURCE LINE # 54
+0019 8002            429             SJMP    ?C0092
+001B                 430     ?C0010:
+                     431     ; else
+                     432     ; {
+                     433                             ; SOURCE LINE # 56
+                     434     ; count3++;
+                     435                             ; SOURCE LINE # 57
+001B 0500     F      436             INC     count3
+                     437     ; inbuf2[count3]=ch;
+                     438                             ; SOURCE LINE # 58
+001D                 439     ?C0092:
+001D 7400     F      440             MOV     A,#LOW (inbuf2)
+001F 2500     F      441             ADD     A,count3
+0021 F8              442             MOV     R0,A
+0022 A600     F      443             MOV     @R0,ch?344
+                     444     ; }
+                     445                             ; SOURCE LINE # 59
+                     446     ; }
+                     447                             ; SOURCE LINE # 60
+                     448     ; }     
+                     449                             ; SOURCE LINE # 61
+0024                 450     ?C0012:
+0024 D0D0            451             POP     PSW
+0026 D0E0            452             POP     ACC
+0028 32              453             RETI    
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     8
+
+                     454     ; END OF serial
+                     455     
+                     456     ; 
+                     457     ; unsigned char code LEDDis[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xFF,0xBF}
+                             ; //0-9µÄLED±Ê»®,0xFFÎª¿Õ,0xF7Îª¸ººÅ
+                     458     ; unsigned char dis_8[12]={'0','1','2','3','4','5','6','7','8','9',' ','-'};
+                     459     ; static unsigned char bdata StateREG;  //¿ÉÎ»Ñ°Ö·µÄ×´Ì¬¼Ä´æÆ÷
+                     460     ; sbit DS1820ON = StateREG^0;             //DS1820ÊÇ·ñ´æÔÚ
+                     461     ; sbit SetTF = StateREG^1;              //ÊÇ·ñÊÇÔÚÎÂ¶ÈÉèÖÃ×´Ì¬
+                     462     ; sbit KeySETDown = StateREG^2;         //ÊÇ·ñÒÑ°´¹SET¼ü±êÊ¶
+                     463     ; sbit PowTF = StateREG^3;              //µçÔ´µçÔ´±êÊ¶
+                     464     ; sbit KeyTF = StateREG^4;                                                      //¼üÅÌÊÇ·ñÔ
+                             ÊÐí
+                     465     ; 
+                     466     ; //sbit KeySETDowning = StateREG^5;                    //SETÊÇ·ñÕÔÚ°´ÏÂ
+                     467     ; static unsigned char bdata TLV _at_ 0x0029;         //ÎÂ¶È±äÁ¿¸ßµÍÎ»
+                     468     ; static unsigned char bdata THV _at_ 0x0028;
+                     469     ; static signed char TMV;       //×ª»»ºóµÄÎÂ¶ÈÖµ
+                     470     ; static unsigned char KeyV,TempKeyV;      //¼üÖµ
+                     471     ; static unsigned char Second;
+                     472     ; static unsigned char flag;
+                     473     ; static signed char TMRomV _at_ 0x0027;    //¸ßÎÂÏÞÖÆ
+                     474     ; static signed char TMSetV _at_ 0x0026;    //ÎÂ¶ÈÉè¶¨Öµ
+                     475     ; static unsigned char KSDNum;    //SET¼üÁ¬°´Ê±µÄ²É¼¯´ÎÊ
+                     476     ; static unsigned char IntNum,IntNum2,IntNum3;    //ÖÐ¶Ï·¢Éú´ÎÊ£¬IntNumÓÃÓÚSET³¤°´¼ì²â£¬Int
+                             Num2ÓÃÓÚÉè¶¨×´Ì¬Ê±LEDÉÁË¸
+                     477     ; static signed char LED_One,LED_Two,LED_Three;  //LEDµÄÏÔÊ¾Î» LED_OneÎªÊ®Î»£¬LED_TwoÎª¸öÎ»
+                     478     ; static unsigned char Sign; //¸ººÅ±êÊ¶
+                     479     ; 
+                     480     ; void main(void)
+                     481     
+----                 482             RSEG  ?PR?main?TCMAIN
+0000                 483     main:
+                     484             USING   0
+                     485                             ; SOURCE LINE # 86
+                     486     ; {
+                     487                             ; SOURCE LINE # 87
+                     488     ; 
+                     489     ;       void InitDS1820(void);   //¶¨Òåº¯Ê
+                     490     ;       void ROMDS1820(void);
+                     491     ;       void TMVDS1820(void);
+                     492     ;       void TMRDS1820(void);
+                     493     ;       void TMWDS1820(void);
+                     494     ;       void TMREDS1820(void);
+                     495     ;       void TMERDS1820(void);
+                     496     ;       void ReadDS1820(void);
+                     497     ;       void WriteDS1820(void);
+                     498     ;       void Delay_510(void);
+                     499     ;       void Delay_110(void);
+                     500     ;       void Delay_10ms(void);
+                     501     ;       void Delay_4s(void);
+                     502     ;       void V2ToV(void);
+                     503     ;       
+                     504     ;        DELPort=1;
+                     505                             ; SOURCE LINE # 104
+0000 D2B6            506             SETB    P3_6
+                     507     ;       StateREG = 0;   //³õÊ¼»¯±äÁ¿
+                     508                             ; SOURCE LINE # 105
+0002 E4              509             CLR     A
+0003 F500     F      510             MOV     StateREG,A
+                     511     ;       SetTF = 0;      
+                     512                             ; SOURCE LINE # 106
+0005 C200     F      513             CLR     SetTF
+                     514     ;       PowTF = 0;                      //¹ØµçÔ´
+                     515                             ; SOURCE LINE # 107
+0007 C200     F      516             CLR     PowTF
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE     9
+
+                     517     ;       THV = 0;
+                     518                             ; SOURCE LINE # 108
+0009 F528            519             MOV     THV,A
+                     520     ;       TLV = 0;
+                     521                             ; SOURCE LINE # 109
+000B F529            522             MOV     TLV,A
+                     523     ;       TMV = 0;
+                     524                             ; SOURCE LINE # 110
+000D F500     F      525             MOV     TMV,A
+                     526     ;       KeyV = 0;
+                     527                             ; SOURCE LINE # 111
+000F F500     F      528             MOV     KeyV,A
+                     529     ;       TempKeyV = 0;
+                     530                             ; SOURCE LINE # 112
+0011 F500     F      531             MOV     TempKeyV,A
+                     532     ;       KSDNum = 0;
+                     533                             ; SOURCE LINE # 113
+0013 F500     F      534             MOV     KSDNum,A
+                     535     ;       IntNum = 0;
+                     536                             ; SOURCE LINE # 114
+0015 F500     F      537             MOV     IntNum,A
+                     538     ;       IntNum2 = 0;
+                     539                             ; SOURCE LINE # 115
+0017 F500     F      540             MOV     IntNum2,A
+                     541     ;       IntNum3 = 0;
+                     542                             ; SOURCE LINE # 116
+0019 F500     F      543             MOV     IntNum3,A
+                     544     ;       LED_One = 0;
+                     545                             ; SOURCE LINE # 117
+001B F500     F      546             MOV     LED_One,A
+                     547     ;       LED_Two = 0;
+                     548                             ; SOURCE LINE # 118
+001D F500     F      549             MOV     LED_Two,A
+                     550     ; 
+                     551     ;       InitDS1820(); //³õÊ¼»¯
+                     552                             ; SOURCE LINE # 120
+001F 1100     F      553             ACALL   InitDS1820
+                     554     ;       ROMDS1820();    //Ìø¹ROM
+                     555                             ; SOURCE LINE # 121
+0021 1100     F      556             ACALL   ROMDS1820
+                     557     ;       TMERDS1820();  //E2PRAMÖÐÎÂ¶ÈÉÏÏÞÖµµ÷ÈëRAM
+                     558                             ; SOURCE LINE # 122
+0023 1100     F      559             ACALL   TMERDS1820
+                     560     ;       InitDS1820(); //³õÊ¼»¯
+                     561                             ; SOURCE LINE # 123
+0025 1100     F      562             ACALL   InitDS1820
+                     563     ;       ROMDS1820();    //Ìø¹ROM
+                     564                             ; SOURCE LINE # 124
+0027 1100     F      565             ACALL   ROMDS1820
+                     566     ;       TMRDS1820();    //¶Á³öÎÂ¶ÈÖ¸Áî
+                     567                             ; SOURCE LINE # 125
+0029 1100     F      568             ACALL   TMRDS1820
+                     569     ;       ReadDS1820(); //¶Á³öÎÂ¶ÈÖµºÍÉÏÏÞÖµ
+                     570                             ; SOURCE LINE # 126
+002B 1100     F      571             ACALL   ReadDS1820
+                     572     ;       TMSetV = TMRomV;  //¿½±´±£´æÔÚDS18B20ROMÀïµÄÉÏÏÞÖµµ½TMSetV
+                     573                             ; SOURCE LINE # 127
+002D 852726          574             MOV     TMSetV,TMRomV
+                     575     ; 
+                     576     ;       EA = 1;                                 //ÔÊÐíCPUÖÐ¶Ï
+                     577                             ; SOURCE LINE # 129
+0030 D2AF            578             SETB    EA
+                     579     ;       ET0 = 1;                                //¶¨Ê±Æ÷0ÖÐ¶Ï´ò¿ª
+                     580                             ; SOURCE LINE # 130
+0032 D2A9            581             SETB    ET0
+                     582     ;       TMOD = 0x1;                     //Éè¶¨Ê±Æ÷0ÎªÄ£Ê½1£¬16Î»Ä£Ê½
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    10
+
+                     583                             ; SOURCE LINE # 131
+0034 758901          584             MOV     TMOD,#01H
+                     585     ;       TH0=0xB1;
+                     586                             ; SOURCE LINE # 132
+0037 758CB1          587             MOV     TH0,#0B1H
+                     588     ;       TL0=0xDF;                               //Éè¶¨Ê±ÖµÎª20000us£¨20ms£©
+                     589                             ; SOURCE LINE # 133
+003A 758ADF          590             MOV     TL0,#0DFH
+                     591     ;       TR0 = 1;
+                     592                             ; SOURCE LINE # 134
+003D D28C            593             SETB    TR0
+003F                 594     ?C0013:
+                     595     ;       
+                     596     ;       while(1){                               //¿ªÊ¼¶¨Ê±
+                     597                             ; SOURCE LINE # 136
+                     598     ; 
+                     599     ;       
+                     600     ; 
+                     601     ;        
+                     602     ; 
+                     603     ; 
+                     604     ; if (flag==0){
+                     605                             ; SOURCE LINE # 143
+003F E500     F      606             MOV     A,flag
+0041 70FC            607             JNZ     ?C0013
+                     608     ; if (Second==1){
+                     609                             ; SOURCE LINE # 144
+0043 E500     F      610             MOV     A,Second
+0045 B401F7          611             CJNE    A,#01H,?C0013
+                     612     ;                       Delay_4s();
+                     613                             ; SOURCE LINE # 145
+0048 1100     F      614             ACALL   Delay_4s
+                     615     ;                       Delay_4s();
+                     616                             ; SOURCE LINE # 146
+004A 1100     F      617             ACALL   Delay_4s
+                     618     ;                       Delay_4s();
+                     619                             ; SOURCE LINE # 147
+004C 1100     F      620             ACALL   Delay_4s
+                     621     ;                       Delay_4s();
+                     622                             ; SOURCE LINE # 148
+004E 1100     F      623             ACALL   Delay_4s
+                     624     ;                       Delay_4s();
+                     625                             ; SOURCE LINE # 149
+0050 1100     F      626             ACALL   Delay_4s
+                     627     ;                       Delay_4s();
+                     628                             ; SOURCE LINE # 150
+0052 1100     F      629             ACALL   Delay_4s
+                     630     ;                       
+                     631     ;                 DELPort=0; 
+                     632                             ; SOURCE LINE # 152
+0054 C2B6            633             CLR     P3_6
+                     634     ;                 Second=0;
+                     635                             ; SOURCE LINE # 153
+0056 E4              636             CLR     A
+0057 F500     F      637             MOV     Second,A
+                     638     ;                 }
+                     639                             ; SOURCE LINE # 154
+                     640     ;                  }
+                     641                             ; SOURCE LINE # 155
+                     642     ;                }
+                     643                             ; SOURCE LINE # 156
+0059 80E4            644             SJMP    ?C0013
+                     645     ; END OF main
+                     646     
+----                 647     CSEG    AT      0000BH
+000B 0100     F      648             AJMP    KeyAndDis_Time0
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    11
+
+                     649     
+                     650     ;       
+                     651     ;       
+                     652     ; }
+                     653     ; 
+                     654     ; //¶¨Ê±Æ÷0ÖÐ¶ÏÍâÀíÖÐ¼üÉ¨ÃèºÍÏÔÊ¾
+                     655     ; void KeyAndDis_Time0(void) interrupt 1 using 2
+                     656     
+----                 657             RSEG  ?PR?KeyAndDis_Time0?TCMAIN
+                     658             USING   2
+0000                 659     KeyAndDis_Time0:
+0000 C0E0            660             PUSH    ACC
+0002 C0F0            661             PUSH    B
+0004 C083            662             PUSH    DPH
+0006 C082            663             PUSH    DPL
+0008 C0D0            664             PUSH    PSW
+                     665             USING   2
+000A 75D010          666             MOV     PSW,#010H
+                     667                             ; SOURCE LINE # 162
+                     668     ; {
+                     669     ;   TH0=0xB1;
+                     670                             ; SOURCE LINE # 164
+000D 758CB1          671             MOV     TH0,#0B1H
+                     672     ;       TL0=0xDF;                               //Éè¶¨Ê±ÖµÎª20000us£¨20ms)
+                     673                             ; SOURCE LINE # 165
+0010 758ADF          674             MOV     TL0,#0DFH
+                     675     ; 
+                     676     ;       LEDPort = 0xFF;
+                     677                             ; SOURCE LINE # 167
+0013 7580FF          678             MOV     P0,#0FFH
+                     679     ;       
+                     680     ;    
+                     681     ;          if (inbuf2[0]==0x33){
+                     682                             ; SOURCE LINE # 170
+0016 E500     F      683             MOV     A,inbuf2
+0018 B4330A          684             CJNE    A,#033H,?C0018
+                     685     ;          send_char_com('O');
+                     686                             ; SOURCE LINE # 171
+                     687     ;          send_char_com('O');
+                     688                             ; SOURCE LINE # 172
+                     689     ;          send_char_com('O');
+                     690                             ; SOURCE LINE # 173
+001B 120000   F      691             LCALL   L?0099
+                     692     ;          SetTF = 1;
+                     693                             ; SOURCE LINE # 174
+001E D200     F      694             SETB    SetTF
+                     695     ; //send_string_com(inbuf2,1);
+                     696     ; //BEEP=0;
+                     697     ; //RELAY=0;
+                     698     ; send_char_com('O');
+                     699                             ; SOURCE LINE # 178
+0020 1100     F      700             ACALL   _send_char_com
+                     701     ;      //inbuf2[0]=0x00;
+                     702     ;        inbuf2[0]=0x00;
+                     703                             ; SOURCE LINE # 180
+0022 750000   F      704             MOV     inbuf2,#00H
+                     705     ; } 
+                     706                             ; SOURCE LINE # 181
+0025                 707     ?C0018:
+                     708     ; 
+                     709     ; if (inbuf2[0]==0x36){
+                     710                             ; SOURCE LINE # 183
+0025 E500     F      711             MOV     A,inbuf2
+0027 B43609          712             CJNE    A,#036H,?C0019
+                     713     ; 
+                     714     ; //send_string_com(inbuf2,1);
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    12
+
+                     715     ; //BEEP=1;
+                     716     ; send_char_com('N');
+                     717                             ; SOURCE LINE # 187
+002A 7F4E            718             MOV     R7,#04EH
+                     719     ; send_char_com('N');
+                     720                             ; SOURCE LINE # 188
+                     721     ; send_char_com('N');
+                     722                             ; SOURCE LINE # 189
+002C 1100     F      723             ACALL   L?0100
+                     724     ; SetTF = 0;
+                     725                             ; SOURCE LINE # 190
+002E C200     F      726             CLR     SetTF
+                     727     ; 
+                     728     ; inbuf2[0]=0x00;
+                     729                             ; SOURCE LINE # 192
+0030 750000   F      730             MOV     inbuf2,#00H
+                     731     ; 
+                     732     ; } 
+                     733                             ; SOURCE LINE # 194
+0033                 734     ?C0019:
+                     735     ; 
+                     736     ; if (inbuf2[0]==0x34){
+                     737                             ; SOURCE LINE # 196
+0033 E500     F      738             MOV     A,inbuf2
+0035 B43408          739             CJNE    A,#034H,?C0020
+                     740     ;          KeyV=2;
+                     741                             ; SOURCE LINE # 197
+0038 750002   F      742             MOV     KeyV,#02H
+                     743     ; //send_string_com(inbuf2,1);
+                     744     ; //BEEP=0;
+                     745     ; //RELAY=0;
+                     746     ;   TMSetV = TMSetV - 1;
+                     747                             ; SOURCE LINE # 201
+003B 1526            748             DEC     TMSetV
+                     749     ;     inbuf2[0]=0x00;
+                     750                             ; SOURCE LINE # 202
+003D 750000   F      751             MOV     inbuf2,#00H
+                     752     ; } 
+                     753                             ; SOURCE LINE # 203
+0040                 754     ?C0020:
+                     755     ; 
+                     756     ; if (inbuf2[0]==0x35){
+                     757                             ; SOURCE LINE # 205
+0040 E500     F      758             MOV     A,inbuf2
+0042 B43505          759             CJNE    A,#035H,?C0021
+                     760     ; 
+                     761     ; //send_string_com(inbuf2,1);
+                     762     ; //BEEP=1;
+                     763     ; //RELAY=1;
+                     764     ;  TMSetV = TMSetV + 1;    //ÉÏµ÷ÎÂ¶È
+                     765                             ; SOURCE LINE # 210
+0045 0526            766             INC     TMSetV
+                     767     ;  inbuf2[0]=0x00;
+                     768                             ; SOURCE LINE # 211
+0047 750000   F      769             MOV     inbuf2,#00H
+                     770     ; } 
+                     771                             ; SOURCE LINE # 212
+004A                 772     ?C0021:
+                     773     ; 
+                     774     ; if (inbuf2[0]==0x74){
+                     775                             ; SOURCE LINE # 214
+004A E500     F      776             MOV     A,inbuf2
+004C B47403          777             CJNE    A,#074H,?C0022
+                     778     ;        KeyV=2;
+                     779                             ; SOURCE LINE # 215
+004F 750002   F      780             MOV     KeyV,#02H
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    13
+
+                     781     ; //send_string_com(inbuf2,1);
+                     782     ; //BEEP=1;
+                     783     ; //RELAY=1;
+                     784     ; } 
+                     785                             ; SOURCE LINE # 219
+0052                 786     ?C0022:
+                     787     ; 
+                     788     ; if (inbuf2[0]==0x90){
+                     789                             ; SOURCE LINE # 221
+0052 E500     F      790             MOV     A,inbuf2
+0054 B49003          791             CJNE    A,#090H,?C0023
+                     792     ;        KeyV=1;
+                     793                             ; SOURCE LINE # 222
+0057 750001   F      794             MOV     KeyV,#01H
+                     795     ; //send_string_com(inbuf2,1);
+                     796     ; //BEEP=1;
+                     797     ; //RELAY=1;
+                     798     ; } 
+                     799                             ; SOURCE LINE # 226
+005A                 800     ?C0023:
+                     801     ; 
+                     802     ; 
+                     803     ;   if (!Key_UP)
+                     804                             ; SOURCE LINE # 229
+005A 209403          805             JB      P1_4,?C0024
+                     806     ;     KeyV = 1;
+                     807                             ; SOURCE LINE # 230
+005D 750001   F      808             MOV     KeyV,#01H
+0060                 809     ?C0024:
+                     810     ;   if (!Key_DOWN)
+                     811                             ; SOURCE LINE # 231
+0060 209503          812             JB      P1_5,?C0025
+                     813     ;     KeyV = 2;
+                     814                             ; SOURCE LINE # 232
+0063 750002   F      815             MOV     KeyV,#02H
+0066                 816     ?C0025:
+                     817     ;   if (!Key_SET)
+                     818                             ; SOURCE LINE # 233
+0066 209603          819             JB      P1_6,?C0026
+                     820     ;     KeyV = 3;
+                     821                             ; SOURCE LINE # 234
+0069 750003   F      822             MOV     KeyV,#03H
+006C                 823     ?C0026:
+                     824     ;       //KeySETDowning = 0;  //Çå³
+                     825     ;   if (KeyV != 0)      //ÓÐ¼ü°´ÏÂ
+                     826                             ; SOURCE LINE # 236
+006C E500     F      827             MOV     A,KeyV
+006E 7002            828             JNZ     $ + 4H
+0070 0100     F      829             AJMP    ?C0027
+                     830     ;     {
+                     831                             ; SOURCE LINE # 237
+                     832     ;       Delay_10ms();   //ÑÓÊ±·À¶¶  °´ÏÂ10msÔÙ²â
+                     833                             ; SOURCE LINE # 238
+0072 1100     F      834             ACALL   Delay_10ms
+                     835     ;       if (!Key_UP)
+                     836                             ; SOURCE LINE # 239
+0074 209403          837             JB      P1_4,?C0028
+                     838     ;         TempKeyV = 1;
+                     839                             ; SOURCE LINE # 240
+0077 750001   F      840             MOV     TempKeyV,#01H
+007A                 841     ?C0028:
+                     842     ;       if (!Key_DOWN)
+                     843                             ; SOURCE LINE # 241
+007A 209503          844             JB      P1_5,?C0029
+                     845     ;         TempKeyV = 2;
+                     846                             ; SOURCE LINE # 242
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    14
+
+007D 750002   F      847             MOV     TempKeyV,#02H
+0080                 848     ?C0029:
+                     849     ;       if (!Key_SET)
+                     850                             ; SOURCE LINE # 243
+0080 209603          851             JB      P1_6,?C0030
+                     852     ;         TempKeyV = 3;
+                     853                             ; SOURCE LINE # 244
+0083 750003   F      854             MOV     TempKeyV,#03H
+0086                 855     ?C0030:
+                     856     ;       if (KeyV == TempKeyV)   //Á½´ÎÖµÏàµÈÎªÈ·¶¨½ÓÏÂÁË¼ü
+                     857                             ; SOURCE LINE # 245
+0086 E500     F      858             MOV     A,KeyV
+0088 6500     F      859             XRL     A,TempKeyV
+008A 706E            860             JNZ     ?C0027
+                     861     ;         {
+                     862                             ; SOURCE LINE # 246
+                     863     ;           if (KeyV == 3)      //°´ÏÂSET¼ü£¬ÈçÔÚSET×´Ì¬¾ÍÍË³ö£¬·ñÔò½øÈë
+                     864                             ; SOURCE LINE # 247
+008C E500     F      865             MOV     A,KeyV
+008E 6403            866             XRL     A,#03H
+0090 7030            867             JNZ     ?C0032
+                     868     ;             {
+                     869                             ; SOURCE LINE # 248
+                     870     ;                                                       //KeySETDowning = 1; //±íÃ÷SETÕÔÚ°´
+                             ÏÂ
+                     871     ;                                                       
+                     872     ;                       
+                     873     ;               PowTF = 0;      //µçÔ´±êÊ¶¿ª
+                     874                             ; SOURCE LINE # 252
+0092 C200     F      875             CLR     PowTF
+                     876     ;                                                       if (!KeyTF)
+                     877                             ; SOURCE LINE # 253
+0094 200022   F      878             JB      KeyTF,?C0033
+                     879     ;                       if (SetTF){
+                     880                             ; SOURCE LINE # 254
+0097 30001A   F      881             JNB     SetTF,?C0034
+                     882     ;                               send_char_com('N');
+                     883                             ; SOURCE LINE # 255
+009A 7F4E            884             MOV     R7,#04EH
+                     885     ; send_char_com('N');
+                     886                             ; SOURCE LINE # 256
+                     887     ; send_char_com('N');
+                     888                             ; SOURCE LINE # 257
+009C 1100     F      889             ACALL   L?0100
+                     890     ;                               SetTF = 0;    //±êÊ¶Î»±êÊ¶ÍË³öÉè¶¨
+                     891                             ; SOURCE LINE # 258
+009E C200     F      892             CLR     SetTF
+                     893     ;                                               
+                     894     ;                                                                               InitDS1820(
+                             ); //³õÊ¼»¯
+                     895                             ; SOURCE LINE # 260
+00A0 1100     F      896             ACALL   InitDS1820
+                     897     ;                                                                       ROMDS1820();    //Ì
+                             ø¹ROM
+                     898                             ; SOURCE LINE # 261
+00A2 1100     F      899             ACALL   ROMDS1820
+                     900     ;                                                                       TMWDS1820();    //Ð
+                             ´ÎÂ¶ÈÉÏÏÞÖ¸Áî
+                     901                             ; SOURCE LINE # 262
+00A4 1100     F      902             ACALL   TMWDS1820
+                     903     ;                                                                               WriteDS1820
+                             ();  //Ð´ÎÂ¶ÈÉÏÏÞµ½DS18B20ROM
+                     904                             ; SOURCE LINE # 263
+00A6 1100     F      905             ACALL   WriteDS1820
+                     906     ;                                                                               WriteDS1820
+                             ();  //Ð´ÎÂ¶ÈÉÏÏÞµ½DS18B20ROM
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    15
+
+                     907                             ; SOURCE LINE # 264
+00A8 1100     F      908             ACALL   WriteDS1820
+                     909     ;                                                                               WriteDS1820
+                             ();  //Ð´ÎÂ¶ÈÉÏÏÞµ½DS18B20ROM
+                     910                             ; SOURCE LINE # 265
+00AA 1100     F      911             ACALL   WriteDS1820
+                     912     ;                                                                               InitDS1820(
+                             ); //³õÊ¼»¯
+                     913                             ; SOURCE LINE # 266
+00AC 1100     F      914             ACALL   InitDS1820
+                     915     ;                                                                       ROMDS1820();    //Ì
+                             ø¹ROM
+                     916                             ; SOURCE LINE # 267
+00AE 1100     F      917             ACALL   ROMDS1820
+                     918     ;                                                                       TMREDS1820();   //Î
+                             Â¶ÈÉÏÏÞÖµCOPY»ØE2PRAM
+                     919                             ; SOURCE LINE # 268
+00B0 1100     F      920             ACALL   TMREDS1820
+                     921     ;                                                                       }
+                     922                             ; SOURCE LINE # 269
+00B2 8005            923             SJMP    ?C0033
+00B4                 924     ?C0034:
+                     925     ;                       else {
+                     926                             ; SOURCE LINE # 270
+                     927     ;                               send_char_com('O');
+                     928                             ; SOURCE LINE # 271
+                     929     ;          send_char_com('O');
+                     930                             ; SOURCE LINE # 272
+                     931     ;          send_char_com('O');
+                     932                             ; SOURCE LINE # 273
+00B4 120000   F      933             LCALL   L?0099
+                     934     ;                       SetTF = 1;}
+                     935                             ; SOURCE LINE # 274
+00B7 D200     F      936             SETB    SetTF
+00B9                 937     ?C0033:
+                     938     ;                                        
+                     939     ;                                  
+                     940     ;               if (!KeySETDown) //Ã»ÓÐµÚÒ»´Î°´ÏÂSETÊ±£¬KeySETDown±êÊ¶ÖÃ1
+                     941                             ; SOURCE LINE # 277
+00B9 200004   F      942             JB      KeySETDown,?C0036
+                     943     ;                 KeySETDown = 1;
+                     944                             ; SOURCE LINE # 278
+00BC D200     F      945             SETB    KeySETDown
+00BE 8002            946             SJMP    ?C0032
+00C0                 947     ?C0036:
+                     948     ;               else
+                     949     ;                 KSDNum = KSDNum + 1;  //Ç°Ò»ÃëÄÚÓÐ°´¹SETÔò¿ªÊ¼¼ÆÊ
+                     950                             ; SOURCE LINE # 280
+00C0 0500     F      951             INC     KSDNum
+                     952     ;             }
+                     953                             ; SOURCE LINE # 281
+00C2                 954     ?C0032:
+                     955     ;           if (SetTF)  //ÔÚSET×´Ì¬ÏÂ
+                     956                             ; SOURCE LINE # 282
+00C2 30002C   F      957             JNB     SetTF,?C0038
+                     958     ;             {
+                     959                             ; SOURCE LINE # 283
+                     960     ;                        
+                     961     ;               if ((KeyV == 1) && (!KeyTF))
+                     962                             ; SOURCE LINE # 285
+00C5 E500     F      963             MOV     A,KeyV
+00C7 B40105          964             CJNE    A,#01H,?C0039
+00CA 200002   F      965             JB      KeyTF,?C0039
+                     966     ;                 TMSetV = TMSetV + 1;    //ÉÏµ÷ÎÂ¶È
+                     967                             ; SOURCE LINE # 286
+00CD 0526            968             INC     TMSetV
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    16
+
+00CF                 969     ?C0039:
+                     970     ;               if ((KeyV == 2) && (!KeyTF))
+                     971                             ; SOURCE LINE # 287
+00CF E500     F      972             MOV     A,KeyV
+00D1 B40205          973             CJNE    A,#02H,?C0040
+00D4 200002   F      974             JB      KeyTF,?C0040
+                     975     ;                 TMSetV = TMSetV - 1;    //ÏÂµ÷ÎÂ¶È
+                     976                             ; SOURCE LINE # 288
+00D7 1526            977             DEC     TMSetV
+00D9                 978     ?C0040:
+                     979     ;               if (TMSetV <= 20)          //ÏÞÖÆÎÂ¶ÈÉÏÏÂÏÞ
+                     980                             ; SOURCE LINE # 289
+00D9 D3              981             SETB    C
+00DA E526            982             MOV     A,TMSetV
+00DC 6480            983             XRL     A,#080H
+00DE 9494            984             SUBB    A,#094H
+00E0 5003            985             JNC     ?C0041
+                     986     ;                 TMSetV = 20;
+                     987                             ; SOURCE LINE # 290
+00E2 752614          988             MOV     TMSetV,#014H
+00E5                 989     ?C0041:
+                     990     ;               if (TMSetV >= 75)
+                     991                             ; SOURCE LINE # 291
+00E5 C3              992             CLR     C
+00E6 E526            993             MOV     A,TMSetV
+00E8 6480            994             XRL     A,#080H
+00EA 94CB            995             SUBB    A,#0CBH
+00EC 4003            996             JC      ?C0038
+                     997     ;                 TMSetV = 75;
+                     998                             ; SOURCE LINE # 292
+00EE 75264B          999             MOV     TMSetV,#04BH
+                    1000     ;             }
+                    1001                             ; SOURCE LINE # 293
+00F1                1002     ?C0038:
+                    1003     ;               if ((!KeyTF) && (IntNum3 == 0)) KeyTF = 1; //µ±¼üÅÌ´¦ÓÚ¿ÉÓÃÊ±£¬Ëø¶¨
+                    1004                             ; SOURCE LINE # 294
+00F1 200006   F     1005             JB      KeyTF,?C0027
+00F4 E500     F     1006             MOV     A,IntNum3
+00F6 7002           1007             JNZ     ?C0027
+00F8 D200     F     1008             SETB    KeyTF
+                    1009     ;         }
+                    1010                             ; SOURCE LINE # 295
+                    1011     ; 
+                    1012     ;      
+                    1013     ;     }
+                    1014                             ; SOURCE LINE # 298
+00FA                1015     ?C0027:
+                    1016     ;   KeyV = 0;
+                    1017                             ; SOURCE LINE # 299
+00FA 750000   F     1018             MOV     KeyV,#00H
+                    1019     ;   TempKeyV = 0;   //Çå¿Õ±äÁ¿×¼±¸ÏÂ´Î¼üÉ¨Ãè
+                    1020                             ; SOURCE LINE # 300
+00FD 750000   F     1021             MOV     TempKeyV,#00H
+                    1022     ; 
+                    1023     ;   if (!PowTF)
+                    1024                             ; SOURCE LINE # 302
+0100 20006E   F     1025             JB      PowTF,?C0053
+                    1026     ;     {
+                    1027                             ; SOURCE LINE # 303
+                    1028     ;       InitDS1820();   //³õÊ¼»¯
+                    1029                             ; SOURCE LINE # 304
+0103 1100     F     1030             ACALL   InitDS1820
+                    1031     ;       ROMDS1820();    //Ìø¹ROM
+                    1032                             ; SOURCE LINE # 305
+0105 1100     F     1033             ACALL   ROMDS1820
+                    1034     ;       TMVDS1820();  //ÎÂ¶È×ª»»Ö¸Áî
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    17
+
+                    1035                             ; SOURCE LINE # 306
+0107 1100     F     1036             ACALL   TMVDS1820
+                    1037     ; 
+                    1038     ;       Delay_510();
+                    1039                             ; SOURCE LINE # 308
+0109 1100     F     1040             ACALL   Delay_510
+                    1041     ;       Delay_510();  //ÑÓÊ±µÈ´×ª»»Íê³É
+                    1042                             ; SOURCE LINE # 309
+010B 1100     F     1043             ACALL   Delay_510
+                    1044     ; 
+                    1045     ;       InitDS1820(); //³õÊ¼»¯
+                    1046                             ; SOURCE LINE # 311
+010D 1100     F     1047             ACALL   InitDS1820
+                    1048     ;       ROMDS1820();    //Ìø¹ROM
+                    1049                             ; SOURCE LINE # 312
+010F 1100     F     1050             ACALL   ROMDS1820
+                    1051     ;       TMRDS1820();    //¶Á³öÎÂ¶ÈÖ¸Áî
+                    1052                             ; SOURCE LINE # 313
+0111 1100     F     1053             ACALL   TMRDS1820
+                    1054     ;       ReadDS1820(); //¶Á³öÎÂ¶ÈÖµ
+                    1055                             ; SOURCE LINE # 314
+0113 1100     F     1056             ACALL   ReadDS1820
+                    1057     ; 
+                    1058     ;       V2ToV();        //×ª»»ÏÔÊ¾Öµ
+                    1059                             ; SOURCE LINE # 316
+0115 1100     F     1060             ACALL   V2ToV
+                    1061     ;       if (TMV > TMSetV)   //¸ù¾Ý²É¼¯µ½µÄÎÂ¶ÈÖµ¿ØÖÆ¼ÌµçÆ÷
+                    1062                             ; SOURCE LINE # 317
+0117 D3             1063             SETB    C
+0118 E526           1064             MOV     A,TMSetV
+011A 6480           1065             XRL     A,#080H
+011C F8             1066             MOV     R0,A
+011D E500     F     1067             MOV     A,TMV
+011F 6480           1068             XRL     A,#080H
+0121 98             1069             SUBB    A,R0
+0122 4007           1070             JC      ?C0045
+                    1071     ;         {
+                    1072                             ; SOURCE LINE # 318
+                    1073     ;           RelayOutPort = 0;
+                    1074                             ; SOURCE LINE # 319
+0124 C2B7           1075             CLR     P3_7
+                    1076     ;                 flag=0;
+                    1077                             ; SOURCE LINE # 320
+0126 750000   F     1078             MOV     flag,#00H
+                    1079     ;                 }
+                    1080                             ; SOURCE LINE # 321
+0129 800A           1081             SJMP    ?C0046
+012B                1082     ?C0045:
+                    1083     ;       else
+                    1084     ;                   {
+                    1085                             ; SOURCE LINE # 323
+                    1086     ;           RelayOutPort = 1;
+                    1087                             ; SOURCE LINE # 324
+012B D2B7           1088             SETB    P3_7
+                    1089     ;                 DELPort=1; 
+                    1090                             ; SOURCE LINE # 325
+012D D2B6           1091             SETB    P3_6
+                    1092     ;                 Second=1;
+                    1093                             ; SOURCE LINE # 326
+012F 750001   F     1094             MOV     Second,#01H
+                    1095     ;                 flag=1;
+                    1096                             ; SOURCE LINE # 327
+0132 750001   F     1097             MOV     flag,#01H
+                    1098     ; 
+                    1099     ;               
+                    1100     ;                 }
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    18
+
+                    1101                             ; SOURCE LINE # 330
+0135                1102     ?C0046:
+                    1103     ; 
+                    1104     ;       if (SetTF) IntNum2 = IntNum2 + 1; //ÓÃÓÚÉÁË¸¼ÆÊ
+                    1105                             ; SOURCE LINE # 332
+0135 300002   F     1106             JNB     SetTF,?C0047
+0138 0500     F     1107             INC     IntNum2
+013A                1108     ?C0047:
+                    1109     ;       if (IntNum2 > 50 ) IntNum2 = 0;
+                    1110                             ; SOURCE LINE # 333
+013A E500     F     1111             MOV     A,IntNum2
+013C D3             1112             SETB    C
+013D 9432           1113             SUBB    A,#032H
+013F 4003           1114             JC      ?C0048
+0141 750000   F     1115             MOV     IntNum2,#00H
+0144                1116     ?C0048:
+                    1117     ;                       if (KeyTF) IntNum3 = IntNum3 + 1; //ÓÃÓÚ·ÀÖ¹°´¼üÁ¬°´
+                    1118                             ; SOURCE LINE # 334
+0144 300002   F     1119             JNB     KeyTF,?C0049
+0147 0500     F     1120             INC     IntNum3
+0149                1121     ?C0049:
+                    1122     ;                       if (IntNum3 > 25) 
+                    1123                             ; SOURCE LINE # 335
+0149 E500     F     1124             MOV     A,IntNum3
+014B D3             1125             SETB    C
+014C 9419           1126             SUBB    A,#019H
+014E 4005           1127             JC      ?C0050
+                    1128     ;                               {
+                    1129                             ; SOURCE LINE # 336
+                    1130     ;                                       IntNum3 = 0;
+                    1131                             ; SOURCE LINE # 337
+0150 750000   F     1132             MOV     IntNum3,#00H
+                    1133     ;                                       KeyTF = 0;
+                    1134                             ; SOURCE LINE # 338
+0153 C200     F     1135             CLR     KeyTF
+                    1136     ;                               }
+                    1137                             ; SOURCE LINE # 339
+0155                1138     ?C0050:
+                    1139     ; 
+                    1140     ;       if ((SetTF) && (IntNum2 < 25)) goto InitEnd;  //¼ÆÊÔÚºó°ë¶ÎÊ±ÏÔÊ¾
+                    1141                             ; SOURCE LINE # 341
+0155 300007   F     1142             JNB     SetTF,?C0051
+0158 E500     F     1143             MOV     A,IntNum2
+015A C3             1144             CLR     C
+015B 9419           1145             SUBB    A,#019H
+015D 4012           1146             JC      ?C0053
+015F                1147     ?C0051:
+                    1148     ;          
+                    1149     ;         LEDPort = LED_Two;
+                    1150                             ; SOURCE LINE # 343
+015F 850080   F     1151             MOV     P0,LED_Two
+                    1152     ;       LEDTwoC = 0;
+                    1153                             ; SOURCE LINE # 344
+0162 C2A6           1154             CLR     P2_6
+                    1155     ;       Delay_510();
+                    1156                             ; SOURCE LINE # 345
+0164 1100     F     1157             ACALL   Delay_510
+                    1158     ;       LEDTwoC = 1;    //ÏÔÊ¾Ê®Î»Ê
+                    1159                             ; SOURCE LINE # 346
+0166 D2A6           1160             SETB    P2_6
+                    1161     ;       LEDPort = LED_Three;
+                    1162                             ; SOURCE LINE # 347
+0168 850080   F     1163             MOV     P0,LED_Three
+                    1164     ;       LEDThreeC = 0;
+                    1165                             ; SOURCE LINE # 348
+016B C2A7           1166             CLR     P2_7
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    19
+
+                    1167     ;       Delay_510();
+                    1168                             ; SOURCE LINE # 349
+016D 1100     F     1169             ACALL   Delay_510
+                    1170     ;       LEDThreeC = 1;    //ÏÔÊ¾¸öÎ»Ê
+                    1171                             ; SOURCE LINE # 350
+016F D2A7           1172             SETB    P2_7
+                    1173     ;     }
+                    1174                             ; SOURCE LINE # 351
+                    1175     ; InitEnd:;
+                    1176                             ; SOURCE LINE # 352
+0171                1177     ?KeyAndDis_Time0?InitEnd:
+                    1178     ; }
+                    1179                             ; SOURCE LINE # 353
+0171                1180     ?C0053:
+0171 D0D0           1181             POP     PSW
+0173 D082           1182             POP     DPL
+0175 D083           1183             POP     DPH
+0177 D0F0           1184             POP     B
+0179 D0E0           1185             POP     ACC
+017B 32             1186             RETI    
+                    1187     ; END OF KeyAndDis_Time0
+                    1188     
+                    1189     ; 
+                    1190     ; void V2ToV(void)      //ÊÖµ×ª»»
+                    1191     
+----                1192             RSEG  ?PR?V2ToV?TCMAIN
+0000                1193     V2ToV:
+                    1194             USING   0
+                    1195                             ; SOURCE LINE # 355
+                    1196     ; {
+                    1197                             ; SOURCE LINE # 356
+                    1198     ;   TLV = TLV >> 4;                     
+                    1199                             ; SOURCE LINE # 357
+0000 E529           1200             MOV     A,TLV
+0002 C4             1201             SWAP    A
+0003 540F           1202             ANL     A,#0FH
+0005 F529           1203             MOV     TLV,A
+                    1204     ;   THV = THV << 4;                     //¶Á³öµÄ¸ßµÍÎ»ÊÖµÒÆÎ»
+                    1205                             ; SOURCE LINE # 358
+0007 E528           1206             MOV     A,THV
+0009 C4             1207             SWAP    A
+000A 54F0           1208             ANL     A,#0F0H
+000C F528           1209             MOV     THV,A
+                    1210     ;   TMV = TLV | THV;            //ºÏ²¢¸ßµÍÎ»·ÅÈëTMÎªÊµ¼ÊÎÂ¶ÈÖµ
+                    1211                             ; SOURCE LINE # 359
+000E 4529           1212             ORL     A,TLV
+0010 F500     F     1213             MOV     TMV,A
+                    1214     ;       Sign = 0;
+                    1215                             ; SOURCE LINE # 360
+0012 E4             1216             CLR     A
+0013 F500     F     1217             MOV     Sign,A
+                    1218     ;   if (SetTF || !Key_SET)
+                    1219                             ; SOURCE LINE # 361
+0015 200003   F     1220             JB      SetTF,?C0055
+0018 20960D         1221             JB      P1_6,?C0054
+001B                1222     ?C0055:
+                    1223     ;     Sign = TMSetV >> 7;          //È¡·ûºÅ
+                    1224                             ; SOURCE LINE # 362
+001B E526           1225             MOV     A,TMSetV
+001D 7807           1226             MOV     R0,#07H
+001F                1227     ?C0090:
+001F A2E7           1228             MOV     C,ACC.7
+0021 13             1229             RRC     A
+0022 D8FB           1230             DJNZ    R0,?C0090
+0024 F500     F     1231             MOV     Sign,A
+0026 800B           1232             SJMP    ?C0056
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    20
+
+0028                1233     ?C0054:
+                    1234     ;   else
+                    1235     ;      Sign = TMV >> 7;
+                    1236                             ; SOURCE LINE # 364
+0028 E500     F     1237             MOV     A,TMV
+002A 7807           1238             MOV     R0,#07H
+002C                1239     ?C0091:
+002C A2E7           1240             MOV     C,ACC.7
+002E 13             1241             RRC     A
+002F D8FB           1242             DJNZ    R0,?C0091
+0031 F500     F     1243             MOV     Sign,A
+0033                1244     ?C0056:
+                    1245     ; 
+                    1246     ;       if (Sign)
+                    1247                             ; SOURCE LINE # 366
+0033 E500     F     1248             MOV     A,Sign
+0035 7002           1249             JNZ     $ + 4H
+0037 0100     F     1250             AJMP    ?C0057
+                    1251     ;               {
+                    1252                             ; SOURCE LINE # 367
+                    1253     ;               if (SetTF || !Key_SET)
+                    1254                             ; SOURCE LINE # 368
+0039 200003   F     1255             JB      SetTF,?C0059
+003C 20966A         1256             JB      P1_6,?C0058
+003F                1257     ?C0059:
+                    1258     ;                               {
+                    1259                             ; SOURCE LINE # 369
+                    1260     ;                       LED_One = (~(TMSetV-1)) / 100;          //SET×´Ì¬ÏÂÏÔÊ¾Éè¶¨Öµ
+                    1261                             ; SOURCE LINE # 370
+003F E526           1262             MOV     A,TMSetV
+0041 14             1263             DEC     A
+0042 F4             1264             CPL     A
+0043 FB             1265             MOV     R3,A
+0044 75F064         1266             MOV     B,#064H
+0047 1100     F     1267             ACALL   ?C?SCDIV
+0049 F500     F     1268             MOV     LED_One,A
+                    1269     ;                       LED_Two = ((~(TMSetV-1)) - LED_One * 100)/10;
+                    1270                             ; SOURCE LINE # 371
+004B FF             1271             MOV     R7,A
+004C 33             1272             RLC     A
+004D 95E0           1273             SUBB    A,ACC
+004F FE             1274             MOV     R6,A
+0050 7C00           1275             MOV     R4,#00H
+0052 7D64           1276             MOV     R5,#064H
+0054 1100     F     1277             ACALL   ?C?IMUL
+0056 AD26           1278             MOV     R5,TMSetV
+0058 ED             1279             MOV     A,R5
+0059 33             1280             RLC     A
+005A 95E0           1281             SUBB    A,ACC
+005C FC             1282             MOV     R4,A
+005D ED             1283             MOV     A,R5
+005E 24FF           1284             ADD     A,#0FFH
+0060 FD             1285             MOV     R5,A
+0061 EC             1286             MOV     A,R4
+0062 34FF           1287             ADDC    A,#0FFH
+0064 FC             1288             MOV     R4,A
+0065 ED             1289             MOV     A,R5
+0066 F4             1290             CPL     A
+0067 FD             1291             MOV     R5,A
+0068 EC             1292             MOV     A,R4
+0069 F4             1293             CPL     A
+006A FC             1294             MOV     R4,A
+006B C3             1295             CLR     C
+006C ED             1296             MOV     A,R5
+006D 9F             1297             SUBB    A,R7
+006E FF             1298             MOV     R7,A
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    21
+
+006F EC             1299             MOV     A,R4
+0070 9E             1300             SUBB    A,R6
+0071 FE             1301             MOV     R6,A
+0072 7C00           1302             MOV     R4,#00H
+0074 7D0A           1303             MOV     R5,#0AH
+0076 1100     F     1304             ACALL   ?C?SIDIV
+0078 8F00     F     1305             MOV     LED_Two,R7
+                    1306     ;                           LED_Three = (~(TMSetV-1)) - LED_One * 100 - LED_Two * 10;
+                    1307                             ; SOURCE LINE # 372
+007A E500     F     1308             MOV     A,LED_One
+007C 75F064         1309             MOV     B,#064H
+007F A4             1310             MUL     AB
+0080 FF             1311             MOV     R7,A
+0081 C3             1312             CLR     C
+0082 EB             1313             MOV     A,R3
+0083 9F             1314             SUBB    A,R7
+0084 FF             1315             MOV     R7,A
+0085 E500     F     1316             MOV     A,LED_Two
+0087 75F00A         1317             MOV     B,#0AH
+008A A4             1318             MUL     AB
+008B FE             1319             MOV     R6,A
+008C C3             1320             CLR     C
+008D EF             1321             MOV     A,R7
+008E 9E             1322             SUBB    A,R6
+008F F500     F     1323             MOV     LED_Three,A
+                    1324     ;                               inbuf1[0]=dis_8[LED_Two];
+                    1325                             ; SOURCE LINE # 373
+0091 7400     F     1326             MOV     A,#LOW (dis_8)
+0093 2500     F     1327             ADD     A,LED_Two
+0095 F8             1328             MOV     R0,A
+0096 E6             1329             MOV     A,@R0
+0097 F500     F     1330             MOV     inbuf1,A
+                    1331     ;   inbuf1[1]=dis_8[LED_Three];
+                    1332                             ; SOURCE LINE # 374
+0099 7400     F     1333             MOV     A,#LOW (dis_8)
+009B 2500     F     1334             ADD     A,LED_Three
+009D F8             1335             MOV     R0,A
+009E E6             1336             MOV     A,@R0
+009F F500     F     1337             MOV     inbuf1+01H,A
+                    1338     ;   //inbuf1[2]=dis_8[ LED_Three];
+                    1339     ;   inbuf1[2]=0x0d;
+                    1340                             ; SOURCE LINE # 376
+00A1 75000D   F     1341             MOV     inbuf1+02H,#0DH
+                    1342     ;   inbuf1[3]=0x0a;
+                    1343                             ; SOURCE LINE # 377
+00A4 75000A   F     1344             MOV     inbuf1+03H,#0AH
+                    1345     ;                               }
+                    1346                             ; SOURCE LINE # 378
+00A7 0100     F     1347             AJMP    ?C0061
+00A9                1348     ?C0058:
+                    1349     ;               else
+                    1350     ;                               {
+                    1351                             ; SOURCE LINE # 380
+                    1352     ;                       LED_One = (~(TMV-1)) / 100;                                        
+                                          //×ª»»°ÙÎ»Öµ            
+                    1353                             ; SOURCE LINE # 381
+00A9 E500     F     1354             MOV     A,TMV
+00AB 14             1355             DEC     A
+00AC F4             1356             CPL     A
+00AD FB             1357             MOV     R3,A
+00AE 75F064         1358             MOV     B,#064H
+00B1 1100     F     1359             ACALL   ?C?SCDIV
+00B3 F500     F     1360             MOV     LED_One,A
+                    1361     ;                       LED_Two = ((~(TMV-1)) - LED_One * 100)/10;
+                    1362                             ; SOURCE LINE # 382
+00B5 FF             1363             MOV     R7,A
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    22
+
+00B6 33             1364             RLC     A
+00B7 95E0           1365             SUBB    A,ACC
+00B9 FE             1366             MOV     R6,A
+00BA 7C00           1367             MOV     R4,#00H
+00BC 7D64           1368             MOV     R5,#064H
+00BE 1100     F     1369             ACALL   ?C?IMUL
+00C0 AD00     F     1370             MOV     R5,TMV
+00C2 ED             1371             MOV     A,R5
+00C3 33             1372             RLC     A
+00C4 95E0           1373             SUBB    A,ACC
+00C6 FC             1374             MOV     R4,A
+00C7 ED             1375             MOV     A,R5
+00C8 24FF           1376             ADD     A,#0FFH
+00CA FD             1377             MOV     R5,A
+00CB EC             1378             MOV     A,R4
+00CC 34FF           1379             ADDC    A,#0FFH
+00CE FC             1380             MOV     R4,A
+00CF ED             1381             MOV     A,R5
+00D0 F4             1382             CPL     A
+00D1 FD             1383             MOV     R5,A
+00D2 EC             1384             MOV     A,R4
+00D3 F4             1385             CPL     A
+00D4 FC             1386             MOV     R4,A
+00D5 C3             1387             CLR     C
+00D6 ED             1388             MOV     A,R5
+00D7 9F             1389             SUBB    A,R7
+00D8 FF             1390             MOV     R7,A
+00D9 EC             1391             MOV     A,R4
+00DA 9E             1392             SUBB    A,R6
+00DB FE             1393             MOV     R6,A
+00DC 7C00           1394             MOV     R4,#00H
+00DE 7D0A           1395             MOV     R5,#0AH
+00E0 1100     F     1396             ACALL   ?C?SIDIV
+00E2 8F00     F     1397             MOV     LED_Two,R7
+                    1398     ;                           LED_Three = (~(TMV-1)) - LED_One * 100 - LED_Two * 10;
+                    1399                             ; SOURCE LINE # 383
+00E4 E500     F     1400             MOV     A,LED_One
+00E6 75F064         1401             MOV     B,#064H
+00E9 A4             1402             MUL     AB
+00EA FF             1403             MOV     R7,A
+00EB C3             1404             CLR     C
+00EC EB             1405             MOV     A,R3
+                    1406     ;                                       inbuf1[0]=dis_8[LED_Two];
+                    1407                             ; SOURCE LINE # 384
+                    1408     ;   inbuf1[1]=dis_8[LED_Three];
+                    1409                             ; SOURCE LINE # 385
+                    1410     ;  inbuf1[2]=dis_8[0];
+                    1411                             ; SOURCE LINE # 386
+                    1412     ;   inbuf1[3]=0x0d;
+                    1413                             ; SOURCE LINE # 387
+                    1414     ;   inbuf1[4]=0x0a;
+                    1415                             ; SOURCE LINE # 388
+                    1416     ;                               }
+                    1417                             ; SOURCE LINE # 389
+                    1418     ;               }
+                    1419                             ; SOURCE LINE # 390
+00ED 8070           1420             SJMP    ?C0094
+00EF                1421     ?C0057:
+                    1422     ;       else
+                    1423     ;               { 
+                    1424                             ; SOURCE LINE # 392
+                    1425     ;               if (SetTF || !Key_SET)
+                    1426                             ; SOURCE LINE # 393
+00EF 200003   F     1427             JB      SetTF,?C0063
+00F2 209636         1428             JB      P1_6,?C0062
+00F5                1429     ?C0063:
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    23
+
+                    1430     ;                               {
+                    1431                             ; SOURCE LINE # 394
+                    1432     ;                       LED_One = (TMSetV) / 100;          //SET×´Ì¬ÏÂÏÔÊ¾Éè¶¨Öµ
+                    1433                             ; SOURCE LINE # 395
+00F5 E526           1434             MOV     A,TMSetV
+00F7 75F064         1435             MOV     B,#064H
+00FA 1100     F     1436             ACALL   ?C?SCDIV
+00FC F500     F     1437             MOV     LED_One,A
+                    1438     ;                       LED_Two = (TMSetV - LED_One * 100)/10;
+                    1439                             ; SOURCE LINE # 396
+00FE FF             1440             MOV     R7,A
+00FF 33             1441             RLC     A
+0100 95E0           1442             SUBB    A,ACC
+0102 FE             1443             MOV     R6,A
+0103 7C00           1444             MOV     R4,#00H
+0105 7D64           1445             MOV     R5,#064H
+0107 1100     F     1446             ACALL   ?C?IMUL
+0109 AD26           1447             MOV     R5,TMSetV
+010B ED             1448             MOV     A,R5
+010C 33             1449             RLC     A
+010D 95E0           1450             SUBB    A,ACC
+010F FC             1451             MOV     R4,A
+0110 C3             1452             CLR     C
+0111 ED             1453             MOV     A,R5
+0112 9F             1454             SUBB    A,R7
+0113 FF             1455             MOV     R7,A
+0114 EC             1456             MOV     A,R4
+0115 9E             1457             SUBB    A,R6
+0116 FE             1458             MOV     R6,A
+0117 7C00           1459             MOV     R4,#00H
+0119 7D0A           1460             MOV     R5,#0AH
+011B 1100     F     1461             ACALL   ?C?SIDIV
+011D 8F00     F     1462             MOV     LED_Two,R7
+                    1463     ;                           LED_Three = TMSetV - LED_One * 100 - LED_Two * 10;
+                    1464                             ; SOURCE LINE # 397
+011F E500     F     1465             MOV     A,LED_One
+0121 75F064         1466             MOV     B,#064H
+0124 A4             1467             MUL     AB
+0125 FF             1468             MOV     R7,A
+0126 C3             1469             CLR     C
+0127 E526           1470             MOV     A,TMSetV
+0129                1471     ?C0093:
+                    1472     ;                                       inbuf1[0]=dis_8[LED_Two];
+                    1473                             ; SOURCE LINE # 398
+                    1474     ;   inbuf1[1]=dis_8[LED_Three];
+                    1475                             ; SOURCE LINE # 399
+                    1476     ;  inbuf1[2]=dis_8[0];
+                    1477                             ; SOURCE LINE # 400
+                    1478     ;   inbuf1[3]=0x0d;
+                    1479                             ; SOURCE LINE # 401
+                    1480     ;   inbuf1[4]=0x0a;
+                    1481                             ; SOURCE LINE # 402
+                    1482     ;                               }
+                    1483                             ; SOURCE LINE # 403
+0129 8034           1484             SJMP    ?C0094
+012B                1485     ?C0062:
+                    1486     ;               else
+                    1487     ;                               {
+                    1488                             ; SOURCE LINE # 405
+                    1489     ;                       LED_One = (TMV) / 100;                                             
+                                  //×ª»»°ÙÎ»Öµ            
+                    1490                             ; SOURCE LINE # 406
+012B E500     F     1491             MOV     A,TMV
+012D 75F064         1492             MOV     B,#064H
+0130 1100     F     1493             ACALL   ?C?SCDIV
+0132 F500     F     1494             MOV     LED_One,A
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    24
+
+                    1495     ;                       LED_Two = (TMV - LED_One * 100)/10;
+                    1496                             ; SOURCE LINE # 407
+0134 FF             1497             MOV     R7,A
+0135 33             1498             RLC     A
+0136 95E0           1499             SUBB    A,ACC
+0138 FE             1500             MOV     R6,A
+0139 7C00           1501             MOV     R4,#00H
+013B 7D64           1502             MOV     R5,#064H
+013D 1100     F     1503             ACALL   ?C?IMUL
+013F AD00     F     1504             MOV     R5,TMV
+0141 ED             1505             MOV     A,R5
+0142 33             1506             RLC     A
+0143 95E0           1507             SUBB    A,ACC
+0145 FC             1508             MOV     R4,A
+0146 C3             1509             CLR     C
+0147 ED             1510             MOV     A,R5
+0148 9F             1511             SUBB    A,R7
+0149 FF             1512             MOV     R7,A
+014A EC             1513             MOV     A,R4
+014B 9E             1514             SUBB    A,R6
+014C FE             1515             MOV     R6,A
+014D 7C00           1516             MOV     R4,#00H
+014F 7D0A           1517             MOV     R5,#0AH
+0151 1100     F     1518             ACALL   ?C?SIDIV
+0153 8F00     F     1519             MOV     LED_Two,R7
+                    1520     ;                           LED_Three = TMV - LED_One * 100 - LED_Two * 10;
+                    1521                             ; SOURCE LINE # 408
+0155 E500     F     1522             MOV     A,LED_One
+0157 75F064         1523             MOV     B,#064H
+015A A4             1524             MUL     AB
+015B FF             1525             MOV     R7,A
+015C C3             1526             CLR     C
+015D E500     F     1527             MOV     A,TMV
+015F                1528     ?C0094:
+015F 9F             1529             SUBB    A,R7
+0160 FF             1530             MOV     R7,A
+0161 E500     F     1531             MOV     A,LED_Two
+0163 75F00A         1532             MOV     B,#0AH
+0166 A4             1533             MUL     AB
+0167 FE             1534             MOV     R6,A
+0168 C3             1535             CLR     C
+0169 EF             1536             MOV     A,R7
+016A 9E             1537             SUBB    A,R6
+016B F500     F     1538             MOV     LED_Three,A
+                    1539     ;                                       inbuf1[0]=dis_8[LED_Two];
+                    1540                             ; SOURCE LINE # 409
+016D 7400     F     1541             MOV     A,#LOW (dis_8)
+016F 2500     F     1542             ADD     A,LED_Two
+0171 F8             1543             MOV     R0,A
+0172 E6             1544             MOV     A,@R0
+0173 F500     F     1545             MOV     inbuf1,A
+                    1546     ;   inbuf1[1]=dis_8[LED_Three];
+                    1547                             ; SOURCE LINE # 410
+0175 7400     F     1548             MOV     A,#LOW (dis_8)
+0177 2500     F     1549             ADD     A,LED_Three
+0179 F8             1550             MOV     R0,A
+017A E6             1551             MOV     A,@R0
+017B F500     F     1552             MOV     inbuf1+01H,A
+                    1553     ;  inbuf1[2]=dis_8[0];
+                    1554                             ; SOURCE LINE # 411
+017D 850000   F     1555             MOV     inbuf1+02H,dis_8
+                    1556     ;   inbuf1[3]=0x0d;
+                    1557                             ; SOURCE LINE # 412
+0180 75000D   F     1558             MOV     inbuf1+03H,#0DH
+                    1559     ;   inbuf1[4]=0x0a;
+                    1560                             ; SOURCE LINE # 413
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    25
+
+0183 75000A   F     1561             MOV     inbuf1+04H,#0AH
+                    1562     ;                               }
+                    1563                             ; SOURCE LINE # 414
+                    1564     ;               }
+                    1565                             ; SOURCE LINE # 415
+0186                1566     ?C0061:
+                    1567     ; 
+                    1568     ;    init_serialcomm(); //³õÊ¼»¯´®¿Ú
+                    1569                             ; SOURCE LINE # 417
+0186 1100     F     1570             ACALL   init_serialcomm
+                    1571     ; 
+                    1572     ; //while ( 1 )
+                    1573     ; //{
+                    1574     ; send_string_com(inbuf1,INBUF_LEN);
+                    1575                             ; SOURCE LINE # 421
+0188 7B00           1576             MOV     R3,#00H
+018A 7A00     F     1577             MOV     R2,#HIGH (inbuf1)
+018C 7900     F     1578             MOV     R1,#LOW (inbuf1)
+018E 7D05           1579             MOV     R5,#05H
+0190 7C00           1580             MOV     R4,#00H
+0192 1100     F     1581             ACALL   _send_string_com
+                    1582     ; 
+                    1583     ;  //×ªLED×Ö¶Î  
+                    1584     ;       if (LED_One) //³¬¹°ÙÊ±Ê®Î»µÄ´¦Àí
+                    1585                             ; SOURCE LINE # 424
+0194 E500     F     1586             MOV     A,LED_One
+0196 6002           1587             JZ      ?C0065
+                    1588     ;               LED_Two = LEDDis[LED_Two];              
+                    1589                             ; SOURCE LINE # 425
+0198 8009           1590             SJMP    ?C0095
+019A                1591     ?C0065:
+                    1592     ;       else
+                    1593     ;               {
+                    1594                             ; SOURCE LINE # 427
+                    1595     ;                       if (LED_Two == 0)
+                    1596                             ; SOURCE LINE # 428
+019A E500     F     1597             MOV     A,LED_Two
+019C 7005           1598             JNZ     ?C0067
+                    1599     ;                               LED_Two = LEDDis[10];
+                    1600                             ; SOURCE LINE # 429
+019E 900000   F     1601             MOV     DPTR,#LEDDis+0AH
+01A1 8012           1602             SJMP    ?C0096
+01A3                1603     ?C0067:
+                    1604     ;                       else
+                    1605     ;                               LED_Two = LEDDis[LED_Two];
+                    1606                             ; SOURCE LINE # 431
+01A3                1607     ?C0095:
+01A3 AF00     F     1608             MOV     R7,LED_Two
+01A5 EF             1609             MOV     A,R7
+01A6 33             1610             RLC     A
+01A7 95E0           1611             SUBB    A,ACC
+01A9 FE             1612             MOV     R6,A
+01AA 7400     F     1613             MOV     A,#LOW (LEDDis)
+01AC 2F             1614             ADD     A,R7
+01AD F582           1615             MOV     DPL,A
+01AF 7400     F     1616             MOV     A,#HIGH (LEDDis)
+01B1 3E             1617             ADDC    A,R6
+01B2 F583           1618             MOV     DPH,A
+01B4 E4             1619             CLR     A
+01B5                1620     ?C0096:
+01B5 93             1621             MOVC    A,@A+DPTR
+01B6 F500     F     1622             MOV     LED_Two,A
+                    1623     ;               }
+                    1624                             ; SOURCE LINE # 432
+01B8                1625     ?C0066:
+                    1626     ;       if (Sign)
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    26
+
+                    1627                             ; SOURCE LINE # 433
+01B8 E500     F     1628             MOV     A,Sign
+01BA 6005           1629             JZ      ?C0069
+                    1630     ;               LED_One = LEDDis[11];
+                    1631                             ; SOURCE LINE # 434
+01BC 900000   F     1632             MOV     DPTR,#LEDDis+0BH
+01BF 801A           1633             SJMP    ?C0097
+01C1                1634     ?C0069:
+                    1635     ;       else
+                    1636     ;               {
+                    1637                             ; SOURCE LINE # 436
+                    1638     ;                       if (LED_One == 0)
+                    1639                             ; SOURCE LINE # 437
+01C1 E500     F     1640             MOV     A,LED_One
+01C3 7005           1641             JNZ     ?C0071
+                    1642     ;                               LED_One = LEDDis[10];
+                    1643                             ; SOURCE LINE # 438
+01C5 900000   F     1644             MOV     DPTR,#LEDDis+0AH
+01C8 8012           1645             SJMP    ?C0098
+01CA                1646     ?C0071:
+                    1647     ;                       else
+                    1648     ;                               LED_One = LEDDis[LED_One];
+                    1649                             ; SOURCE LINE # 440
+01CA AF00     F     1650             MOV     R7,LED_One
+01CC EF             1651             MOV     A,R7
+01CD 33             1652             RLC     A
+01CE 95E0           1653             SUBB    A,ACC
+01D0 FE             1654             MOV     R6,A
+01D1 7400     F     1655             MOV     A,#LOW (LEDDis)
+01D3 2F             1656             ADD     A,R7
+01D4 F582           1657             MOV     DPL,A
+01D6 7400     F     1658             MOV     A,#HIGH (LEDDis)
+01D8 3E             1659             ADDC    A,R6
+01D9 F583           1660             MOV     DPH,A
+01DB                1661     ?C0097:
+01DB E4             1662             CLR     A
+01DC                1663     ?C0098:
+01DC 93             1664             MOVC    A,@A+DPTR
+01DD F500     F     1665             MOV     LED_One,A
+                    1666     ;               }
+                    1667                             ; SOURCE LINE # 441
+01DF                1668     ?C0070:
+                    1669     ;       LED_Three = LEDDis[LED_Three];
+                    1670                             ; SOURCE LINE # 442
+01DF AF00     F     1671             MOV     R7,LED_Three
+01E1 EF             1672             MOV     A,R7
+01E2 33             1673             RLC     A
+01E3 95E0           1674             SUBB    A,ACC
+01E5 FE             1675             MOV     R6,A
+01E6 7400     F     1676             MOV     A,#LOW (LEDDis)
+01E8 2F             1677             ADD     A,R7
+01E9 F582           1678             MOV     DPL,A
+01EB 7400     F     1679             MOV     A,#HIGH (LEDDis)
+01ED 3E             1680             ADDC    A,R6
+01EE F583           1681             MOV     DPH,A
+01F0 E4             1682             CLR     A
+01F1 93             1683             MOVC    A,@A+DPTR
+01F2 F500     F     1684             MOV     LED_Three,A
+                    1685     ; }
+                    1686                             ; SOURCE LINE # 443
+01F4 22             1687             RET     
+                    1688     ; END OF V2ToV
+                    1689     
+                    1690     ; 
+                    1691     ; void InitDS1820(void)         //³õÊ¼»¯DS1820
+                    1692     
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    27
+
+----                1693             RSEG  ?PR?InitDS1820?TCMAIN
+0000                1694     InitDS1820:
+                    1695             USING   0
+                    1696                             ; SOURCE LINE # 445
+                    1697     ; {
+                    1698                             ; SOURCE LINE # 446
+                    1699     ;       TMPort = 1;             //À­¸ßTMPort
+                    1700                             ; SOURCE LINE # 447
+0000 D2B3           1701             SETB    P3_3
+                    1702     ;       _nop_();      //±£³ÖÒ»¸öÖÜÆÚ
+                    1703                             ; SOURCE LINE # 448
+0002 00             1704             NOP     
+                    1705     ;       TMPort = 0;             //À­µÍTMPort
+                    1706                             ; SOURCE LINE # 449
+0003 C2B3           1707             CLR     P3_3
+                    1708     ;   Delay_510();  //ÑÓÊ±  DS1820¸´Î»Ê±¼äÒª500usµÄµÍµçÆ½
+                    1709                             ; SOURCE LINE # 450
+0005 1100     F     1710             ACALL   Delay_510
+                    1711     ;   TMPort = 1;   //À­¸ßTMPort
+                    1712                             ; SOURCE LINE # 451
+0007 D2B3           1713             SETB    P3_3
+                    1714     ;       _nop_();      //±£³Ö  
+                    1715                             ; SOURCE LINE # 452
+0009 00             1716             NOP     
+                    1717     ;       _nop_();
+                    1718                             ; SOURCE LINE # 453
+000A 00             1719             NOP     
+                    1720     ;       _nop_();
+                    1721                             ; SOURCE LINE # 454
+000B 00             1722             NOP     
+                    1723     ; 
+                    1724     ;   Delay_110();  //ÑÓÊ±110us µÈ´DS1820»ØÓ¦
+                    1725                             ; SOURCE LINE # 456
+000C 1100     F     1726             ACALL   Delay_110
+                    1727     ;   if (!TMPort)  //»ØÓ¦ÐÅºÅÎªµÍµçÆ½
+                    1728                             ; SOURCE LINE # 457
+000E 20B304         1729             JB      P3_3,?C0074
+                    1730     ;     DS1820ON = 1;
+                    1731                             ; SOURCE LINE # 458
+0011 D200     F     1732             SETB    DS1820ON
+0013 8002           1733             SJMP    ?C0075
+0015                1734     ?C0074:
+                    1735     ;   else
+                    1736     ;     DS1820ON = 0;
+                    1737                             ; SOURCE LINE # 460
+0015 C200     F     1738             CLR     DS1820ON
+0017                1739     ?C0075:
+                    1740     ;   Delay_110();  //ÑÓÊ±
+                    1741                             ; SOURCE LINE # 461
+0017 1100     F     1742             ACALL   Delay_110
+                    1743     ;   Delay_110();
+                    1744                             ; SOURCE LINE # 462
+0019 1100     F     1745             ACALL   Delay_110
+                    1746     ;   TMPort = 1;   //À­¸ßTMPort
+                    1747                             ; SOURCE LINE # 463
+001B D2B3           1748             SETB    P3_3
+                    1749     ; }
+                    1750                             ; SOURCE LINE # 464
+001D 22             1751             RET     
+                    1752     ; END OF InitDS1820
+                    1753     
+                    1754     ; 
+                    1755     ; void ROMDS1820(void)  //Ìø¹ROMÆ¥Åä
+                    1756     
+----                1757             RSEG  ?PR?ROMDS1820?TCMAIN
+0000                1758     ROMDS1820:
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    28
+
+                    1759             USING   0
+                    1760                             ; SOURCE LINE # 466
+                    1761     ; {
+                    1762                             ; SOURCE LINE # 467
+                    1763     ; #pragma asm
+                    1764     ;   MOV A,#0CCH
+0000 74CC           1765               MOV A,#0CCH
+                    1766     ;   MOV R2,#8
+0002 7A08           1767               MOV R2,#8
+                    1768     ;   CLR C
+0004 C3             1769               CLR C
+                    1770     ;   WR1:
+0005                1771               WR1:
+                    1772     ;   CLR P3_3
+0005 C2B3           1773               CLR P3_3
+                    1774     ;   MOV R3,#6
+0007 7B06           1775               MOV R3,#6
+                    1776     ;   DJNZ R3,$
+0009 DBFE           1777               DJNZ R3,$
+                    1778     ;   RRC A
+000B 13             1779               RRC A
+                    1780     ;   MOV P3_3,C
+000C 92B3           1781               MOV P3_3,C
+                    1782     ;   MOV R3,#23
+000E 7B17           1783               MOV R3,#23
+                    1784     ;   DJNZ R3,$
+0010 DBFE           1785               DJNZ R3,$
+                    1786     ;   SETB P3_3
+0012 D2B3           1787               SETB P3_3
+                    1788     ;   NOP
+0014 00             1789               NOP
+                    1790     ;   DJNZ R2,WR1
+0015 DAEE           1791               DJNZ R2,WR1
+                    1792     ;   SETB P3_3
+0017 D2B3           1793               SETB P3_3
+                    1794     ; #pragma endasm
+                    1795     ; }
+                    1796                             ; SOURCE LINE # 485
+0019 22             1797             RET     
+                    1798     ; END OF ROMDS1820
+                    1799     
+                    1800     ; 
+                    1801     ; void TMVDS1820(void)  //ÎÂ¶È×ª»»Ö¸Áî
+                    1802     
+----                1803             RSEG  ?PR?TMVDS1820?TCMAIN
+0000                1804     TMVDS1820:
+                    1805             USING   0
+                    1806                             ; SOURCE LINE # 487
+                    1807     ; {
+                    1808                             ; SOURCE LINE # 488
+                    1809     ; #pragma asm
+                    1810     ;   MOV A,#44H
+0000 7444           1811               MOV A,#44H
+                    1812     ;   MOV R2,#8
+0002 7A08           1813               MOV R2,#8
+                    1814     ;   CLR C
+0004 C3             1815               CLR C
+                    1816     ;   WR2:
+0005                1817               WR2:
+                    1818     ;   CLR P3_3
+0005 C2B3           1819               CLR P3_3
+                    1820     ;   MOV R3,#6
+0007 7B06           1821               MOV R3,#6
+                    1822     ;   DJNZ R3,$
+0009 DBFE           1823               DJNZ R3,$
+                    1824     ;   RRC A
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    29
+
+000B 13             1825               RRC A
+                    1826     ;   MOV P3_3,C
+000C 92B3           1827               MOV P3_3,C
+                    1828     ;   MOV R3,#23
+000E 7B17           1829               MOV R3,#23
+                    1830     ;   DJNZ R3,$
+0010 DBFE           1831               DJNZ R3,$
+                    1832     ;   SETB P3_3
+0012 D2B3           1833               SETB P3_3
+                    1834     ;   NOP
+0014 00             1835               NOP
+                    1836     ;   DJNZ R2,WR2
+0015 DAEE           1837               DJNZ R2,WR2
+                    1838     ;   SETB P3_3
+0017 D2B3           1839               SETB P3_3
+                    1840     ; #pragma endasm
+                    1841     ; }
+                    1842                             ; SOURCE LINE # 506
+0019 22             1843             RET     
+                    1844     ; END OF TMVDS1820
+                    1845     
+                    1846     ; 
+                    1847     ; void TMRDS1820(void)  //¶Á³öÎÂ¶ÈÖ¸Áî
+                    1848     
+----                1849             RSEG  ?PR?TMRDS1820?TCMAIN
+0000                1850     TMRDS1820:
+                    1851             USING   0
+                    1852                             ; SOURCE LINE # 508
+                    1853     ; {
+                    1854                             ; SOURCE LINE # 509
+                    1855     ; #pragma asm
+                    1856     ;   MOV A,#0BEH
+0000 74BE           1857               MOV A,#0BEH
+                    1858     ;   MOV R2,#8
+0002 7A08           1859               MOV R2,#8
+                    1860     ;   CLR C
+0004 C3             1861               CLR C
+                    1862     ;   WR3:
+0005                1863               WR3:
+                    1864     ;   CLR P3_3
+0005 C2B3           1865               CLR P3_3
+                    1866     ;   MOV R3,#6
+0007 7B06           1867               MOV R3,#6
+                    1868     ;   DJNZ R3,$
+0009 DBFE           1869               DJNZ R3,$
+                    1870     ;   RRC A
+000B 13             1871               RRC A
+                    1872     ;   MOV P3_3,C
+000C 92B3           1873               MOV P3_3,C
+                    1874     ;   MOV R3,#23
+000E 7B17           1875               MOV R3,#23
+                    1876     ;   DJNZ R3,$
+0010 DBFE           1877               DJNZ R3,$
+                    1878     ;   SETB P3_3
+0012 D2B3           1879               SETB P3_3
+                    1880     ;   NOP
+0014 00             1881               NOP
+                    1882     ;   DJNZ R2,WR3
+0015 DAEE           1883               DJNZ R2,WR3
+                    1884     ;   SETB P3_3
+0017 D2B3           1885               SETB P3_3
+                    1886     ; #pragma endasm
+                    1887     ; }
+                    1888                             ; SOURCE LINE # 527
+0019 22             1889             RET     
+                    1890     ; END OF TMRDS1820
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    30
+
+                    1891     
+                    1892     ; 
+                    1893     ; void TMWDS1820(void)  //Ð´ÈëÎÂ¶ÈÏÞÖÆÖ¸Áî
+                    1894     
+----                1895             RSEG  ?PR?TMWDS1820?TCMAIN
+0000                1896     TMWDS1820:
+                    1897             USING   0
+                    1898                             ; SOURCE LINE # 529
+                    1899     ; {
+                    1900                             ; SOURCE LINE # 530
+                    1901     ; #pragma asm
+                    1902     ;   MOV A,#04EH
+0000 744E           1903               MOV A,#04EH
+                    1904     ;   MOV R2,#8
+0002 7A08           1905               MOV R2,#8
+                    1906     ;   CLR C
+0004 C3             1907               CLR C
+                    1908     ;   WR13:
+0005                1909               WR13:
+                    1910     ;   CLR P3_3
+0005 C2B3           1911               CLR P3_3
+                    1912     ;   MOV R3,#6
+0007 7B06           1913               MOV R3,#6
+                    1914     ;   DJNZ R3,$
+0009 DBFE           1915               DJNZ R3,$
+                    1916     ;   RRC A
+000B 13             1917               RRC A
+                    1918     ;   MOV P3_3,C
+000C 92B3           1919               MOV P3_3,C
+                    1920     ;   MOV R3,#23
+000E 7B17           1921               MOV R3,#23
+                    1922     ;   DJNZ R3,$
+0010 DBFE           1923               DJNZ R3,$
+                    1924     ;   SETB P3_3
+0012 D2B3           1925               SETB P3_3
+                    1926     ;   NOP
+0014 00             1927               NOP
+                    1928     ;   DJNZ R2,WR13
+0015 DAEE           1929               DJNZ R2,WR13
+                    1930     ;   SETB P3_3
+0017 D2B3           1931               SETB P3_3
+                    1932     ; #pragma endasm
+                    1933     ; }
+                    1934                             ; SOURCE LINE # 548
+0019 22             1935             RET     
+                    1936     ; END OF TMWDS1820
+                    1937     
+                    1938     ; 
+                    1939     ; void TMREDS1820(void)         //COPY RAM to E2PRAM
+                    1940     
+----                1941             RSEG  ?PR?TMREDS1820?TCMAIN
+0000                1942     TMREDS1820:
+                    1943             USING   0
+                    1944                             ; SOURCE LINE # 550
+                    1945     ; {
+                    1946                             ; SOURCE LINE # 551
+                    1947     ; #pragma asm
+                    1948     ;   MOV A,#48H
+0000 7448           1949               MOV A,#48H
+                    1950     ;   MOV R2,#8
+0002 7A08           1951               MOV R2,#8
+                    1952     ;   CLR C
+0004 C3             1953               CLR C
+                    1954     ;   WR33:
+0005                1955               WR33:
+                    1956     ;   CLR P3_3
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    31
+
+0005 C2B3           1957               CLR P3_3
+                    1958     ;   MOV R3,#6
+0007 7B06           1959               MOV R3,#6
+                    1960     ;   DJNZ R3,$
+0009 DBFE           1961               DJNZ R3,$
+                    1962     ;   RRC A
+000B 13             1963               RRC A
+                    1964     ;   MOV P3_3,C
+000C 92B3           1965               MOV P3_3,C
+                    1966     ;   MOV R3,#23
+000E 7B17           1967               MOV R3,#23
+                    1968     ;   DJNZ R3,$
+0010 DBFE           1969               DJNZ R3,$
+                    1970     ;   SETB P3_3
+0012 D2B3           1971               SETB P3_3
+                    1972     ;   NOP
+0014 00             1973               NOP
+                    1974     ;   DJNZ R2,WR33
+0015 DAEE           1975               DJNZ R2,WR33
+                    1976     ;   SETB P3_3
+0017 D2B3           1977               SETB P3_3
+                    1978     ; #pragma endasm
+                    1979     ; }
+                    1980                             ; SOURCE LINE # 569
+0019 22             1981             RET     
+                    1982     ; END OF TMREDS1820
+                    1983     
+                    1984     ; 
+                    1985     ; void TMERDS1820(void)         //COPY E2PRAM to RAM
+                    1986     
+----                1987             RSEG  ?PR?TMERDS1820?TCMAIN
+0000                1988     TMERDS1820:
+                    1989             USING   0
+                    1990                             ; SOURCE LINE # 571
+                    1991     ; {
+                    1992                             ; SOURCE LINE # 572
+                    1993     ; #pragma asm
+                    1994     ;   MOV A,#0B8H
+0000 74B8           1995               MOV A,#0B8H
+                    1996     ;   MOV R2,#8
+0002 7A08           1997               MOV R2,#8
+                    1998     ;   CLR C
+0004 C3             1999               CLR C
+                    2000     ;   WR43:
+0005                2001               WR43:
+                    2002     ;   CLR P3_3
+0005 C2B3           2003               CLR P3_3
+                    2004     ;   MOV R3,#6
+0007 7B06           2005               MOV R3,#6
+                    2006     ;   DJNZ R3,$
+0009 DBFE           2007               DJNZ R3,$
+                    2008     ;   RRC A
+000B 13             2009               RRC A
+                    2010     ;   MOV P3_3,C
+000C 92B3           2011               MOV P3_3,C
+                    2012     ;   MOV R3,#23
+000E 7B17           2013               MOV R3,#23
+                    2014     ;   DJNZ R3,$
+0010 DBFE           2015               DJNZ R3,$
+                    2016     ;   SETB P3_3
+0012 D2B3           2017               SETB P3_3
+                    2018     ;   NOP
+0014 00             2019               NOP
+                    2020     ;   DJNZ R2,WR43
+0015 DAEE           2021               DJNZ R2,WR43
+                    2022     ;   SETB P3_3
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    32
+
+0017 D2B3           2023               SETB P3_3
+                    2024     ; #pragma endasm
+                    2025     ; }
+                    2026                             ; SOURCE LINE # 590
+0019 22             2027             RET     
+                    2028     ; END OF TMERDS1820
+                    2029     
+                    2030     ; 
+                    2031     ; void WriteDS1820(void)        //Ð´ÈëÎÂ¶ÈÏÞÖÆÖµ
+                    2032     
+----                2033             RSEG  ?PR?WriteDS1820?TCMAIN
+0000                2034     WriteDS1820:
+                    2035             USING   0
+                    2036                             ; SOURCE LINE # 592
+                    2037     ; {
+                    2038                             ; SOURCE LINE # 593
+                    2039     ; #pragma asm
+                    2040     ;       MOV A,26H                                       //·¢³ö4EHÐ´ROMÖ¸ÁîºóÁ¬·¢Á½¸ö×Ö½Ú·Ö±
+                             ðÎªÉÏÏÂÏÞ
+0000 E526           2041               MOV A,26H                                      
+                    2042     ;   MOV R2,#8
+0002 7A08           2043               MOV R2,#8
+                    2044     ;   CLR C
+0004 C3             2045               CLR C
+                    2046     ;   WR23:
+0005                2047               WR23:
+                    2048     ;   CLR P3_3
+0005 C2B3           2049               CLR P3_3
+                    2050     ;   MOV R3,#6
+0007 7B06           2051               MOV R3,#6
+                    2052     ;   DJNZ R3,$
+0009 DBFE           2053               DJNZ R3,$
+                    2054     ;   RRC A
+000B 13             2055               RRC A
+                    2056     ;   MOV P3_3,C
+000C 92B3           2057               MOV P3_3,C
+                    2058     ;   MOV R3,#23
+000E 7B17           2059               MOV R3,#23
+                    2060     ;   DJNZ R3,$
+0010 DBFE           2061               DJNZ R3,$
+                    2062     ;   SETB P3_3
+0012 D2B3           2063               SETB P3_3
+                    2064     ;   NOP
+0014 00             2065               NOP
+                    2066     ;   DJNZ R2,WR23
+0015 DAEE           2067               DJNZ R2,WR23
+                    2068     ;   SETB P3_3       
+0017 D2B3           2069               SETB P3_3       
+                    2070     ; #pragma endasm
+                    2071     ; }
+                    2072                             ; SOURCE LINE # 611
+0019 22             2073             RET     
+                    2074     ; END OF WriteDS1820
+                    2075     
+                    2076     ; 
+                    2077     ; void ReadDS1820(void) //¶Á³öÎÂ¶ÈÖµ
+                    2078     
+----                2079             RSEG  ?PR?ReadDS1820?TCMAIN
+0000                2080     ReadDS1820:
+                    2081             USING   0
+                    2082                             ; SOURCE LINE # 613
+                    2083     ; {
+                    2084                             ; SOURCE LINE # 614
+                    2085     ; #pragma asm
+                    2086     ;   MOV R4,#3 ; ½«ÎÂ¶È¸ßÎ»ºÍµÍÎ»£¬¸ßÎÂÏÞÖÆÎ»´ÓDS18B20ÖÐ¶Á³ö
+0000 7C03           2087               MOV R4,#3 ; ½«ÎÂ¶È¸ßÎ»ºÍµÍÎ»£¬¸ßÎÂÏÞÖÆÎ»´ÓDS18B20ÖÐ¶Á³ö
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    33
+
+                    2088     ;   MOV R1,#29H ; µÍÎ»´æÈë29H(TEMPER_L),¸ßÎ»´æÈë28H(TEMPER_H)£¬¸ßÎÂÏÞÖÆÎ»´æÈë27H(TMRomV)
+0002 7929           2089               MOV R1,#29H ; µÍÎ»´æÈë29H(TEMPER_L),¸ßÎ»´æÈë28H(TEMPER_H)£¬¸ßÎÂÏÞÖÆÎ»´æÈë27H(TMRo
+                             mV)
+                    2090     ;   RE00:
+0004                2091               RE00:
+                    2092     ;   MOV R2,#8
+0004 7A08           2093               MOV R2,#8
+                    2094     ;   RE01:
+0006                2095               RE01:
+                    2096     ;   CLR C
+0006 C3             2097               CLR C
+                    2098     ;   SETB P3_3
+0007 D2B3           2099               SETB P3_3
+                    2100     ;   NOP
+0009 00             2101               NOP
+                    2102     ;   NOP
+000A 00             2103               NOP
+                    2104     ;   CLR P3_3
+000B C2B3           2105               CLR P3_3
+                    2106     ;   NOP
+000D 00             2107               NOP
+                    2108     ;   NOP
+000E 00             2109               NOP
+                    2110     ;   NOP
+000F 00             2111               NOP
+                    2112     ;   SETB P3_3
+0010 D2B3           2113               SETB P3_3
+                    2114     ;   MOV R3,#09
+0012 7B09           2115               MOV R3,#09
+                    2116     ;   RE10: 
+0014                2117               RE10: 
+                    2118     ;   DJNZ R3,RE10
+0014 DBFE           2119               DJNZ R3,RE10
+                    2120     ;   MOV C,P3_3
+0016 A2B3           2121               MOV C,P3_3
+                    2122     ;   MOV R3,#23
+0018 7B17           2123               MOV R3,#23
+                    2124     ;   RE20: 
+001A                2125               RE20: 
+                    2126     ;   DJNZ R3,RE20
+001A DBFE           2127               DJNZ R3,RE20
+                    2128     ;   RRC A
+001C 13             2129               RRC A
+                    2130     ;   DJNZ R2,RE01
+001D DAE7           2131               DJNZ R2,RE01
+                    2132     ;   MOV @R1,A
+001F F7             2133               MOV @R1,A
+                    2134     ;   DEC R1
+0020 19             2135               DEC R1
+                    2136     ;   DJNZ R4,RE00
+0021 DCE1           2137               DJNZ R4,RE00
+                    2138     ; #pragma endasm
+                    2139     ; }
+                    2140                             ; SOURCE LINE # 643
+0023 22             2141             RET     
+                    2142     ; END OF ReadDS1820
+                    2143     
+                    2144     ; 
+                    2145     ; void Delay_510(void)  //ÑÓÊ±510Î¢Ãë
+                    2146     
+----                2147             RSEG  ?PR?Delay_510?TCMAIN
+0000                2148     Delay_510:
+                    2149             USING   0
+                    2150                             ; SOURCE LINE # 645
+                    2151     ; {
+                    2152                             ; SOURCE LINE # 646
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    34
+
+                    2153     ; #pragma asm
+                    2154     ;       MOV R0,#7DH
+0000 787D           2155               MOV R0,#7DH
+                    2156     ;       MOV R1,#02H
+0002 7902           2157               MOV R1,#02H
+                    2158     ;       TSR1:
+0004                2159               TSR1:
+                    2160     ;       DJNZ R0,TSR1
+0004 D8FE           2161               DJNZ R0,TSR1
+                    2162     ;       MOV R0,#7DH
+0006 787D           2163               MOV R0,#7DH
+                    2164     ;       DJNZ R1,TSR1
+0008 D9FA           2165               DJNZ R1,TSR1
+                    2166     ; #pragma endasm
+                    2167     ; }
+                    2168                             ; SOURCE LINE # 655
+000A 22             2169             RET     
+                    2170     ; END OF Delay_510
+                    2171     
+                    2172     ; 
+                    2173     ; void Delay_110(void)  //ÑÓÊ±110Î¢Ãë
+                    2174     
+----                2175             RSEG  ?PR?Delay_110?TCMAIN
+0000                2176     Delay_110:
+                    2177             USING   0
+                    2178                             ; SOURCE LINE # 657
+                    2179     ; {
+                    2180                             ; SOURCE LINE # 658
+                    2181     ; #pragma asm
+                    2182     ;       MOV R0,#19H
+0000 7819           2183               MOV R0,#19H
+                    2184     ;       MOV R1,#02H
+0002 7902           2185               MOV R1,#02H
+                    2186     ;       TSR2:
+0004                2187               TSR2:
+                    2188     ;       DJNZ R0,TSR2
+0004 D8FE           2189               DJNZ R0,TSR2
+                    2190     ;       MOV R0,#19H
+0006 7819           2191               MOV R0,#19H
+                    2192     ;       DJNZ R1,TSR2
+0008 D9FA           2193               DJNZ R1,TSR2
+                    2194     ; #pragma endasm
+                    2195     ; }
+                    2196                             ; SOURCE LINE # 667
+000A 22             2197             RET     
+                    2198     ; END OF Delay_110
+                    2199     
+                    2200     ; 
+                    2201     ; void Delay_10ms(void) //ÑÓÊ±10ms
+                    2202     
+----                2203             RSEG  ?PR?Delay_10ms?TCMAIN
+0000                2204     Delay_10ms:
+                    2205             USING   0
+                    2206                             ; SOURCE LINE # 669
+                    2207     ; {
+                    2208                             ; SOURCE LINE # 670
+                    2209     ; #pragma asm
+                    2210     ;       MOV R0,#19H
+0000 7819           2211               MOV R0,#19H
+                    2212     ;       MOV R1,#0C8H
+0002 79C8           2213               MOV R1,#0C8H
+                    2214     ;       TSR3:
+0004                2215               TSR3:
+                    2216     ;       DJNZ R0,TSR3
+0004 D8FE           2217               DJNZ R0,TSR3
+                    2218     ;       MOV R0,#19H
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    35
+
+0006 7819           2219               MOV R0,#19H
+                    2220     ;       DJNZ R1,TSR3
+0008 D9FA           2221               DJNZ R1,TSR3
+                    2222     ; #pragma endasm
+                    2223     ; }
+                    2224                             ; SOURCE LINE # 679
+000A 22             2225             RET     
+                    2226     ; END OF Delay_10ms
+                    2227     
+                    2228     ; 
+                    2229     ; void Delay_4s(void)   //ÑÓÊ±4s
+                    2230     
+----                2231             RSEG  ?PR?Delay_4s?TCMAIN
+0000                2232     Delay_4s:
+                    2233             USING   0
+                    2234                             ; SOURCE LINE # 681
+                    2235     ; {
+                    2236                             ; SOURCE LINE # 682
+                    2237     ; #pragma asm
+                    2238     ;   MOV R2,#28H
+0000 7A28           2239               MOV R2,#28H
+                    2240     ;   TSR5:
+0002                2241               TSR5:
+                    2242     ;       MOV R0,#0FAH
+0002 78FA           2243               MOV R0,#0FAH
+                    2244     ;       MOV R1,#0C8H
+0004 79C8           2245               MOV R1,#0C8H
+                    2246     ;       TSR4:
+0006                2247               TSR4:
+                    2248     ;       DJNZ R0,TSR4
+0006 D8FE           2249               DJNZ R0,TSR4
+                    2250     ;       MOV R0,#0FAH
+0008 78FA           2251               MOV R0,#0FAH
+                    2252     ;       DJNZ R1,TSR4
+000A D9FA           2253               DJNZ R1,TSR4
+                    2254     ;   DJNZ R2,TSR5
+000C DAF4           2255               DJNZ R2,TSR5
+                    2256     ; #pragma endasm
+                    2257     ; }
+                    2258                             ; SOURCE LINE # 694
+000E 22             2259             RET     
+                    2260     ; END OF Delay_4s
+                    2261     
+                    2262             END
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    36
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                      T Y P E  V A L U E   ATTRIBUTES
+
+?BA?TCMAIN. . . . . . . . .  D SEG    0001H       REL=BITADDRESSABLE
+?C0002. . . . . . . . . . .  C ADDR   0008H   R   SEG=?PR?_SEND_CHAR_COM?TCMAIN
+?C0003. . . . . . . . . . .  C ADDR   000BH   R   SEG=?PR?_SEND_CHAR_COM?TCMAIN
+?C0007. . . . . . . . . . .  C ADDR   000DH   R   SEG=?PR?_SEND_STRING_COM?TCMAIN
+?C0010. . . . . . . . . . .  C ADDR   001BH   R   SEG=?PR?SERIAL?TCMAIN
+?C0012. . . . . . . . . . .  C ADDR   0024H   R   SEG=?PR?SERIAL?TCMAIN
+?C0013. . . . . . . . . . .  C ADDR   003FH   R   SEG=?PR?MAIN?TCMAIN
+?C0018. . . . . . . . . . .  C ADDR   0025H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0019. . . . . . . . . . .  C ADDR   0033H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0020. . . . . . . . . . .  C ADDR   0040H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0021. . . . . . . . . . .  C ADDR   004AH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0022. . . . . . . . . . .  C ADDR   0052H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0023. . . . . . . . . . .  C ADDR   005AH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0024. . . . . . . . . . .  C ADDR   0060H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0025. . . . . . . . . . .  C ADDR   0066H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0026. . . . . . . . . . .  C ADDR   006CH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0027. . . . . . . . . . .  C ADDR   00FAH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0028. . . . . . . . . . .  C ADDR   007AH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0029. . . . . . . . . . .  C ADDR   0080H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0030. . . . . . . . . . .  C ADDR   0086H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0032. . . . . . . . . . .  C ADDR   00C2H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0033. . . . . . . . . . .  C ADDR   00B9H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0034. . . . . . . . . . .  C ADDR   00B4H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0036. . . . . . . . . . .  C ADDR   00C0H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0038. . . . . . . . . . .  C ADDR   00F1H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0039. . . . . . . . . . .  C ADDR   00CFH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0040. . . . . . . . . . .  C ADDR   00D9H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0041. . . . . . . . . . .  C ADDR   00E5H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0045. . . . . . . . . . .  C ADDR   012BH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0046. . . . . . . . . . .  C ADDR   0135H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0047. . . . . . . . . . .  C ADDR   013AH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0048. . . . . . . . . . .  C ADDR   0144H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0049. . . . . . . . . . .  C ADDR   0149H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0050. . . . . . . . . . .  C ADDR   0155H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0051. . . . . . . . . . .  C ADDR   015FH   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0053. . . . . . . . . . .  C ADDR   0171H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?C0054. . . . . . . . . . .  C ADDR   0028H   R   SEG=?PR?V2TOV?TCMAIN
+?C0055. . . . . . . . . . .  C ADDR   001BH   R   SEG=?PR?V2TOV?TCMAIN
+?C0056. . . . . . . . . . .  C ADDR   0033H   R   SEG=?PR?V2TOV?TCMAIN
+?C0057. . . . . . . . . . .  C ADDR   00EFH   R   SEG=?PR?V2TOV?TCMAIN
+?C0058. . . . . . . . . . .  C ADDR   00A9H   R   SEG=?PR?V2TOV?TCMAIN
+?C0059. . . . . . . . . . .  C ADDR   003FH   R   SEG=?PR?V2TOV?TCMAIN
+?C0061. . . . . . . . . . .  C ADDR   0186H   R   SEG=?PR?V2TOV?TCMAIN
+?C0062. . . . . . . . . . .  C ADDR   012BH   R   SEG=?PR?V2TOV?TCMAIN
+?C0063. . . . . . . . . . .  C ADDR   00F5H   R   SEG=?PR?V2TOV?TCMAIN
+?C0065. . . . . . . . . . .  C ADDR   019AH   R   SEG=?PR?V2TOV?TCMAIN
+?C0066. . . . . . . . . . .  C ADDR   01B8H   R   SEG=?PR?V2TOV?TCMAIN
+?C0067. . . . . . . . . . .  C ADDR   01A3H   R   SEG=?PR?V2TOV?TCMAIN
+?C0069. . . . . . . . . . .  C ADDR   01C1H   R   SEG=?PR?V2TOV?TCMAIN
+?C0070. . . . . . . . . . .  C ADDR   01DFH   R   SEG=?PR?V2TOV?TCMAIN
+?C0071. . . . . . . . . . .  C ADDR   01CAH   R   SEG=?PR?V2TOV?TCMAIN
+?C0074. . . . . . . . . . .  C ADDR   0015H   R   SEG=?PR?INITDS1820?TCMAIN
+?C0075. . . . . . . . . . .  C ADDR   0017H   R   SEG=?PR?INITDS1820?TCMAIN
+?C0089. . . . . . . . . . .  C ADDR   0021H   R   SEG=?PR?_SEND_STRING_COM?TCMAIN
+?C0090. . . . . . . . . . .  C ADDR   001FH   R   SEG=?PR?V2TOV?TCMAIN
+?C0091. . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?V2TOV?TCMAIN
+?C0092. . . . . . . . . . .  C ADDR   001DH   R   SEG=?PR?SERIAL?TCMAIN
+?C0093. . . . . . . . . . .  C ADDR   0129H   R   SEG=?PR?V2TOV?TCMAIN
+?C0094. . . . . . . . . . .  C ADDR   015FH   R   SEG=?PR?V2TOV?TCMAIN
+?C0095. . . . . . . . . . .  C ADDR   01A3H   R   SEG=?PR?V2TOV?TCMAIN
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    37
+
+?C0096. . . . . . . . . . .  C ADDR   01B5H   R   SEG=?PR?V2TOV?TCMAIN
+?C0097. . . . . . . . . . .  C ADDR   01DBH   R   SEG=?PR?V2TOV?TCMAIN
+?C0098. . . . . . . . . . .  C ADDR   01DCH   R   SEG=?PR?V2TOV?TCMAIN
+?C?CLDOPTR. . . . . . . . .  C ADDR   -----       EXT
+?C?IMUL . . . . . . . . . .  C ADDR   -----       EXT
+?C?SCDIV. . . . . . . . . .  C ADDR   -----       EXT
+?C?SIDIV. . . . . . . . . .  C ADDR   -----       EXT
+?CO?TCMAIN. . . . . . . . .  C SEG    000CH       REL=UNIT
+?C_INITSEG. . . . . . . . .  C SEG    0015H       REL=UNIT
+?C_STARTUP. . . . . . . . .  C ADDR   -----       EXT
+?DT?SERIAL?TCMAIN . . . . .  D SEG    0001H       REL=UNIT
+?DT?TCMAIN. . . . . . . . .  D SEG    0051H       REL=UNIT
+?DT?_SEND_STRING_COM?TCMAIN  D SEG    0005H       REL=UNIT
+?KEYANDDIS_TIME0?INITEND. .  C ADDR   0171H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+?PR?DELAY_10MS?TCMAIN . . .  C SEG    000BH       REL=INBLOCK
+?PR?DELAY_110?TCMAIN. . . .  C SEG    000BH       REL=INBLOCK
+?PR?DELAY_4S?TCMAIN . . . .  C SEG    000FH       REL=INBLOCK
+?PR?DELAY_510?TCMAIN. . . .  C SEG    000BH       REL=INBLOCK
+?PR?INITDS1820?TCMAIN . . .  C SEG    001EH       REL=INBLOCK
+?PR?INIT_SERIALCOMM?TCMAIN.  C SEG    0012H       REL=INBLOCK
+?PR?KEYANDDIS_TIME0?TCMAIN.  C SEG    017CH       REL=INBLOCK
+?PR?MAIN?TCMAIN . . . . . .  C SEG    005BH       REL=INBLOCK
+?PR?READDS1820?TCMAIN . . .  C SEG    0024H       REL=INBLOCK
+?PR?ROMDS1820?TCMAIN. . . .  C SEG    001AH       REL=INBLOCK
+?PR?SERIAL?TCMAIN . . . . .  C SEG    0029H       REL=INBLOCK
+?PR?TMERDS1820?TCMAIN . . .  C SEG    001AH       REL=INBLOCK
+?PR?TMRDS1820?TCMAIN. . . .  C SEG    001AH       REL=INBLOCK
+?PR?TMREDS1820?TCMAIN . . .  C SEG    001AH       REL=INBLOCK
+?PR?TMVDS1820?TCMAIN. . . .  C SEG    001AH       REL=INBLOCK
+?PR?TMWDS1820?TCMAIN. . . .  C SEG    001AH       REL=INBLOCK
+?PR?V2TOV?TCMAIN. . . . . .  C SEG    01F5H       REL=INBLOCK
+?PR?WRITEDS1820?TCMAIN. . .  C SEG    001AH       REL=INBLOCK
+?PR?_SEND_CHAR_COM?TCMAIN .  C SEG    000EH       REL=INBLOCK
+?PR?_SEND_STRING_COM?TCMAIN  C SEG    002BH       REL=INBLOCK
+?SERIAL?BYTE. . . . . . . .  D ADDR   0000H   R   SEG=?DT?SERIAL?TCMAIN
+?_SEND_STRING_COM?BYTE. . .  D ADDR   0000H   R   SEG=?DT?_SEND_STRING_COM?TCMAIN
+AC. . . . . . . . . . . . .  B ADDR   00D0H.6 A   
+ACC . . . . . . . . . . . .  D ADDR   00E0H   A   
+B . . . . . . . . . . . . .  D ADDR   00F0H   A   
+CH?344. . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?SERIAL?TCMAIN
+COUNT3. . . . . . . . . . .  D ADDR   004EH   R   SEG=?DT?TCMAIN
+CY. . . . . . . . . . . . .  B ADDR   00D0H.7 A   
+DELAY_10MS. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?DELAY_10MS?TCMAIN
+DELAY_110 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?DELAY_110?TCMAIN
+DELAY_4S. . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?DELAY_4S?TCMAIN
+DELAY_510 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?DELAY_510?TCMAIN
+DIS_8 . . . . . . . . . . .  D ADDR   0040H   R   SEG=?DT?TCMAIN
+DPH . . . . . . . . . . . .  D ADDR   0083H   A   
+DPL . . . . . . . . . . . .  D ADDR   0082H   A   
+DS1820ON. . . . . . . . . .  B ADDR   0000H.0 R   SEG=?BA?TCMAIN
+EA. . . . . . . . . . . . .  B ADDR   00A8H.7 A   
+ES. . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0 . . . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1 . . . . . . . . . . . .  B ADDR   00A8H.3 A   
+ET2 . . . . . . . . . . . .  B ADDR   00A8H.5 A   
+EX0 . . . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1 . . . . . . . . . . . .  B ADDR   00A8H.2 A   
+F0. . . . . . . . . . . . .  B ADDR   00D0H.5 A   
+F1. . . . . . . . . . . . .  B ADDR   00D0H.1 A   
+FLAG. . . . . . . . . . . .  D ADDR   0006H   R   SEG=?DT?TCMAIN
+IE. . . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0 . . . . . . . . . . . .  B ADDR   0088H.1 A   
+IE1 . . . . . . . . . . . .  B ADDR   0088H.3 A   
+INBUF1. . . . . . . . . . .  D ADDR   0008H   R   SEG=?DT?TCMAIN
+INBUF2. . . . . . . . . . .  D ADDR   000DH   R   SEG=?DT?TCMAIN
+INITDS1820. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITDS1820?TCMAIN
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    38
+
+INIT_SERIALCOMM . . . . . .  C ADDR   0000H   R   SEG=?PR?INIT_SERIALCOMM?TCMAIN
+INT0. . . . . . . . . . . .  B ADDR   00B0H.2 A   
+INT1. . . . . . . . . . . .  B ADDR   00B0H.3 A   
+INTNUM. . . . . . . . . . .  D ADDR   004CH   R   SEG=?DT?TCMAIN
+INTNUM2 . . . . . . . . . .  D ADDR   0001H   R   SEG=?DT?TCMAIN
+INTNUM3 . . . . . . . . . .  D ADDR   0002H   R   SEG=?DT?TCMAIN
+IP. . . . . . . . . . . . .  D ADDR   00B8H   A   
+IT0 . . . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1 . . . . . . . . . . . .  B ADDR   0088H.2 A   
+KEYANDDIS_TIME0 . . . . . .  C ADDR   0000H   R   SEG=?PR?KEYANDDIS_TIME0?TCMAIN
+KEYSETDOWN. . . . . . . . .  B ADDR   0000H.2 R   SEG=?BA?TCMAIN
+KEYTF . . . . . . . . . . .  B ADDR   0000H.4 R   SEG=?BA?TCMAIN
+KEYV. . . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?TCMAIN
+KSDNUM. . . . . . . . . . .  D ADDR   0004H   R   SEG=?DT?TCMAIN
+L?0099. . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_SEND_CHAR_COM?TCMAIN
+L?0100. . . . . . . . . . .  C ADDR   0002H   R   SEG=?PR?_SEND_CHAR_COM?TCMAIN
+LEDDIS. . . . . . . . . . .  C ADDR   0000H   R   SEG=?CO?TCMAIN
+LED_ONE . . . . . . . . . .  D ADDR   003FH   R   SEG=?DT?TCMAIN
+LED_THREE . . . . . . . . .  D ADDR   0007H   R   SEG=?DT?TCMAIN
+LED_TWO . . . . . . . . . .  D ADDR   004FH   R   SEG=?DT?TCMAIN
+MAIN. . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?MAIN?TCMAIN
+OV. . . . . . . . . . . . .  B ADDR   00D0H.2 A   
+P . . . . . . . . . . . . .  B ADDR   00D0H.0 A   
+P0. . . . . . . . . . . . .  D ADDR   0080H   A   
+P0_0. . . . . . . . . . . .  B ADDR   0080H.0 A   
+P0_1. . . . . . . . . . . .  B ADDR   0080H.1 A   
+P0_2. . . . . . . . . . . .  B ADDR   0080H.2 A   
+P0_3. . . . . . . . . . . .  B ADDR   0080H.3 A   
+P0_4. . . . . . . . . . . .  B ADDR   0080H.4 A   
+P0_5. . . . . . . . . . . .  B ADDR   0080H.5 A   
+P0_6. . . . . . . . . . . .  B ADDR   0080H.6 A   
+P0_7. . . . . . . . . . . .  B ADDR   0080H.7 A   
+P1. . . . . . . . . . . . .  D ADDR   0090H   A   
+P1_0. . . . . . . . . . . .  B ADDR   0090H.0 A   
+P1_1. . . . . . . . . . . .  B ADDR   0090H.1 A   
+P1_2. . . . . . . . . . . .  B ADDR   0090H.2 A   
+P1_3. . . . . . . . . . . .  B ADDR   0090H.3 A   
+P1_4. . . . . . . . . . . .  B ADDR   0090H.4 A   
+P1_5. . . . . . . . . . . .  B ADDR   0090H.5 A   
+P1_6. . . . . . . . . . . .  B ADDR   0090H.6 A   
+P1_7. . . . . . . . . . . .  B ADDR   0090H.7 A   
+P2. . . . . . . . . . . . .  D ADDR   00A0H   A   
+P2_0. . . . . . . . . . . .  B ADDR   00A0H.0 A   
+P2_1. . . . . . . . . . . .  B ADDR   00A0H.1 A   
+P2_2. . . . . . . . . . . .  B ADDR   00A0H.2 A   
+P2_3. . . . . . . . . . . .  B ADDR   00A0H.3 A   
+P2_4. . . . . . . . . . . .  B ADDR   00A0H.4 A   
+P2_5. . . . . . . . . . . .  B ADDR   00A0H.5 A   
+P2_6. . . . . . . . . . . .  B ADDR   00A0H.6 A   
+P2_7. . . . . . . . . . . .  B ADDR   00A0H.7 A   
+P3. . . . . . . . . . . . .  D ADDR   00B0H   A   
+P3_0. . . . . . . . . . . .  B ADDR   00B0H.0 A   
+P3_1. . . . . . . . . . . .  B ADDR   00B0H.1 A   
+P3_2. . . . . . . . . . . .  B ADDR   00B0H.2 A   
+P3_3. . . . . . . . . . . .  B ADDR   00B0H.3 A   
+P3_4. . . . . . . . . . . .  B ADDR   00B0H.4 A   
+P3_5. . . . . . . . . . . .  B ADDR   00B0H.5 A   
+P3_6. . . . . . . . . . . .  B ADDR   00B0H.6 A   
+P3_7. . . . . . . . . . . .  B ADDR   00B0H.7 A   
+PCON. . . . . . . . . . . .  D ADDR   0087H   A   
+POWTF . . . . . . . . . . .  B ADDR   0000H.3 R   SEG=?BA?TCMAIN
+PS. . . . . . . . . . . . .  B ADDR   00B8H.4 A   
+PSW . . . . . . . . . . . .  D ADDR   00D0H   A   
+PT0 . . . . . . . . . . . .  B ADDR   00B8H.1 A   
+PT1 . . . . . . . . . . . .  B ADDR   00B8H.3 A   
+PT2 . . . . . . . . . . . .  B ADDR   00B8H.5 A   
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    39
+
+PX0 . . . . . . . . . . . .  B ADDR   00B8H.0 A   
+PX1 . . . . . . . . . . . .  B ADDR   00B8H.2 A   
+RB8 . . . . . . . . . . . .  B ADDR   0098H.2 A   
+RD. . . . . . . . . . . . .  B ADDR   00B0H.7 A   
+RE00. . . . . . . . . . . .  C ADDR   0004H   R   SEG=?PR?READDS1820?TCMAIN
+RE01. . . . . . . . . . . .  C ADDR   0006H   R   SEG=?PR?READDS1820?TCMAIN
+RE10. . . . . . . . . . . .  C ADDR   0014H   R   SEG=?PR?READDS1820?TCMAIN
+RE20. . . . . . . . . . . .  C ADDR   001AH   R   SEG=?PR?READDS1820?TCMAIN
+READDS1820. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?READDS1820?TCMAIN
+REN . . . . . . . . . . . .  B ADDR   0098H.4 A   
+RI. . . . . . . . . . . . .  B ADDR   0098H.0 A   
+ROMDS1820 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?ROMDS1820?TCMAIN
+RS0 . . . . . . . . . . . .  B ADDR   00D0H.3 A   
+RS1 . . . . . . . . . . . .  B ADDR   00D0H.4 A   
+RXD . . . . . . . . . . . .  B ADDR   00B0H.0 A   
+SBUF. . . . . . . . . . . .  D ADDR   0099H   A   
+SCON. . . . . . . . . . . .  D ADDR   0098H   A   
+SECOND. . . . . . . . . . .  D ADDR   004DH   R   SEG=?DT?TCMAIN
+SERIAL. . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?SERIAL?TCMAIN
+SETTF . . . . . . . . . . .  B ADDR   0000H.1 R   SEG=?BA?TCMAIN
+SIGN. . . . . . . . . . . .  D ADDR   0003H   R   SEG=?DT?TCMAIN
+SM0 . . . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1 . . . . . . . . . . . .  B ADDR   0098H.6 A   
+SM2 . . . . . . . . . . . .  B ADDR   0098H.5 A   
+SP. . . . . . . . . . . . .  D ADDR   0081H   A   
+STATEREG. . . . . . . . . .  D ADDR   0000H   R   SEG=?BA?TCMAIN
+STR?241 . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SEND_STRING_COM?TCMAIN
+STRLEN?242. . . . . . . . .  D ADDR   0003H   R   SEG=?DT?_SEND_STRING_COM?TCMAIN
+T0. . . . . . . . . . . . .  B ADDR   00B0H.4 A   
+T1. . . . . . . . . . . . .  B ADDR   00B0H.5 A   
+TB8 . . . . . . . . . . . .  B ADDR   0098H.3 A   
+TCMAIN. . . . . . . . . . .  N NUMB   -----       
+TCON. . . . . . . . . . . .  D ADDR   0088H   A   
+TEMPKEYV. . . . . . . . . .  D ADDR   0005H   R   SEG=?DT?TCMAIN
+TF0 . . . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1 . . . . . . . . . . . .  B ADDR   0088H.7 A   
+TH0 . . . . . . . . . . . .  D ADDR   008CH   A   
+TH1 . . . . . . . . . . . .  D ADDR   008DH   A   
+THV . . . . . . . . . . . .  D ADDR   0028H   A   
+TI. . . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0 . . . . . . . . . . . .  D ADDR   008AH   A   
+TL1 . . . . . . . . . . . .  D ADDR   008BH   A   
+TLV . . . . . . . . . . . .  D ADDR   0029H   A   
+TMERDS1820. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?TMERDS1820?TCMAIN
+TMOD. . . . . . . . . . . .  D ADDR   0089H   A   
+TMRDS1820 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?TMRDS1820?TCMAIN
+TMREDS1820. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?TMREDS1820?TCMAIN
+TMROMV. . . . . . . . . . .  D ADDR   0027H   A   
+TMSETV. . . . . . . . . . .  D ADDR   0026H   A   
+TMV . . . . . . . . . . . .  D ADDR   0050H   R   SEG=?DT?TCMAIN
+TMVDS1820 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?TMVDS1820?TCMAIN
+TMWDS1820 . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?TMWDS1820?TCMAIN
+TR0 . . . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1 . . . . . . . . . . . .  B ADDR   0088H.6 A   
+TSR1. . . . . . . . . . . .  C ADDR   0004H   R   SEG=?PR?DELAY_510?TCMAIN
+TSR2. . . . . . . . . . . .  C ADDR   0004H   R   SEG=?PR?DELAY_110?TCMAIN
+TSR3. . . . . . . . . . . .  C ADDR   0004H   R   SEG=?PR?DELAY_10MS?TCMAIN
+TSR4. . . . . . . . . . . .  C ADDR   0006H   R   SEG=?PR?DELAY_4S?TCMAIN
+TSR5. . . . . . . . . . . .  C ADDR   0002H   R   SEG=?PR?DELAY_4S?TCMAIN
+TXD . . . . . . . . . . . .  B ADDR   00B0H.1 A   
+V2TOV . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?V2TOV?TCMAIN
+WR. . . . . . . . . . . . .  B ADDR   00B0H.6 A   
+WR1 . . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?ROMDS1820?TCMAIN
+WR13. . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?TMWDS1820?TCMAIN
+WR2 . . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?TMVDS1820?TCMAIN
+WR23. . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?WRITEDS1820?TCMAIN
+A51 MACRO ASSEMBLER  TCMAIN                                                               12/15/2009 16:42:17 PAGE    40
+
+WR3 . . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?TMRDS1820?TCMAIN
+WR33. . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?TMREDS1820?TCMAIN
+WR43. . . . . . . . . . . .  C ADDR   0005H   R   SEG=?PR?TMERDS1820?TCMAIN
+WRITEDS1820 . . . . . . . .  C ADDR   0000H   R   SEG=?PR?WRITEDS1820?TCMAIN
+_SEND_CHAR_COM. . . . . . .  C ADDR   0006H   R   SEG=?PR?_SEND_CHAR_COM?TCMAIN
+_SEND_STRING_COM. . . . . .  C ADDR   0000H   R   SEG=?PR?_SEND_STRING_COM?TCMAIN
+
+
+REGISTER BANK(S) USED: 0 2 3 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,12 @@
+C51 COMPILER V8.18   我的实验                                                              12/16/2009 13:55:24 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE 我的实验
+OBJECT MODULE PLACED IN 我的实验.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 我的实验.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+*** ERROR C318 OF 我的实验.c: can't open file '我的实验.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

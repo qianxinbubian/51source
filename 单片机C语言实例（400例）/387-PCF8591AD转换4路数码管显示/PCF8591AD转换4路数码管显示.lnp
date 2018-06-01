@@ -1,0 +1,6 @@
+"delay.obj",
+"display.obj",
+"i2c.obj",
+"main.obj" 
+TO "PCF8591AD转换4路数码管显示" 
+RAMSIZE(256) 

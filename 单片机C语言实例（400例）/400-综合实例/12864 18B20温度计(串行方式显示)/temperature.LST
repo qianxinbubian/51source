@@ -1,0 +1,158 @@
+C51 COMPILER V9.00   TEMPERATURE                                                           04/25/2012 11:44:08 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TEMPERATURE
+OBJECT MODULE PLACED IN temperature.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE temperature.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "temp.h"
+   3          /**********************************************************
+   4          *采用DS1820+YM12864R精确到4位小数的温度计
+   5          *还请高手指点!
+   6          *编程:飞扬
+   7          *版本:V0.3
+   8          *DS1820设置为12位精度
+   9          **********************************************************/
+  10          //声明外部温度读数数组
+  11          extern unsigned char data temperature[2];
+  12          //存放分解的7个ASCII码温度数据  
+  13          unsigned char temp[7];
+  14          
+  15          unsigned char code string[6]={"温度:"};
+  16          unsigned char code DispStr[7]={"系列号"};
+  17          unsigned char fCode[8]; //存放序列号,CRC 
+  18          /**********************************************************
+  19          *主程序
+  20          **********************************************************/
+  21          void main()
+  22          {
+  23   1      
+  24   1              unsigned char i;
+  25   1              delay100us();//等待电源稳定,液晶复位完成
+  26   1              delay100us();
+  27   1              LCD_INIT();      //液晶初始化
+  28   1              DS1820_Reset();//DS1820复位
+  29   1              DS1820_WriteData(0x33);//读ROM指令
+  30   1              for (i=0;i<8;i++)
+  31   1                      {//读取64位系列号
+  32   2                      fCode[i] = DS1820_ReadData();
+  33   2                      }
+  34   1              DS1820_Reset();//DS1820复位
+  35   1              LCD_WRITE_IR(0x80);//在第一行显示
+  36   1              for (i=0;i<5;i++)
+  37   1                      {
+  38   2                       LCD_WRITE_DR(string[i]);//显示"温度:"
+  39   2                      }
+  40   1              LCD_WRITE_IR(0x88);//在第3行显示
+  41   1              for (i=0;i<6;i++)
+  42   1                      {
+  43   2                       LCD_WRITE_DR(DispStr[i]);//显示"系列号"
+  44   2                      }
+  45   1              DispCode();//在第4行显示序列号
+  46   1              do{
+  47   2                      read_temp(); //读取温度值
+  48   2                      delay100us();
+  49   2                      display();       //显示温度值
+  50   2                      delay100us();
+  51   2               }while (1);    //无限循环
+  52   1      }
+  53          /**********************************************************
+  54          *系列号显示子程序
+  55          *显示顺序(从左到右)8位CRC编码->48位序列号->8位产品系列编码
+C51 COMPILER V9.00   TEMPERATURE                                                           04/25/2012 11:44:08 PAGE 2   
+
+  56          **********************************************************/
+  57          void DispCode()
+  58          {
+  59   1       unsigned char i,temp;
+  60   1       LCD_WRITE_IR(0x98); //在第4行显示
+  61   1       for (i=8;i>0;i--)
+  62   1              {
+  63   2              //显示高4位
+  64   2              temp = fCode[i-1]>>4;
+  65   2                      if (temp<10) //ASCII码转换
+  66   2                               LCD_WRITE_DR(temp += 0x30);
+  67   2                      else
+  68   2                               LCD_WRITE_DR(temp += 0x37);
+  69   2              //显示低4位
+  70   2              temp = fCode[i-1]&0x0f;
+  71   2                      if (temp<10) //ASCII码转换
+  72   2                               LCD_WRITE_DR(temp += 0x30);
+  73   2                      else
+  74   2                               LCD_WRITE_DR(temp += 0x37);
+  75   2               }
+  76   1      }
+  77          /**********************************************************
+  78          *延时子程序
+  79          **********************************************************/
+  80          void delay100us()
+  81          {
+  82   1       unsigned char i;
+  83   1       for (i=49;i>0;i--);
+  84   1      }
+  85          /**********************************************************
+  86          *转换显示子程序
+  87          **********************************************************/
+  88          void display()
+  89          {
+  90   1       unsigned char temp_data,temp_data_2;
+  91   1       unsigned int TempDec;  //用来存放4位小数
+  92   1       temp_data = temperature[1];
+  93   1       temp_data &= 0xf0;     //取高4位
+  94   1       if (temp_data==0xf0)   //判断是正温度还是负温度读数
+  95   1              {
+  96   2              //负温度读数求补,取反加1,判断低8位是否有进位
+  97   2                      if (temperature[0]==0)
+  98   2                              {       //有进位,高8位取反加1
+  99   3                                      temperature[0]=~temperature[0]+1;
+ 100   3                                      temperature[1]=~temperature[1]+1;
+ 101   3                              }
+ 102   2                      else
+ 103   2                              {       //没进位,高8位不加1
+ 104   3                                      temperature[0]=~temperature[0]+1;
+ 105   3                                      temperature[1]=~temperature[1];
+ 106   3                              }
+ 107   2               }
+ 108   1              temp_data = temperature[1]<<4;          //取高字节低4位(温度读数高4位)
+ 109   1              temp_data_2 = temperature[0]>>4;        //取低字节高4位(温度读数低4位)
+ 110   1              temp_data = temp_data|temp_data_2;      //组合成完整数据
+ 111   1              temp[0] = temp_data/100+0x30;           //取百位转换为ASCII码
+ 112   1              temp[1] = (temp_data%100)/10+0x30;      //取十位转换为ASCII码
+ 113   1              temp[2] = (temp_data%100)%10+0x30;      //取个位转换为ASCII码
+ 114   1              temperature[0]&=0x0f;                           //取小数位转换为ASCII码
+ 115   1              TempDec = ((temperature[0]&0x0f)*0.0625)*10000;//小数部分,扩大1万倍
+ 116   1              temp[3] = TempDec/1000+0x30;            //取小数个位转换为ASCII码
+ 117   1              temp[4] = (TempDec%1000)/100+0x30;      //取小数十位转换为ASCII码
+C51 COMPILER V9.00   TEMPERATURE                                                           04/25/2012 11:44:08 PAGE 3   
+
+ 118   1              temp[5] = ((TempDec%1000)%100)/10+0x30;//取小数百位转换为ASCII码
+ 119   1              temp[6] = ((TempDec%1000)%100)%10+0x30;//取小数千位转换为ASCII码
+ 120   1              LCD_WRITE_IR(0x91);//在LCD第2行显示
+ 121   1              LCD_WRITE_DR(temp[0]);  //显示百位
+ 122   1              LCD_WRITE_DR(temp[1]);  //显示十位
+ 123   1              LCD_WRITE_DR(temp[2]);  //显示个位
+ 124   1              LCD_WRITE_DR(0x2e);             //显示"."
+ 125   1              LCD_WRITE_DR(temp[3]);  //显示小数位
+ 126   1              LCD_WRITE_DR(temp[4]);  //显示小数位
+ 127   1              LCD_WRITE_DR(temp[5]);  //显示小数位
+ 128   1              LCD_WRITE_DR(temp[6]);  //显示小数位
+ 129   1              LCD_WRITE_DR(0xa1);             //显示"℃"
+ 130   1              LCD_WRITE_DR(0xe6);
+ 131   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    491    ----
+   CONSTANT SIZE    =     13    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     15       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\光盘\RZ-51V20\RZ-51V20 实例程序\5-独立按键\独立式键盘控制的4级变速流水灯\ex73.uv2
+Project File Date:  05/17/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling ex73.c...
+linking...
+Program Size: data=18.0 xdata=0 code=196
+creating hex file from "ex73"...
+"ex73" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling ex73.c...
+linking...
+Program Size: data=18.0 xdata=0 code=196
+creating hex file from "ex73"...
+"ex73" - 0 Error(s), 0 Warning(s).

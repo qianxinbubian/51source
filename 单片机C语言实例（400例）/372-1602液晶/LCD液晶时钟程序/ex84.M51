@@ -1,0 +1,390 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/23/2009  11:16:05  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE ex84.obj TO ex84 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ex84.obj (EX84)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ex84 (EX84)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?EX84
+                    000CH     0014H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     005EH     UNIT         ?PR?MAIN?EX84
+            CODE    006CH     0037H     UNIT         ?PR?TIME0?EX84
+            CODE    00A3H     002EH     UNIT         ?PR?LCDINITIATE?EX84
+            CODE    00D1H     0028H     UNIT         ?PR?_WRITEINSTRUCTION?EX84
+            CODE    00F9H     0025H     UNIT         ?PR?_WRITEDATA?EX84
+            CODE    011EH     001DH     UNIT         ?PR?DISPLAYSECOND?EX84
+            CODE    013BH     0018H     UNIT         ?CO?EX84
+            CODE    0153H     0017H     UNIT         ?PR?DISPLAYHOUR?EX84
+            CODE    016AH     0017H     UNIT         ?PR?DISPLAYMINUTE?EX84
+            CODE    0181H     0016H     UNIT         ?PR?BUSYTEST?EX84
+            CODE    0197H     0010H     UNIT         ?PR?_DELAY?EX84
+            CODE    01A7H     000DH     UNIT         ?PR?DELAY1MS?EX84
+            CODE    01B4H     000DH     UNIT         ?PR?_WRITEADDRESS?EX84
+            CODE    01C1H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   ex84 (EX84)
+
+
+SEGMENT                               BIT_GROUP 
+  +--> CALLED SEGMENT              START    LENGTH
+--------------------------------------------------
+?C_C51STARTUP                      -----    -----
+  +--> ?PR?MAIN?EX84
+
+?PR?MAIN?EX84                      -----    -----
+  +--> ?PR?LCDINITIATE?EX84
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 2
+
+
+  +--> ?PR?_WRITEADDRESS?EX84
+  +--> ?CO?EX84
+  +--> ?PR?_WRITEDATA?EX84
+  +--> ?PR?DISPLAYHOUR?EX84
+  +--> ?PR?_DELAY?EX84
+  +--> ?PR?DISPLAYMINUTE?EX84
+  +--> ?PR?DISPLAYSECOND?EX84
+
+?PR?LCDINITIATE?EX84               -----    -----
+  +--> ?PR?_WRITEINSTRUCTION?EX84
+  +--> ?PR?_DELAY?EX84
+
+?PR?_WRITEINSTRUCTION?EX84         -----    -----
+  +--> ?PR?_DELAY?EX84
+  +--> ?PR?BUSYTEST?EX84
+
+?PR?_DELAY?EX84                    -----    -----
+  +--> ?PR?DELAY1MS?EX84
+
+?PR?BUSYTEST?EX84                  0020H.0  0000H.1
+
+?PR?_WRITEADDRESS?EX84             -----    -----
+  +--> ?PR?_WRITEINSTRUCTION?EX84
+
+?PR?_WRITEDATA?EX84                -----    -----
+  +--> ?CO?EX84
+  +--> ?PR?BUSYTEST?EX84
+
+?PR?DISPLAYHOUR?EX84               -----    -----
+  +--> ?PR?_WRITEADDRESS?EX84
+  +--> ?PR?_WRITEDATA?EX84
+
+?PR?DISPLAYMINUTE?EX84             -----    -----
+  +--> ?PR?_WRITEADDRESS?EX84
+  +--> ?PR?_WRITEDATA?EX84
+
+?PR?DISPLAYSECOND?EX84             -----    -----
+  +--> ?PR?_WRITEADDRESS?EX84
+  +--> ?PR?_WRITEDATA?EX84
+
+
+
+SYMBOL TABLE OF MODULE:  ex84 (EX84)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX84
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  B:0080H.7       PUBLIC        BF
+  D:00A8H         PUBLIC        IE
+  C:013BH         PUBLIC        digit
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 3
+
+
+  C:00D8H         PUBLIC        _WriteInstruction
+  D:00B8H         PUBLIC        IP
+  C:0146H         PUBLIC        string
+  C:01A7H         PUBLIC        delay1ms
+  B:00A0H.0       PUBLIC        RS
+  C:000EH         PUBLIC        main
+  B:00A0H.1       PUBLIC        RW
+  D:0008H         PUBLIC        count
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:01BAH         PUBLIC        _WriteAddress
+  C:011EH         PUBLIC        DisplaySecond
+  C:006CH         PUBLIC        Time0
+  B:00A0H.2       PUBLIC        E
+  C:0181H         PUBLIC        BusyTest
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  C:016AH         PUBLIC        DisplayMinute
+  C:00A3H         PUBLIC        LcdInitiate
+  B:0088H.4       PUBLIC        TR0
+  D:0009H         PUBLIC        h
+  D:00C8H         PUBLIC        T2CON
+  C:00FFH         PUBLIC        _WriteData
+  D:000AH         PUBLIC        m
+  C:0197H         PUBLIC        _delay
+  D:000BH         PUBLIC        s
+  D:00D0H         PUBLIC        PSW
+  C:0153H         PUBLIC        DisplayHour
+  -------         PROC          DELAY1MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:01A7H         LINE#         17
+  C:01A7H         LINE#         18
+  C:01A7H         LINE#         20
+  C:01A9H         LINE#         21
+  C:01B3H         LINE#         23
+  -------         ENDPROC       DELAY1MS
+  -------         PROC          _DELAY
+  D:0005H         SYMBOL        n
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:0197H         LINE#         28
+  C:0199H         LINE#         29
+  C:0199H         LINE#         31
+  C:01A0H         LINE#         32
+  C:01A6H         LINE#         33
+  -------         ENDPROC       _DELAY
+  -------         PROC          BUSYTEST
+  -------         DO            
+  B:0020H.0       SYMBOL        result
+  -------         ENDDO         
+  C:0181H         LINE#         38
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 4
+
+
+  C:0181H         LINE#         39
+  C:0181H         LINE#         41
+  C:0183H         LINE#         42
+  C:0185H         LINE#         43
+  C:0187H         LINE#         44
+  C:0188H         LINE#         45
+  C:0189H         LINE#         46
+  C:018AH         LINE#         47
+  C:018BH         LINE#         48
+  C:018FH         LINE#         49
+  C:0191H         LINE#         50
+  C:0196H         LINE#         51
+  -------         ENDPROC       BUSYTEST
+  C:00D3H         SYMBOL        L?0035
+  -------         PROC          L?0034
+  -------         ENDPROC       L?0034
+  C:00D3H         SYMBOL        L?0035
+  -------         PROC          _WRITEINSTRUCTION
+  D:0006H         SYMBOL        dictate
+  C:00D8H         LINE#         56
+  C:00DAH         LINE#         57
+  C:00DAH         LINE#         58
+  C:00E2H         LINE#         59
+  C:00E4H         LINE#         60
+  C:00E6H         LINE#         61
+  C:00E8H         LINE#         63
+  C:00E9H         LINE#         64
+  C:00EAH         LINE#         65
+  C:00ECH         LINE#         66
+  C:00EDH         LINE#         67
+  C:00EEH         LINE#         68
+  C:00EFH         LINE#         69
+  C:00F0H         LINE#         70
+  C:00F2H         LINE#         71
+  C:00F3H         LINE#         72
+  C:00F4H         LINE#         73
+  C:00F5H         LINE#         74
+  C:00F6H         LINE#         75
+  C:00F8H         LINE#         76
+  -------         ENDPROC       _WRITEINSTRUCTION
+  -------         PROC          L?0036
+  -------         ENDPROC       L?0036
+  -------         PROC          _WRITEADDRESS
+  D:0007H         SYMBOL        x
+  C:01BAH         LINE#         81
+  C:01BAH         LINE#         82
+  C:01BAH         LINE#         83
+  -------         ENDPROC       _WRITEADDRESS
+  C:00F9H         SYMBOL        L?0038
+  -------         PROC          L?0037
+  -------         ENDPROC       L?0037
+  C:00F9H         SYMBOL        L?0038
+  -------         PROC          _WRITEDATA
+  D:0006H         SYMBOL        y
+  C:00FFH         LINE#         89
+  C:0101H         LINE#         90
+  C:0101H         LINE#         91
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 5
+
+
+  C:0109H         LINE#         92
+  C:010BH         LINE#         93
+  C:010DH         LINE#         94
+  C:010FH         LINE#         96
+  C:0111H         LINE#         97
+  C:0112H         LINE#         98
+  C:0113H         LINE#         99
+  C:0114H         LINE#         100
+  C:0115H         LINE#         101
+  C:0117H         LINE#         102
+  C:0118H         LINE#         103
+  C:0119H         LINE#         104
+  C:011AH         LINE#         105
+  C:011BH         LINE#         106
+  C:011DH         LINE#         107
+  -------         ENDPROC       _WRITEDATA
+  -------         PROC          LCDINITIATE
+  C:00A3H         LINE#         111
+  C:00A3H         LINE#         112
+  C:00A3H         LINE#         113
+  C:00A5H         LINE#         114
+  C:00A8H         LINE#         115
+  C:00A8H         LINE#         116
+  C:00ABH         LINE#         117
+  C:00ABH         LINE#         118
+  C:00AEH         LINE#         119
+  C:00B3H         LINE#         120
+  C:00B8H         LINE#         121
+  C:00BDH         LINE#         122
+  C:00C2H         LINE#         123
+  C:00C7H         LINE#         124
+  C:00CCH         LINE#         125
+  -------         ENDPROC       LCDINITIATE
+  -------         PROC          DISPLAYHOUR
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0153H         LINE#         131
+  C:0153H         LINE#         132
+  C:0153H         LINE#         134
+  C:015AH         LINE#         135
+  C:015CH         LINE#         136
+  C:0161H         LINE#         137
+  C:0164H         LINE#         138
+  -------         ENDPROC       DISPLAYHOUR
+  -------         PROC          DISPLAYMINUTE
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:016AH         LINE#         144
+  C:016AH         LINE#         145
+  C:016AH         LINE#         147
+  C:0171H         LINE#         148
+  C:0173H         LINE#         149
+  C:0178H         LINE#         150
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 6
+
+
+  C:017BH         LINE#         151
+  -------         ENDPROC       DISPLAYMINUTE
+  -------         PROC          DISPLAYSECOND
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:011EH         LINE#         157
+  C:011EH         LINE#         158
+  C:011EH         LINE#         160
+  C:0125H         LINE#         161
+  C:012DH         LINE#         162
+  C:0132H         LINE#         163
+  C:0135H         LINE#         164
+  -------         ENDPROC       DISPLAYSECOND
+  -------         PROC          MAIN
+  -------         DO            
+  D:0005H         SYMBOL        i
+  -------         ENDDO         
+  C:000EH         LINE#         170
+  C:000EH         LINE#         171
+  C:000EH         LINE#         173
+  C:0011H         LINE#         175
+  C:0014H         LINE#         176
+  C:0017H         LINE#         177
+  C:001AH         LINE#         178
+  C:001CH         LINE#         179
+  C:001EH         LINE#         180
+  C:0020H         LINE#         182
+  C:0023H         LINE#         183
+  C:0025H         LINE#         184
+  C:0027H         LINE#         185
+  C:0029H         LINE#         187
+  C:002EH         LINE#         188
+  C:0030H         LINE#         189
+  C:0038H         LINE#         190
+  C:0038H         LINE#         191
+  C:003BH         LINE#         192
+  C:003CH         LINE#         193
+  C:003EH         LINE#         194
+  C:0043H         LINE#         195
+  C:0048H         LINE#         196
+  C:004DH         LINE#         197
+  C:0052H         LINE#         198
+  C:0052H         LINE#         199
+  C:0052H         LINE#         200
+  C:0055H         LINE#         201
+  C:005AH         LINE#         202
+  C:005DH         LINE#         203
+  C:0062H         LINE#         204
+  C:0065H         LINE#         205
+  C:006AH         LINE#         206
+  -------         ENDPROC       MAIN
+  -------         PROC          TIME0
+  C:006CH         LINE#         211
+  C:0070H         LINE#         213
+  C:0072H         LINE#         214
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:16:05  PAGE 7
+
+
+  C:0077H         LINE#         215
+  C:0077H         LINE#         216
+  C:007AH         LINE#         217
+  C:007CH         LINE#         218
+  C:007CH         LINE#         219
+  C:0081H         LINE#         220
+  C:0081H         LINE#         221
+  C:0084H         LINE#         222
+  C:0086H         LINE#         223
+  C:0086H         LINE#         224
+  C:008BH         LINE#         225
+  C:008BH         LINE#         226
+  C:008EH         LINE#         227
+  C:0090H         LINE#         228
+  C:0090H         LINE#         229
+  C:0095H         LINE#         230
+  C:0095H         LINE#         231
+  C:0098H         LINE#         232
+  C:0098H         LINE#         233
+  C:009BH         LINE#         234
+  C:009EH         LINE#         235
+  -------         ENDPROC       TIME0
+  -------         ENDMOD        EX84
+
+Program Size: data=13.1 xdata=0 code=453
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

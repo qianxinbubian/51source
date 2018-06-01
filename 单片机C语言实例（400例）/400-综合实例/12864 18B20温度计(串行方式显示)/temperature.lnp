@@ -1,0 +1,5 @@
+"temperature.obj",
+"LCD12864R.obj",
+"DS1820.obj" 
+TO "temperature" 
+RAMSIZE(256) 

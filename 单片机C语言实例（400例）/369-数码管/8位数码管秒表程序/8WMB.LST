@@ -1,0 +1,191 @@
+C51 COMPILER V8.02   8WMB                                                                  07/24/2009 14:16:03 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 8WMB
+OBJECT MODULE PLACED IN 8WMB.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 8WMB.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          
+   3          #include <reg51.h>
+   4          #include <intrins.h>
+   5          
+   6          unsigned char data dis_digit;
+   7          unsigned char key_s, key_v;
+   8          
+   9          unsigned char code dis_code[11]={0xc0,0xf9,0xa4,0xb0,   // 0, 1, 2, 3
+  10                                          0x99,0x92,0x82,0xf8,0x80,0x90, 0xff};// 4, 5, 6, 7, 8, 9, off 
+  11          unsigned char dis_buf[8];               // 显示缓冲区
+  12          unsigned char sec_bcd[8];               // 秒计数值, BCD码
+  13          unsigned char dis_index;                // 
+  14          unsigned char key_times;                // K1 按下次数                          //
+  15          
+  16          void clr_time();        
+  17          void update_disbuf();
+  18          bit     scan_key();
+  19          void proc_key();
+  20          void delayms(unsigned char ms);
+  21          
+  22          sbit    K1 = P3^2;
+  23          
+  24          
+  25          void main(void)
+  26          {
+  27   1              P0 = 0xff;
+  28   1              P2 = 0xff;
+  29   1              TMOD = 0x11;            // 定时器0, 1工作模式1, 16位定时方式
+  30   1              TH1 = 0xdc;
+  31   1              TL1 = 0;
+  32   1      
+  33   1              TH0 = 0xFC;
+  34   1              TL0 = 0x17;
+  35   1              
+  36   1              clr_time();                     // 
+  37   1                                                 
+  38   1              dis_digit = 0x7f;               // 初始显示P20口数码管
+  39   1              dis_index = 0;                  // 
+  40   1              
+  41   1              key_times = 0;
+  42   1              key_v = 0x01;
+  43   1              
+  44   1              IE = 0x8a;                              // 使能timer0, timer1中断
+  45   1              
+  46   1              TR0 = 1;
+  47   1              TR1 = 0;
+  48   1              while(1)
+  49   1              {
+  50   2                      if(scan_key())
+  51   2                      {
+  52   3                              delayms(10);
+  53   3                              if(scan_key())
+  54   3                              {
+  55   4                                      key_v = key_s;
+C51 COMPILER V8.02   8WMB                                                                  07/24/2009 14:16:03 PAGE 2   
+
+  56   4                                      proc_key();
+  57   4                              }
+  58   3                      }
+  59   2                      
+  60   2              }
+  61   1      }
+  62          
+  63          void clr_time()
+  64          {
+  65   1              sec_bcd[0] = 0x0;
+  66   1              sec_bcd[1] = 0x0;
+  67   1              sec_bcd[2] = 0x0;
+  68   1              sec_bcd[3] = 0x0;
+  69   1              sec_bcd[4] = 0x0;
+  70   1              sec_bcd[5] = 0x0;
+  71   1              sec_bcd[6] = 0x0;
+  72   1              sec_bcd[7] = 0x0;   
+  73   1              
+  74   1              update_disbuf();
+  75   1              
+  76   1      }
+  77          
+  78          bit scan_key()
+  79          {
+  80   1              key_s = 0x00;
+  81   1              key_s |= K1;
+  82   1              return(key_s ^ key_v);  
+  83   1      }
+  84          
+  85          void proc_key()
+  86          {
+  87   1              if((key_v & 0x01) == 0)
+  88   1              {
+  89   2                      key_times++;
+  90   2                      if(key_times == 1)
+  91   2                      {
+  92   3                              TR1 = 1;
+  93   3                      }
+  94   2                      else if(key_times == 2)
+  95   2                      {       
+  96   3                              TR1 = 0;
+  97   3                      }
+  98   2                      else
+  99   2                      {
+ 100   3                              clr_time();
+ 101   3                              key_times = 0;
+ 102   3                      }
+ 103   2                      
+ 104   2              }
+ 105   1      }
+ 106          
+ 107          void timer0() interrupt 1
+ 108          // 定时器0中断服务程序, 用于数码管的动态扫描
+ 109          // dis_index --- 显示索引, 用于标识当前显示的数码管和缓冲区的偏移量
+ 110          // dis_digit --- 位选通值, 传送到P2口用于选通当前数码管的数值, 如等于0xfe时,
+ 111          //                              选通P2.0口数码管
+ 112          // dis_buf   --- 显于缓冲区基地址       
+ 113          {
+ 114   1              TH0 = 0xFC;
+ 115   1              TL0 = 0x17;
+ 116   1              
+ 117   1              P2 = 0xff;                                                      // 先关闭所有数码管
+C51 COMPILER V8.02   8WMB                                                                  07/24/2009 14:16:03 PAGE 3   
+
+ 118   1              P0 = dis_buf[dis_index];                        // 显示代码传送到P0口
+ 119   1              P2 = dis_digit;                                         // 
+ 120   1      
+ 121   1              dis_digit = _cror_(dis_digit,1);        // 位选通值右移(P30<-P37), 下次中断时选通下一位数码管
+ 122   1              dis_index++;                                            // 
+ 123   1                                              
+ 124   1              dis_index &= 0x07;                      // 8个数码管全部扫描完一遍之后，再回到第一个开始下一次扫描
+ 125   1      }
+ 126          
+ 127          void timer1() interrupt 3
+ 128          //
+ 129          {       
+ 130   1              unsigned char i;
+ 131   1              TH1 |= 0xdc;
+ 132   1              for(i = 0; i < 8; i++)
+ 133   1              {
+ 134   2                      sec_bcd[i]++;                   // 低位加1
+ 135   2                      if(sec_bcd[i] < 10)             // 如果低位满10则向高位进1
+ 136   2                              break;                  // 低位未满10
+ 137   2                      sec_bcd[i] = 0;                 // 低位满10清0
+ 138   2              }
+ 139   1              update_disbuf();                        // 更新显示缓冲区
+ 140   1      }
+ 141          
+ 142          void update_disbuf()
+ 143          // 更新显示缓冲区
+ 144          {
+ 145   1              dis_buf[0] = dis_code[sec_bcd[0]];
+ 146   1              dis_buf[1] = dis_code[sec_bcd[1]];
+ 147   1              dis_buf[2] = dis_code[sec_bcd[2]] & 0x7f;       // 加上小数点
+ 148   1              dis_buf[3] = dis_code[sec_bcd[3]];
+ 149   1              dis_buf[4] = dis_code[sec_bcd[4]];
+ 150   1              dis_buf[5] = dis_code[sec_bcd[5]];
+ 151   1              dis_buf[6] = dis_code[sec_bcd[6]];
+ 152   1              dis_buf[7] = dis_code[sec_bcd[7]];
+ 153   1      }
+ 154          
+ 155          void delayms(unsigned char ms)  
+ 156          // 延时子程序
+ 157          {                                               
+ 158   1              unsigned char i;
+ 159   1              while(ms--)
+ 160   1              {
+ 161   2                      for(i = 0; i < 120; i++);
+ 162   2              }
+ 163   1      }
+ 164          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    337    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     21    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

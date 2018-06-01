@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\新建文件夹 (2)\RZ-51V20 配套软件及资料\RZ-51V20 实例程序\30-综合实例\12864 18B20温度计(串行方式显示)\temperature.uv2
+Project File Date:  01/04/2008
+
+<h2>Output:</h2>
+Build target '目标 1'
+compiling temperature.c...
+compiling LCD12864R.C...
+compiling DS1820.c...
+linking...
+Program Size: data=31.1 xdata=0 code=1377
+creating hex file from "temperature"...
+"temperature" - 0 Error(s), 0 Warning(s).

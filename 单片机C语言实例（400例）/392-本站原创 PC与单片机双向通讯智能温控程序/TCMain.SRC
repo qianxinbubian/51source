@@ -1,0 +1,2262 @@
+; .\TCMain.SRC generated from: TCMain.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE TCMain.c ROM(SMALL) BROWSE DEBUG OBJECTEXTEND SRC(.\TCMain.SRC)
+
+$NOMOD51
+
+NAME	TCMAIN
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+AC	BIT	0D0H.6
+T0	BIT	0B0H.4
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+P0_0	BIT	080H.0
+P1_0	BIT	090H.0
+P0_1	BIT	080H.1
+P2_0	BIT	0A0H.0
+P1_1	BIT	090H.1
+P0_2	BIT	080H.2
+P3_0	BIT	0B0H.0
+P2_1	BIT	0A0H.1
+P1_2	BIT	090H.2
+P0_3	BIT	080H.3
+P3_1	BIT	0B0H.1
+P2_2	BIT	0A0H.2
+P1_3	BIT	090H.3
+P0_4	BIT	080H.4
+P3_2	BIT	0B0H.2
+P2_3	BIT	0A0H.3
+P1_4	BIT	090H.4
+P0_5	BIT	080H.5
+RD	BIT	0B0H.7
+P3_3	BIT	0B0H.3
+P2_4	BIT	0A0H.4
+P1_5	BIT	090H.5
+P0_6	BIT	080H.6
+P3_4	BIT	0B0H.4
+P2_5	BIT	0A0H.5
+P1_6	BIT	090H.6
+P0_7	BIT	080H.7
+P3_5	BIT	0B0H.5
+ES	BIT	0A8H.4
+P2_6	BIT	0A0H.6
+P1_7	BIT	090H.7
+P3_6	BIT	0B0H.6
+P2_7	BIT	0A0H.7
+IP	DATA	0B8H
+P3_7	BIT	0B0H.7
+RI	BIT	098H.0
+CY	BIT	0D0H.7
+INT0	BIT	0B0H.2
+INT1	BIT	0B0H.3
+TI	BIT	098H.1
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+EX1	BIT	0A8H.2
+TB8	BIT	098H.3
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+RS0	BIT	0D0H.3
+PT1	BIT	0B8H.3
+RS1	BIT	0D0H.4
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+F1	BIT	0D0H.1
+PSW	DATA	0D0H
+?PR?init_serialcomm?TCMAIN               SEGMENT CODE INBLOCK 
+?PR?_send_char_com?TCMAIN                SEGMENT CODE INBLOCK 
+?PR?_send_string_com?TCMAIN              SEGMENT CODE INBLOCK 
+?DT?_send_string_com?TCMAIN              SEGMENT DATA OVERLAYABLE 
+?PR?serial?TCMAIN    SEGMENT CODE INBLOCK 
+?DT?serial?TCMAIN    SEGMENT DATA OVERLAYABLE 
+?PR?main?TCMAIN      SEGMENT CODE INBLOCK 
+?PR?KeyAndDis_Time0?TCMAIN               SEGMENT CODE INBLOCK 
+?PR?V2ToV?TCMAIN     SEGMENT CODE INBLOCK 
+?PR?InitDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+?PR?ROMDS1820?TCMAIN SEGMENT CODE INBLOCK 
+?PR?TMVDS1820?TCMAIN SEGMENT CODE INBLOCK 
+?PR?TMRDS1820?TCMAIN SEGMENT CODE INBLOCK 
+?PR?TMWDS1820?TCMAIN SEGMENT CODE INBLOCK 
+?PR?TMREDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+?PR?TMERDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+?PR?WriteDS1820?TCMAIN                   SEGMENT CODE INBLOCK 
+?PR?ReadDS1820?TCMAIN                    SEGMENT CODE INBLOCK 
+?PR?Delay_510?TCMAIN SEGMENT CODE INBLOCK 
+?PR?Delay_110?TCMAIN SEGMENT CODE INBLOCK 
+?PR?Delay_10ms?TCMAIN                    SEGMENT CODE INBLOCK 
+?PR?Delay_4s?TCMAIN  SEGMENT CODE INBLOCK 
+?C_INITSEG           SEGMENT CODE 
+?CO?TCMAIN           SEGMENT CODE 
+?DT?TCMAIN           SEGMENT DATA 
+?BA?TCMAIN           SEGMENT DATA BITADDRESSABLE 
+	EXTRN	CODE (?C?CLDOPTR)
+	EXTRN	CODE (?C_STARTUP)
+	EXTRN	CODE (?C?SCDIV)
+	EXTRN	CODE (?C?IMUL)
+	EXTRN	CODE (?C?SIDIV)
+	PUBLIC	count3
+	PUBLIC	dis_8
+	PUBLIC	PowTF
+	PUBLIC	inbuf2
+	PUBLIC	inbuf1
+	PUBLIC	SetTF
+	PUBLIC	KeyTF
+	PUBLIC	KeySETDown
+	PUBLIC	DS1820ON
+	PUBLIC	LEDDis
+	PUBLIC	Delay_4s
+	PUBLIC	Delay_10ms
+	PUBLIC	Delay_110
+	PUBLIC	Delay_510
+	PUBLIC	ReadDS1820
+	PUBLIC	WriteDS1820
+	PUBLIC	TMERDS1820
+	PUBLIC	TMREDS1820
+	PUBLIC	TMWDS1820
+	PUBLIC	TMRDS1820
+	PUBLIC	TMVDS1820
+	PUBLIC	ROMDS1820
+	PUBLIC	InitDS1820
+	PUBLIC	V2ToV
+	PUBLIC	KeyAndDis_Time0
+	PUBLIC	main
+	PUBLIC	serial
+	PUBLIC	_send_string_com
+	PUBLIC	_send_char_com
+	PUBLIC	init_serialcomm
+
+	DSEG  AT  026H
+         TMSetV:   DS   1
+
+	DSEG  AT  027H
+         TMRomV:   DS   1
+
+	DSEG  AT  028H
+            THV:   DS   1
+
+	DSEG  AT  029H
+            TLV:   DS   1
+
+	RSEG  ?DT?serial?TCMAIN
+?serial?BYTE:
+         ch?344:   DS   1
+
+	RSEG  ?DT?_send_string_com?TCMAIN
+?_send_string_com?BYTE:
+        str?241:   DS   3
+	ORG  3
+     strlen?242:   DS   2
+
+	RSEG  ?DT?TCMAIN
+           KeyV:   DS   1
+        IntNum2:   DS   1
+        IntNum3:   DS   1
+           Sign:   DS   1
+         KSDNum:   DS   1
+       TempKeyV:   DS   1
+           flag:   DS   1
+      LED_Three:   DS   1
+         inbuf1:   DS   5
+         inbuf2:   DS   50
+        LED_One:   DS   1
+          dis_8:   DS   12
+         IntNum:   DS   1
+         Second:   DS   1
+         count3:   DS   1
+        LED_Two:   DS   1
+            TMV:   DS   1
+
+	RSEG  ?BA?TCMAIN
+       StateREG:   DS   1
+DS1820ON	EQU	(StateREG+0).0
+KeySETDown	EQU	(StateREG+0).2
+KeyTF	EQU	(StateREG+0).4
+SetTF	EQU	(StateREG+0).1
+PowTF	EQU	(StateREG+0).3
+
+	RSEG  ?CO?TCMAIN
+LEDDis:
+	DB	0C0H
+	DB	0F9H
+	DB	0A4H
+	DB	0B0H
+	DB	099H
+	DB	092H
+	DB	082H
+	DB	0F8H
+	DB	080H
+	DB	090H
+	DB	0FFH
+	DB	0BFH
+
+
+	RSEG  ?C_INITSEG
+	DB	005H
+	DB	inbuf1
+	DB	030H
+	DB	030H
+	DB	030H
+	DB	030H
+	DB	030H
+
+	DB	00CH
+	DB	dis_8
+	DB	030H
+	DB	031H
+	DB	032H
+	DB	033H
+	DB	034H
+	DB	035H
+	DB	036H
+	DB	037H
+	DB	038H
+	DB	039H
+	DB	020H
+	DB	02DH
+
+; #include <AT89X51.H>
+; #include <intrins.h>
+; #define Key_UP            P1_4 
+; #define Key_DOWN          P1_5   
+; #define Key_SET           P1_6   
+; #define RelayOutPort      P3_7  
+; #define LEDPort           P0      
+; #define DELPort           P3_6   
+; #define LEDTwoC           P2_6    
+; #define LEDThreeC         P2_7    
+; #define TMPort			  P3_3
+; #define INBUF_LEN 5 //数据长度
+; unsigned char inbuf1[INBUF_LEN]={'0','0','0','0','0'};//发送缓冲区
+; unsigned char inbuf2[50];//接收缓冲区
+; unsigned char count3;
+; void init_serialcomm( void )
+
+	RSEG  ?PR?init_serialcomm?TCMAIN
+init_serialcomm:
+			; SOURCE LINE # 16
+; {
+			; SOURCE LINE # 17
+; SCON = 0x50 ; //SCON: serail mode 1, 8-bit UART, enable ucvr
+			; SOURCE LINE # 18
+	MOV  	SCON,#050H
+; TMOD |= 0x20 ; //TMOD: timer 1, mode 2, 8-bit reload
+			; SOURCE LINE # 19
+	ORL  	TMOD,#020H
+; PCON |= 0x80 ; //SMOD=1;
+			; SOURCE LINE # 20
+	ORL  	PCON,#080H
+; TH1 = 0xFA ; //Baud:4800 fosc=11.0592MHz
+			; SOURCE LINE # 21
+	MOV  	TH1,#0FAH
+; IE |= 0x90 ; //Enable Serial Interrupt
+			; SOURCE LINE # 22
+	ORL  	IE,#090H
+; TR1 = 1 ; // timer 1 run
+			; SOURCE LINE # 23
+	SETB 	TR1
+; }
+			; SOURCE LINE # 24
+	RET  	
+; END OF init_serialcomm
+
+; //向串口发送一个字符
+; void send_char_com( unsigned char ch)
+
+	RSEG  ?PR?_send_char_com?TCMAIN
+L?0099:
+	USING	2
+	MOV  	R7,#04FH
+L?0100:
+	ACALL	_send_char_com
+	ACALL	_send_char_com
+_send_char_com:
+			; SOURCE LINE # 26
+;---- Variable 'ch?140' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 27
+; SBUF=ch;
+			; SOURCE LINE # 28
+	MOV  	SBUF,R7
+?C0002:
+; while (TI== 0 );
+			; SOURCE LINE # 29
+	JNB  	TI,?C0002
+?C0003:
+; TI= 0 ;
+			; SOURCE LINE # 30
+	CLR  	TI
+; }
+			; SOURCE LINE # 31
+	RET  	
+; END OF _send_char_com
+
+; //向串口发送一个字符串，strlen 为该字符串长度
+; void send_string_com( unsigned char *str, unsigned int strlen)
+
+	RSEG  ?PR?_send_string_com?TCMAIN
+_send_string_com:
+	USING	0
+			; SOURCE LINE # 33
+	MOV  	str?241,R3
+	MOV  	str?241+01H,R2
+	MOV  	str?241+02H,R1
+	MOV  	strlen?242,R4
+	MOV  	strlen?242+01H,R5
+; {
+			; SOURCE LINE # 34
+; unsigned int k= 0 ;
+			; SOURCE LINE # 35
+;---- Variable 'k?243' assigned to Register 'R4/R5' ----
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R4,A
+?C0007:
+; do
+; {
+			; SOURCE LINE # 37
+; send_char_com(*(str + k));
+			; SOURCE LINE # 38
+	MOV  	R3,str?241
+	MOV  	R2,str?241+01H
+	MOV  	R1,str?241+02H
+	MOV  	DPL,R5
+	MOV  	DPH,R4
+	ACALL	?C?CLDOPTR
+	MOV  	R7,A
+	ACALL	_send_char_com
+; k++;
+			; SOURCE LINE # 39
+	INC  	R5
+	CJNE 	R5,#00H,?C0089
+	INC  	R4
+?C0089:
+; } while (k < strlen);
+			; SOURCE LINE # 40
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,strlen?242+01H
+	MOV  	A,R4
+	SUBB 	A,strlen?242
+	JC   	?C0007
+; }
+			; SOURCE LINE # 41
+	RET  	
+; END OF _send_string_com
+
+CSEG	AT	00023H
+	AJMP	serial
+
+; //串口接收中断函数
+; void serial () interrupt 4 using 3
+
+	RSEG  ?PR?serial?TCMAIN
+	USING	3
+serial:
+	PUSH 	ACC
+	PUSH 	PSW
+	USING	3
+	MOV  	PSW,#018H
+			; SOURCE LINE # 43
+; {
+; if (RI) //RI==开始接收
+			; SOURCE LINE # 45
+	JNB  	RI,?C0012
+; {
+			; SOURCE LINE # 46
+; unsigned char ch;
+; RI = 0 ; //软件RI=0
+			; SOURCE LINE # 48
+	CLR  	RI
+; ch=SBUF;
+			; SOURCE LINE # 49
+	MOV  	ch?344,SBUF
+; if (ch> 1 )
+			; SOURCE LINE # 50
+	MOV  	A,ch?344
+	SETB 	C
+	SUBB 	A,#01H
+	JC   	?C0010
+; {
+			; SOURCE LINE # 51
+; count3= 0 ;
+			; SOURCE LINE # 52
+	MOV  	count3,#00H
+; inbuf2[count3]=ch;
+			; SOURCE LINE # 53
+; }
+			; SOURCE LINE # 54
+	SJMP 	?C0092
+?C0010:
+; else
+; {
+			; SOURCE LINE # 56
+; count3++;
+			; SOURCE LINE # 57
+	INC  	count3
+; inbuf2[count3]=ch;
+			; SOURCE LINE # 58
+?C0092:
+	MOV  	A,#LOW (inbuf2)
+	ADD  	A,count3
+	MOV  	R0,A
+	MOV  	@R0,ch?344
+; }
+			; SOURCE LINE # 59
+; }
+			; SOURCE LINE # 60
+; }	
+			; SOURCE LINE # 61
+?C0012:
+	POP  	PSW
+	POP  	ACC
+	RETI 	
+; END OF serial
+
+; 
+; unsigned char code LEDDis[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xFF,0xBF}; //0-9的LED笔划,0xFF为空,0xF7为负号
+; unsigned char dis_8[12]={'0','1','2','3','4','5','6','7','8','9',' ','-'};
+; static unsigned char bdata StateREG;	//可位寻址的状态寄存器
+; sbit DS1820ON = StateREG^0;	          //DS1820是否存在
+; sbit SetTF = StateREG^1;              //是否是在温度设置状态
+; sbit KeySETDown = StateREG^2;         //是否已按过SET键标识
+; sbit PowTF = StateREG^3;              //电源电源标识
+; sbit KeyTF = StateREG^4;							//键盘是否允许
+; 
+; //sbit KeySETDowning = StateREG^5;			//SET是否正在按下
+; static unsigned char bdata TLV _at_ 0x0029;         //温度变量高低位
+; static unsigned char bdata THV _at_ 0x0028;
+; static signed char TMV;       //转换后的温度值
+; static unsigned char KeyV,TempKeyV;      //键值
+; static unsigned char Second;
+; static unsigned char flag;
+; static signed char TMRomV _at_ 0x0027;    //高温限制
+; static signed char TMSetV _at_ 0x0026;    //温度设定值
+; static unsigned char KSDNum;    //SET键连按时的采集次数
+; static unsigned char IntNum,IntNum2,IntNum3;    //中断发生次数，IntNum用于SET长按检测，IntNum2用于设定状态时LED闪烁
+; static signed char LED_One,LED_Two,LED_Three;  //LED的显示位 LED_One为十位，LED_Two为个位
+; static unsigned char Sign; //负号标识
+; 
+; void main(void)
+
+	RSEG  ?PR?main?TCMAIN
+main:
+	USING	0
+			; SOURCE LINE # 86
+; {
+			; SOURCE LINE # 87
+; 
+; 	void InitDS1820(void);   //定义函数
+; 	void ROMDS1820(void);
+; 	void TMVDS1820(void);
+; 	void TMRDS1820(void);
+; 	void TMWDS1820(void);
+; 	void TMREDS1820(void);
+; 	void TMERDS1820(void);
+; 	void ReadDS1820(void);
+; 	void WriteDS1820(void);
+; 	void Delay_510(void);
+; 	void Delay_110(void);
+; 	void Delay_10ms(void);
+; 	void Delay_4s(void);
+; 	void V2ToV(void);
+; 	
+; 	 DELPort=1;
+			; SOURCE LINE # 104
+	SETB 	P3_6
+; 	StateREG = 0;   //初始化变量
+			; SOURCE LINE # 105
+	CLR  	A
+	MOV  	StateREG,A
+; 	SetTF = 0;	
+			; SOURCE LINE # 106
+	CLR  	SetTF
+; 	PowTF = 0;			//关电源
+			; SOURCE LINE # 107
+	CLR  	PowTF
+; 	THV = 0;
+			; SOURCE LINE # 108
+	MOV  	THV,A
+; 	TLV = 0;
+			; SOURCE LINE # 109
+	MOV  	TLV,A
+; 	TMV = 0;
+			; SOURCE LINE # 110
+	MOV  	TMV,A
+; 	KeyV = 0;
+			; SOURCE LINE # 111
+	MOV  	KeyV,A
+; 	TempKeyV = 0;
+			; SOURCE LINE # 112
+	MOV  	TempKeyV,A
+; 	KSDNum = 0;
+			; SOURCE LINE # 113
+	MOV  	KSDNum,A
+; 	IntNum = 0;
+			; SOURCE LINE # 114
+	MOV  	IntNum,A
+; 	IntNum2 = 0;
+			; SOURCE LINE # 115
+	MOV  	IntNum2,A
+; 	IntNum3 = 0;
+			; SOURCE LINE # 116
+	MOV  	IntNum3,A
+; 	LED_One = 0;
+			; SOURCE LINE # 117
+	MOV  	LED_One,A
+; 	LED_Two	= 0;
+			; SOURCE LINE # 118
+	MOV  	LED_Two,A
+; 
+; 	InitDS1820(); //初始化
+			; SOURCE LINE # 120
+	ACALL	InitDS1820
+; 	ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 121
+	ACALL	ROMDS1820
+; 	TMERDS1820();  //E2PRAM中温度上限值调入RAM
+			; SOURCE LINE # 122
+	ACALL	TMERDS1820
+; 	InitDS1820(); //初始化
+			; SOURCE LINE # 123
+	ACALL	InitDS1820
+; 	ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 124
+	ACALL	ROMDS1820
+; 	TMRDS1820(); 	//读出温度指令
+			; SOURCE LINE # 125
+	ACALL	TMRDS1820
+; 	ReadDS1820(); //读出温度值和上限值
+			; SOURCE LINE # 126
+	ACALL	ReadDS1820
+; 	TMSetV = TMRomV;  //拷贝保存在DS18B20ROM里的上限值到TMSetV
+			; SOURCE LINE # 127
+	MOV  	TMSetV,TMRomV
+; 
+; 	EA = 1;					//允许CPU中断
+			; SOURCE LINE # 129
+	SETB 	EA
+; 	ET0 = 1; 				//定时器0中断打开
+			; SOURCE LINE # 130
+	SETB 	ET0
+; 	TMOD = 0x1;			//设定时器0为模式1，16位模式
+			; SOURCE LINE # 131
+	MOV  	TMOD,#01H
+; 	TH0=0xB1;
+			; SOURCE LINE # 132
+	MOV  	TH0,#0B1H
+; 	TL0=0xDF;				//设定时值为20000us（20ms）
+			; SOURCE LINE # 133
+	MOV  	TL0,#0DFH
+; 	TR0 = 1;
+			; SOURCE LINE # 134
+	SETB 	TR0
+?C0013:
+; 	
+; 	while(1){				//开始定时
+			; SOURCE LINE # 136
+; 
+; 	
+; 
+; 	 
+; 
+; 
+; if (flag==0){
+			; SOURCE LINE # 143
+	MOV  	A,flag
+	JNZ  	?C0013
+; if (Second==1){
+			; SOURCE LINE # 144
+	MOV  	A,Second
+	CJNE 	A,#01H,?C0013
+; 			Delay_4s();
+			; SOURCE LINE # 145
+	ACALL	Delay_4s
+; 			Delay_4s();
+			; SOURCE LINE # 146
+	ACALL	Delay_4s
+; 			Delay_4s();
+			; SOURCE LINE # 147
+	ACALL	Delay_4s
+; 			Delay_4s();
+			; SOURCE LINE # 148
+	ACALL	Delay_4s
+; 			Delay_4s();
+			; SOURCE LINE # 149
+	ACALL	Delay_4s
+; 			Delay_4s();
+			; SOURCE LINE # 150
+	ACALL	Delay_4s
+; 			
+; 		  DELPort=0; 
+			; SOURCE LINE # 152
+	CLR  	P3_6
+; 		  Second=0;
+			; SOURCE LINE # 153
+	CLR  	A
+	MOV  	Second,A
+; 		  }
+			; SOURCE LINE # 154
+; 		   }
+			; SOURCE LINE # 155
+; 		 }
+			; SOURCE LINE # 156
+	SJMP 	?C0013
+; END OF main
+
+CSEG	AT	0000BH
+	AJMP	KeyAndDis_Time0
+
+; 	
+; 	
+; }
+; 
+; //定时器0中断外理中键扫描和显示
+; void KeyAndDis_Time0(void) interrupt 1 using 2
+
+	RSEG  ?PR?KeyAndDis_Time0?TCMAIN
+	USING	2
+KeyAndDis_Time0:
+	PUSH 	ACC
+	PUSH 	B
+	PUSH 	DPH
+	PUSH 	DPL
+	PUSH 	PSW
+	USING	2
+	MOV  	PSW,#010H
+			; SOURCE LINE # 162
+; {
+;   TH0=0xB1;
+			; SOURCE LINE # 164
+	MOV  	TH0,#0B1H
+; 	TL0=0xDF;				//设定时值为20000us（20ms)
+			; SOURCE LINE # 165
+	MOV  	TL0,#0DFH
+; 
+; 	LEDPort = 0xFF;
+			; SOURCE LINE # 167
+	MOV  	P0,#0FFH
+; 	
+;    
+; 	   if (inbuf2[0]==0x33){
+			; SOURCE LINE # 170
+	MOV  	A,inbuf2
+	CJNE 	A,#033H,?C0018
+; 	   send_char_com('O');
+			; SOURCE LINE # 171
+; 	   send_char_com('O');
+			; SOURCE LINE # 172
+; 	   send_char_com('O');
+			; SOURCE LINE # 173
+	LCALL	L?0099
+; 	   SetTF = 1;
+			; SOURCE LINE # 174
+	SETB 	SetTF
+; //send_string_com(inbuf2,1);
+; //BEEP=0;
+; //RELAY=0;
+; send_char_com('O');
+			; SOURCE LINE # 178
+	ACALL	_send_char_com
+;      //inbuf2[0]=0x00;
+; 	 inbuf2[0]=0x00;
+			; SOURCE LINE # 180
+	MOV  	inbuf2,#00H
+; } 
+			; SOURCE LINE # 181
+?C0018:
+; 
+; if (inbuf2[0]==0x36){
+			; SOURCE LINE # 183
+	MOV  	A,inbuf2
+	CJNE 	A,#036H,?C0019
+; 
+; //send_string_com(inbuf2,1);
+; //BEEP=1;
+; send_char_com('N');
+			; SOURCE LINE # 187
+	MOV  	R7,#04EH
+; send_char_com('N');
+			; SOURCE LINE # 188
+; send_char_com('N');
+			; SOURCE LINE # 189
+	ACALL	L?0100
+; SetTF = 0;
+			; SOURCE LINE # 190
+	CLR  	SetTF
+; 
+; inbuf2[0]=0x00;
+			; SOURCE LINE # 192
+	MOV  	inbuf2,#00H
+; 
+; } 
+			; SOURCE LINE # 194
+?C0019:
+; 
+; if (inbuf2[0]==0x34){
+			; SOURCE LINE # 196
+	MOV  	A,inbuf2
+	CJNE 	A,#034H,?C0020
+; 	   KeyV=2;
+			; SOURCE LINE # 197
+	MOV  	KeyV,#02H
+; //send_string_com(inbuf2,1);
+; //BEEP=0;
+; //RELAY=0;
+;   TMSetV = TMSetV - 1;
+			; SOURCE LINE # 201
+	DEC  	TMSetV
+;     inbuf2[0]=0x00;
+			; SOURCE LINE # 202
+	MOV  	inbuf2,#00H
+; } 
+			; SOURCE LINE # 203
+?C0020:
+; 
+; if (inbuf2[0]==0x35){
+			; SOURCE LINE # 205
+	MOV  	A,inbuf2
+	CJNE 	A,#035H,?C0021
+; 
+; //send_string_com(inbuf2,1);
+; //BEEP=1;
+; //RELAY=1;
+;  TMSetV = TMSetV + 1;    //上调温度
+			; SOURCE LINE # 210
+	INC  	TMSetV
+;  inbuf2[0]=0x00;
+			; SOURCE LINE # 211
+	MOV  	inbuf2,#00H
+; } 
+			; SOURCE LINE # 212
+?C0021:
+; 
+; if (inbuf2[0]==0x74){
+			; SOURCE LINE # 214
+	MOV  	A,inbuf2
+	CJNE 	A,#074H,?C0022
+; 	 KeyV=2;
+			; SOURCE LINE # 215
+	MOV  	KeyV,#02H
+; //send_string_com(inbuf2,1);
+; //BEEP=1;
+; //RELAY=1;
+; } 
+			; SOURCE LINE # 219
+?C0022:
+; 
+; if (inbuf2[0]==0x90){
+			; SOURCE LINE # 221
+	MOV  	A,inbuf2
+	CJNE 	A,#090H,?C0023
+; 	 KeyV=1;
+			; SOURCE LINE # 222
+	MOV  	KeyV,#01H
+; //send_string_com(inbuf2,1);
+; //BEEP=1;
+; //RELAY=1;
+; } 
+			; SOURCE LINE # 226
+?C0023:
+; 
+; 
+;   if (!Key_UP)
+			; SOURCE LINE # 229
+	JB   	P1_4,?C0024
+;     KeyV = 1;
+			; SOURCE LINE # 230
+	MOV  	KeyV,#01H
+?C0024:
+;   if (!Key_DOWN)
+			; SOURCE LINE # 231
+	JB   	P1_5,?C0025
+;     KeyV = 2;
+			; SOURCE LINE # 232
+	MOV  	KeyV,#02H
+?C0025:
+;   if (!Key_SET)
+			; SOURCE LINE # 233
+	JB   	P1_6,?C0026
+;     KeyV = 3;
+			; SOURCE LINE # 234
+	MOV  	KeyV,#03H
+?C0026:
+; 	//KeySETDowning = 0;  //清除
+;   if (KeyV != 0)      //有键按下
+			; SOURCE LINE # 236
+	MOV  	A,KeyV
+	JNZ  	$ + 4H
+	AJMP 	?C0027
+;     {
+			; SOURCE LINE # 237
+;       Delay_10ms();   //延时防抖  按下10ms再测
+			; SOURCE LINE # 238
+	ACALL	Delay_10ms
+;       if (!Key_UP)
+			; SOURCE LINE # 239
+	JB   	P1_4,?C0028
+;         TempKeyV = 1;
+			; SOURCE LINE # 240
+	MOV  	TempKeyV,#01H
+?C0028:
+;       if (!Key_DOWN)
+			; SOURCE LINE # 241
+	JB   	P1_5,?C0029
+;         TempKeyV = 2;
+			; SOURCE LINE # 242
+	MOV  	TempKeyV,#02H
+?C0029:
+;       if (!Key_SET)
+			; SOURCE LINE # 243
+	JB   	P1_6,?C0030
+;         TempKeyV = 3;
+			; SOURCE LINE # 244
+	MOV  	TempKeyV,#03H
+?C0030:
+;       if (KeyV == TempKeyV)   //两次值相等为确定接下了键
+			; SOURCE LINE # 245
+	MOV  	A,KeyV
+	XRL  	A,TempKeyV
+	JNZ  	?C0027
+;         {
+			; SOURCE LINE # 246
+;           if (KeyV == 3)      //按下SET键，如在SET状态就退出，否则进入
+			; SOURCE LINE # 247
+	MOV  	A,KeyV
+	XRL  	A,#03H
+	JNZ  	?C0032
+;             {
+			; SOURCE LINE # 248
+; 							//KeySETDowning = 1; //表明SET正在按下
+; 							
+; 			
+;               PowTF = 0;      //电源标识开
+			; SOURCE LINE # 252
+	CLR  	PowTF
+; 							if (!KeyTF)
+			; SOURCE LINE # 253
+	JB   	KeyTF,?C0033
+;               	if (SetTF){
+			; SOURCE LINE # 254
+	JNB  	SetTF,?C0034
+; 				send_char_com('N');
+			; SOURCE LINE # 255
+	MOV  	R7,#04EH
+; send_char_com('N');
+			; SOURCE LINE # 256
+; send_char_com('N');
+			; SOURCE LINE # 257
+	ACALL	L?0100
+;                 		SetTF = 0;    //标识位标识退出设定
+			; SOURCE LINE # 258
+	CLR  	SetTF
+; 						
+; 										InitDS1820(); //初始化
+			; SOURCE LINE # 260
+	ACALL	InitDS1820
+;   									ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 261
+	ACALL	ROMDS1820
+;   									TMWDS1820(); 	//写温度上限指令
+			; SOURCE LINE # 262
+	ACALL	TMWDS1820
+; 										WriteDS1820(); 	//写温度上限到DS18B20ROM
+			; SOURCE LINE # 263
+	ACALL	WriteDS1820
+; 										WriteDS1820(); 	//写温度上限到DS18B20ROM
+			; SOURCE LINE # 264
+	ACALL	WriteDS1820
+; 										WriteDS1820(); 	//写温度上限到DS18B20ROM
+			; SOURCE LINE # 265
+	ACALL	WriteDS1820
+; 										InitDS1820(); //初始化
+			; SOURCE LINE # 266
+	ACALL	InitDS1820
+;   									ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 267
+	ACALL	ROMDS1820
+;   									TMREDS1820(); 	//温度上限值COPY回E2PRAM
+			; SOURCE LINE # 268
+	ACALL	TMREDS1820
+; 									}
+			; SOURCE LINE # 269
+	SJMP 	?C0033
+?C0034:
+;               	else {
+			; SOURCE LINE # 270
+; 				send_char_com('O');
+			; SOURCE LINE # 271
+; 	   send_char_com('O');
+			; SOURCE LINE # 272
+; 	   send_char_com('O');
+			; SOURCE LINE # 273
+	LCALL	L?0099
+;                 	SetTF = 1;}
+			; SOURCE LINE # 274
+	SETB 	SetTF
+?C0033:
+; 					 
+; 				   
+;               if (!KeySETDown) //没有第一次按下SET时，KeySETDown标识置1
+			; SOURCE LINE # 277
+	JB   	KeySETDown,?C0036
+;                 KeySETDown = 1;
+			; SOURCE LINE # 278
+	SETB 	KeySETDown
+	SJMP 	?C0032
+?C0036:
+;               else
+;                 KSDNum = KSDNum + 1;  //前一秒内有按过SET则开始计数
+			; SOURCE LINE # 280
+	INC  	KSDNum
+;             }
+			; SOURCE LINE # 281
+?C0032:
+;           if (SetTF)  //在SET状态下
+			; SOURCE LINE # 282
+	JNB  	SetTF,?C0038
+;             {
+			; SOURCE LINE # 283
+; 			 
+;               if ((KeyV == 1) && (!KeyTF))
+			; SOURCE LINE # 285
+	MOV  	A,KeyV
+	CJNE 	A,#01H,?C0039
+	JB   	KeyTF,?C0039
+;                 TMSetV = TMSetV + 1;    //上调温度
+			; SOURCE LINE # 286
+	INC  	TMSetV
+?C0039:
+;               if ((KeyV == 2) && (!KeyTF))
+			; SOURCE LINE # 287
+	MOV  	A,KeyV
+	CJNE 	A,#02H,?C0040
+	JB   	KeyTF,?C0040
+;                 TMSetV = TMSetV - 1;    //下调温度
+			; SOURCE LINE # 288
+	DEC  	TMSetV
+?C0040:
+;               if (TMSetV <= 20)          //限制温度上下限
+			; SOURCE LINE # 289
+	SETB 	C
+	MOV  	A,TMSetV
+	XRL  	A,#080H
+	SUBB 	A,#094H
+	JNC  	?C0041
+;                 TMSetV = 20;
+			; SOURCE LINE # 290
+	MOV  	TMSetV,#014H
+?C0041:
+;               if (TMSetV >= 75)
+			; SOURCE LINE # 291
+	CLR  	C
+	MOV  	A,TMSetV
+	XRL  	A,#080H
+	SUBB 	A,#0CBH
+	JC   	?C0038
+;                 TMSetV = 75;
+			; SOURCE LINE # 292
+	MOV  	TMSetV,#04BH
+;             }
+			; SOURCE LINE # 293
+?C0038:
+; 		if ((!KeyTF) && (IntNum3 == 0)) KeyTF = 1; //当键盘处于可用时，锁定
+			; SOURCE LINE # 294
+	JB   	KeyTF,?C0027
+	MOV  	A,IntNum3
+	JNZ  	?C0027
+	SETB 	KeyTF
+;         }
+			; SOURCE LINE # 295
+; 
+;      
+;     }
+			; SOURCE LINE # 298
+?C0027:
+;   KeyV = 0;
+			; SOURCE LINE # 299
+	MOV  	KeyV,#00H
+;   TempKeyV = 0;   //清空变量准备下次键扫描
+			; SOURCE LINE # 300
+	MOV  	TempKeyV,#00H
+; 
+;   if (!PowTF)
+			; SOURCE LINE # 302
+	JB   	PowTF,?C0053
+;     {
+			; SOURCE LINE # 303
+;       InitDS1820();	//初始化
+			; SOURCE LINE # 304
+	ACALL	InitDS1820
+;       ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 305
+	ACALL	ROMDS1820
+;       TMVDS1820();  //温度转换指令
+			; SOURCE LINE # 306
+	ACALL	TMVDS1820
+; 
+;       Delay_510();
+			; SOURCE LINE # 308
+	ACALL	Delay_510
+;       Delay_510();  //延时等待转换完成
+			; SOURCE LINE # 309
+	ACALL	Delay_510
+; 
+;       InitDS1820(); //初始化
+			; SOURCE LINE # 311
+	ACALL	InitDS1820
+;       ROMDS1820(); 	//跳过ROM
+			; SOURCE LINE # 312
+	ACALL	ROMDS1820
+;       TMRDS1820(); 	//读出温度指令
+			; SOURCE LINE # 313
+	ACALL	TMRDS1820
+;       ReadDS1820(); //读出温度值
+			; SOURCE LINE # 314
+	ACALL	ReadDS1820
+; 
+;       V2ToV();        //转换显示值
+			; SOURCE LINE # 316
+	ACALL	V2ToV
+;       if (TMV > TMSetV)   //根据采集到的温度值控制继电器
+			; SOURCE LINE # 317
+	SETB 	C
+	MOV  	A,TMSetV
+	XRL  	A,#080H
+	MOV  	R0,A
+	MOV  	A,TMV
+	XRL  	A,#080H
+	SUBB 	A,R0
+	JC   	?C0045
+;         {
+			; SOURCE LINE # 318
+;           RelayOutPort = 0;
+			; SOURCE LINE # 319
+	CLR  	P3_7
+; 		  flag=0;
+			; SOURCE LINE # 320
+	MOV  	flag,#00H
+; 		  }
+			; SOURCE LINE # 321
+	SJMP 	?C0046
+?C0045:
+;       else
+; 		    {
+			; SOURCE LINE # 323
+;           RelayOutPort = 1;
+			; SOURCE LINE # 324
+	SETB 	P3_7
+; 		  DELPort=1; 
+			; SOURCE LINE # 325
+	SETB 	P3_6
+; 		  Second=1;
+			; SOURCE LINE # 326
+	MOV  	Second,#01H
+; 		  flag=1;
+			; SOURCE LINE # 327
+	MOV  	flag,#01H
+; 
+; 		
+;   		  }
+			; SOURCE LINE # 330
+?C0046:
+; 
+;       if (SetTF) IntNum2 = IntNum2 + 1; //用于闪烁计数
+			; SOURCE LINE # 332
+	JNB  	SetTF,?C0047
+	INC  	IntNum2
+?C0047:
+;       if (IntNum2 > 50 ) IntNum2 = 0;
+			; SOURCE LINE # 333
+	MOV  	A,IntNum2
+	SETB 	C
+	SUBB 	A,#032H
+	JC   	?C0048
+	MOV  	IntNum2,#00H
+?C0048:
+; 			if (KeyTF) IntNum3 = IntNum3 + 1; //用于防止按键连按
+			; SOURCE LINE # 334
+	JNB  	KeyTF,?C0049
+	INC  	IntNum3
+?C0049:
+; 			if (IntNum3 > 25) 
+			; SOURCE LINE # 335
+	MOV  	A,IntNum3
+	SETB 	C
+	SUBB 	A,#019H
+	JC   	?C0050
+; 				{
+			; SOURCE LINE # 336
+; 					IntNum3 = 0;
+			; SOURCE LINE # 337
+	MOV  	IntNum3,#00H
+; 					KeyTF = 0;
+			; SOURCE LINE # 338
+	CLR  	KeyTF
+; 				}
+			; SOURCE LINE # 339
+?C0050:
+; 
+;       if ((SetTF) && (IntNum2 < 25)) goto InitEnd;  //计数在后半段时显示
+			; SOURCE LINE # 341
+	JNB  	SetTF,?C0051
+	MOV  	A,IntNum2
+	CLR  	C
+	SUBB 	A,#019H
+	JC   	?C0053
+?C0051:
+;          
+; 	  LEDPort = LED_Two;
+			; SOURCE LINE # 343
+	MOV  	P0,LED_Two
+;       LEDTwoC = 0;
+			; SOURCE LINE # 344
+	CLR  	P2_6
+;       Delay_510();
+			; SOURCE LINE # 345
+	ACALL	Delay_510
+;       LEDTwoC = 1;    //显示十位数
+			; SOURCE LINE # 346
+	SETB 	P2_6
+;       LEDPort = LED_Three;
+			; SOURCE LINE # 347
+	MOV  	P0,LED_Three
+;       LEDThreeC = 0;
+			; SOURCE LINE # 348
+	CLR  	P2_7
+;       Delay_510();
+			; SOURCE LINE # 349
+	ACALL	Delay_510
+;       LEDThreeC = 1;    //显示个位数
+			; SOURCE LINE # 350
+	SETB 	P2_7
+;     }
+			; SOURCE LINE # 351
+; InitEnd:;
+			; SOURCE LINE # 352
+?KeyAndDis_Time0?InitEnd:
+; }
+			; SOURCE LINE # 353
+?C0053:
+	POP  	PSW
+	POP  	DPL
+	POP  	DPH
+	POP  	B
+	POP  	ACC
+	RETI 	
+; END OF KeyAndDis_Time0
+
+; 
+; void V2ToV(void)	//数值转换
+
+	RSEG  ?PR?V2ToV?TCMAIN
+V2ToV:
+	USING	0
+			; SOURCE LINE # 355
+; {
+			; SOURCE LINE # 356
+;   TLV = TLV >> 4;			
+			; SOURCE LINE # 357
+	MOV  	A,TLV
+	SWAP 	A
+	ANL  	A,#0FH
+	MOV  	TLV,A
+;   THV = THV << 4;			//读出的高低位数值移位
+			; SOURCE LINE # 358
+	MOV  	A,THV
+	SWAP 	A
+	ANL  	A,#0F0H
+	MOV  	THV,A
+;   TMV = TLV | THV;		//合并高低位放入TM为实际温度值
+			; SOURCE LINE # 359
+	ORL  	A,TLV
+	MOV  	TMV,A
+; 	Sign = 0;
+			; SOURCE LINE # 360
+	CLR  	A
+	MOV  	Sign,A
+;   if (SetTF || !Key_SET)
+			; SOURCE LINE # 361
+	JB   	SetTF,?C0055
+	JB   	P1_6,?C0054
+?C0055:
+;     Sign = TMSetV >> 7;          //取符号
+			; SOURCE LINE # 362
+	MOV  	A,TMSetV
+	MOV  	R0,#07H
+?C0090:
+	MOV  	C,ACC.7
+	RRC  	A
+	DJNZ 	R0,?C0090
+	MOV  	Sign,A
+	SJMP 	?C0056
+?C0054:
+;   else
+;      Sign = TMV >> 7;
+			; SOURCE LINE # 364
+	MOV  	A,TMV
+	MOV  	R0,#07H
+?C0091:
+	MOV  	C,ACC.7
+	RRC  	A
+	DJNZ 	R0,?C0091
+	MOV  	Sign,A
+?C0056:
+; 
+; 	if (Sign)
+			; SOURCE LINE # 366
+	MOV  	A,Sign
+	JNZ  	$ + 4H
+	AJMP 	?C0057
+; 		{
+			; SOURCE LINE # 367
+;   		if (SetTF || !Key_SET)
+			; SOURCE LINE # 368
+	JB   	SetTF,?C0059
+	JB   	P1_6,?C0058
+?C0059:
+; 				{
+			; SOURCE LINE # 369
+;     			LED_One = (~(TMSetV-1)) / 100;          //SET状态下显示设定值
+			; SOURCE LINE # 370
+	MOV  	A,TMSetV
+	DEC  	A
+	CPL  	A
+	MOV  	R3,A
+	MOV  	B,#064H
+	ACALL	?C?SCDIV
+	MOV  	LED_One,A
+;     			LED_Two = ((~(TMSetV-1)) - LED_One * 100)/10;
+			; SOURCE LINE # 371
+	MOV  	R7,A
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#064H
+	ACALL	?C?IMUL
+	MOV  	R5,TMSetV
+	MOV  	A,R5
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R4,A
+	MOV  	A,R5
+	ADD  	A,#0FFH
+	MOV  	R5,A
+	MOV  	A,R4
+	ADDC 	A,#0FFH
+	MOV  	R4,A
+	MOV  	A,R5
+	CPL  	A
+	MOV  	R5,A
+	MOV  	A,R4
+	CPL  	A
+	MOV  	R4,A
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,R4
+	SUBB 	A,R6
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#0AH
+	ACALL	?C?SIDIV
+	MOV  	LED_Two,R7
+; 			    LED_Three = (~(TMSetV-1)) - LED_One * 100 - LED_Two * 10;
+			; SOURCE LINE # 372
+	MOV  	A,LED_One
+	MOV  	B,#064H
+	MUL  	AB
+	MOV  	R7,A
+	CLR  	C
+	MOV  	A,R3
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,LED_Two
+	MOV  	B,#0AH
+	MUL  	AB
+	MOV  	R6,A
+	CLR  	C
+	MOV  	A,R7
+	SUBB 	A,R6
+	MOV  	LED_Three,A
+; 				inbuf1[0]=dis_8[LED_Two];
+			; SOURCE LINE # 373
+	MOV  	A,#LOW (dis_8)
+	ADD  	A,LED_Two
+	MOV  	R0,A
+	MOV  	A,@R0
+	MOV  	inbuf1,A
+;   inbuf1[1]=dis_8[LED_Three];
+			; SOURCE LINE # 374
+	MOV  	A,#LOW (dis_8)
+	ADD  	A,LED_Three
+	MOV  	R0,A
+	MOV  	A,@R0
+	MOV  	inbuf1+01H,A
+;   //inbuf1[2]=dis_8[ LED_Three];
+;   inbuf1[2]=0x0d;
+			; SOURCE LINE # 376
+	MOV  	inbuf1+02H,#0DH
+;   inbuf1[3]=0x0a;
+			; SOURCE LINE # 377
+	MOV  	inbuf1+03H,#0AH
+; 				}
+			; SOURCE LINE # 378
+	AJMP 	?C0061
+?C0058:
+;   		else
+; 				{
+			; SOURCE LINE # 380
+;     			LED_One = (~(TMV-1)) / 100;							//转换百位值		
+			; SOURCE LINE # 381
+	MOV  	A,TMV
+	DEC  	A
+	CPL  	A
+	MOV  	R3,A
+	MOV  	B,#064H
+	ACALL	?C?SCDIV
+	MOV  	LED_One,A
+;     			LED_Two = ((~(TMV-1)) - LED_One * 100)/10;
+			; SOURCE LINE # 382
+	MOV  	R7,A
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#064H
+	ACALL	?C?IMUL
+	MOV  	R5,TMV
+	MOV  	A,R5
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R4,A
+	MOV  	A,R5
+	ADD  	A,#0FFH
+	MOV  	R5,A
+	MOV  	A,R4
+	ADDC 	A,#0FFH
+	MOV  	R4,A
+	MOV  	A,R5
+	CPL  	A
+	MOV  	R5,A
+	MOV  	A,R4
+	CPL  	A
+	MOV  	R4,A
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,R4
+	SUBB 	A,R6
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#0AH
+	ACALL	?C?SIDIV
+	MOV  	LED_Two,R7
+; 			    LED_Three = (~(TMV-1)) - LED_One * 100 - LED_Two * 10;
+			; SOURCE LINE # 383
+	MOV  	A,LED_One
+	MOV  	B,#064H
+	MUL  	AB
+	MOV  	R7,A
+	CLR  	C
+	MOV  	A,R3
+; 					inbuf1[0]=dis_8[LED_Two];
+			; SOURCE LINE # 384
+;   inbuf1[1]=dis_8[LED_Three];
+			; SOURCE LINE # 385
+;  inbuf1[2]=dis_8[0];
+			; SOURCE LINE # 386
+;   inbuf1[3]=0x0d;
+			; SOURCE LINE # 387
+;   inbuf1[4]=0x0a;
+			; SOURCE LINE # 388
+; 				}
+			; SOURCE LINE # 389
+; 		}
+			; SOURCE LINE # 390
+	SJMP 	?C0094
+?C0057:
+; 	else
+; 		{ 
+			; SOURCE LINE # 392
+;   		if (SetTF || !Key_SET)
+			; SOURCE LINE # 393
+	JB   	SetTF,?C0063
+	JB   	P1_6,?C0062
+?C0063:
+; 				{
+			; SOURCE LINE # 394
+;     			LED_One = (TMSetV) / 100;          //SET状态下显示设定值
+			; SOURCE LINE # 395
+	MOV  	A,TMSetV
+	MOV  	B,#064H
+	ACALL	?C?SCDIV
+	MOV  	LED_One,A
+;     			LED_Two = (TMSetV - LED_One * 100)/10;
+			; SOURCE LINE # 396
+	MOV  	R7,A
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#064H
+	ACALL	?C?IMUL
+	MOV  	R5,TMSetV
+	MOV  	A,R5
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R4,A
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,R4
+	SUBB 	A,R6
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#0AH
+	ACALL	?C?SIDIV
+	MOV  	LED_Two,R7
+; 			    LED_Three = TMSetV - LED_One * 100 - LED_Two * 10;
+			; SOURCE LINE # 397
+	MOV  	A,LED_One
+	MOV  	B,#064H
+	MUL  	AB
+	MOV  	R7,A
+	CLR  	C
+	MOV  	A,TMSetV
+?C0093:
+; 					inbuf1[0]=dis_8[LED_Two];
+			; SOURCE LINE # 398
+;   inbuf1[1]=dis_8[LED_Three];
+			; SOURCE LINE # 399
+;  inbuf1[2]=dis_8[0];
+			; SOURCE LINE # 400
+;   inbuf1[3]=0x0d;
+			; SOURCE LINE # 401
+;   inbuf1[4]=0x0a;
+			; SOURCE LINE # 402
+; 				}
+			; SOURCE LINE # 403
+	SJMP 	?C0094
+?C0062:
+;   		else
+; 				{
+			; SOURCE LINE # 405
+;     			LED_One = (TMV) / 100;							//转换百位值		
+			; SOURCE LINE # 406
+	MOV  	A,TMV
+	MOV  	B,#064H
+	ACALL	?C?SCDIV
+	MOV  	LED_One,A
+;     			LED_Two = (TMV - LED_One * 100)/10;
+			; SOURCE LINE # 407
+	MOV  	R7,A
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#064H
+	ACALL	?C?IMUL
+	MOV  	R5,TMV
+	MOV  	A,R5
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R4,A
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,R4
+	SUBB 	A,R6
+	MOV  	R6,A
+	MOV  	R4,#00H
+	MOV  	R5,#0AH
+	ACALL	?C?SIDIV
+	MOV  	LED_Two,R7
+; 			    LED_Three = TMV - LED_One * 100 - LED_Two * 10;
+			; SOURCE LINE # 408
+	MOV  	A,LED_One
+	MOV  	B,#064H
+	MUL  	AB
+	MOV  	R7,A
+	CLR  	C
+	MOV  	A,TMV
+?C0094:
+	SUBB 	A,R7
+	MOV  	R7,A
+	MOV  	A,LED_Two
+	MOV  	B,#0AH
+	MUL  	AB
+	MOV  	R6,A
+	CLR  	C
+	MOV  	A,R7
+	SUBB 	A,R6
+	MOV  	LED_Three,A
+; 					inbuf1[0]=dis_8[LED_Two];
+			; SOURCE LINE # 409
+	MOV  	A,#LOW (dis_8)
+	ADD  	A,LED_Two
+	MOV  	R0,A
+	MOV  	A,@R0
+	MOV  	inbuf1,A
+;   inbuf1[1]=dis_8[LED_Three];
+			; SOURCE LINE # 410
+	MOV  	A,#LOW (dis_8)
+	ADD  	A,LED_Three
+	MOV  	R0,A
+	MOV  	A,@R0
+	MOV  	inbuf1+01H,A
+;  inbuf1[2]=dis_8[0];
+			; SOURCE LINE # 411
+	MOV  	inbuf1+02H,dis_8
+;   inbuf1[3]=0x0d;
+			; SOURCE LINE # 412
+	MOV  	inbuf1+03H,#0DH
+;   inbuf1[4]=0x0a;
+			; SOURCE LINE # 413
+	MOV  	inbuf1+04H,#0AH
+; 				}
+			; SOURCE LINE # 414
+; 		}
+			; SOURCE LINE # 415
+?C0061:
+; 
+;    init_serialcomm(); //初始化串口
+			; SOURCE LINE # 417
+	ACALL	init_serialcomm
+; 
+; //while ( 1 )
+; //{
+; send_string_com(inbuf1,INBUF_LEN);
+			; SOURCE LINE # 421
+	MOV  	R3,#00H
+	MOV  	R2,#HIGH (inbuf1)
+	MOV  	R1,#LOW (inbuf1)
+	MOV  	R5,#05H
+	MOV  	R4,#00H
+	ACALL	_send_string_com
+; 
+;  //转LED字段	
+; 	if (LED_One) //超过百时十位的处理
+			; SOURCE LINE # 424
+	MOV  	A,LED_One
+	JZ   	?C0065
+; 		LED_Two = LEDDis[LED_Two];		
+			; SOURCE LINE # 425
+	SJMP 	?C0095
+?C0065:
+; 	else
+; 		{
+			; SOURCE LINE # 427
+; 			if (LED_Two == 0)
+			; SOURCE LINE # 428
+	MOV  	A,LED_Two
+	JNZ  	?C0067
+; 				LED_Two = LEDDis[10];
+			; SOURCE LINE # 429
+	MOV  	DPTR,#LEDDis+0AH
+	SJMP 	?C0096
+?C0067:
+; 			else
+; 				LED_Two = LEDDis[LED_Two];
+			; SOURCE LINE # 431
+?C0095:
+	MOV  	R7,LED_Two
+	MOV  	A,R7
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	A,#LOW (LEDDis)
+	ADD  	A,R7
+	MOV  	DPL,A
+	MOV  	A,#HIGH (LEDDis)
+	ADDC 	A,R6
+	MOV  	DPH,A
+	CLR  	A
+?C0096:
+	MOVC 	A,@A+DPTR
+	MOV  	LED_Two,A
+; 		}
+			; SOURCE LINE # 432
+?C0066:
+; 	if (Sign)
+			; SOURCE LINE # 433
+	MOV  	A,Sign
+	JZ   	?C0069
+; 		LED_One = LEDDis[11];
+			; SOURCE LINE # 434
+	MOV  	DPTR,#LEDDis+0BH
+	SJMP 	?C0097
+?C0069:
+; 	else
+; 		{
+			; SOURCE LINE # 436
+; 			if (LED_One == 0)
+			; SOURCE LINE # 437
+	MOV  	A,LED_One
+	JNZ  	?C0071
+; 				LED_One = LEDDis[10];
+			; SOURCE LINE # 438
+	MOV  	DPTR,#LEDDis+0AH
+	SJMP 	?C0098
+?C0071:
+; 			else
+; 				LED_One = LEDDis[LED_One];
+			; SOURCE LINE # 440
+	MOV  	R7,LED_One
+	MOV  	A,R7
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	A,#LOW (LEDDis)
+	ADD  	A,R7
+	MOV  	DPL,A
+	MOV  	A,#HIGH (LEDDis)
+	ADDC 	A,R6
+	MOV  	DPH,A
+?C0097:
+	CLR  	A
+?C0098:
+	MOVC 	A,@A+DPTR
+	MOV  	LED_One,A
+; 		}
+			; SOURCE LINE # 441
+?C0070:
+; 	LED_Three = LEDDis[LED_Three];
+			; SOURCE LINE # 442
+	MOV  	R7,LED_Three
+	MOV  	A,R7
+	RLC  	A
+	SUBB 	A,ACC
+	MOV  	R6,A
+	MOV  	A,#LOW (LEDDis)
+	ADD  	A,R7
+	MOV  	DPL,A
+	MOV  	A,#HIGH (LEDDis)
+	ADDC 	A,R6
+	MOV  	DPH,A
+	CLR  	A
+	MOVC 	A,@A+DPTR
+	MOV  	LED_Three,A
+; }
+			; SOURCE LINE # 443
+	RET  	
+; END OF V2ToV
+
+; 
+; void InitDS1820(void)		//初始化DS1820
+
+	RSEG  ?PR?InitDS1820?TCMAIN
+InitDS1820:
+	USING	0
+			; SOURCE LINE # 445
+; {
+			; SOURCE LINE # 446
+; 	TMPort = 1;		//拉高TMPort
+			; SOURCE LINE # 447
+	SETB 	P3_3
+; 	_nop_();      //保持一个周期
+			; SOURCE LINE # 448
+	NOP  	
+; 	TMPort = 0;		//拉低TMPort
+			; SOURCE LINE # 449
+	CLR  	P3_3
+;   Delay_510();  //延时  DS1820复位时间要500us的低电平
+			; SOURCE LINE # 450
+	ACALL	Delay_510
+;   TMPort = 1;   //拉高TMPort
+			; SOURCE LINE # 451
+	SETB 	P3_3
+; 	_nop_();      //保持  
+			; SOURCE LINE # 452
+	NOP  	
+; 	_nop_();
+			; SOURCE LINE # 453
+	NOP  	
+; 	_nop_();
+			; SOURCE LINE # 454
+	NOP  	
+; 
+;   Delay_110();  //延时110us 等待DS1820回应
+			; SOURCE LINE # 456
+	ACALL	Delay_110
+;   if (!TMPort)  //回应信号为低电平
+			; SOURCE LINE # 457
+	JB   	P3_3,?C0074
+;     DS1820ON = 1;
+			; SOURCE LINE # 458
+	SETB 	DS1820ON
+	SJMP 	?C0075
+?C0074:
+;   else
+;     DS1820ON = 0;
+			; SOURCE LINE # 460
+	CLR  	DS1820ON
+?C0075:
+;   Delay_110();  //延时
+			; SOURCE LINE # 461
+	ACALL	Delay_110
+;   Delay_110();
+			; SOURCE LINE # 462
+	ACALL	Delay_110
+;   TMPort = 1;   //拉高TMPort
+			; SOURCE LINE # 463
+	SETB 	P3_3
+; }
+			; SOURCE LINE # 464
+	RET  	
+; END OF InitDS1820
+
+; 
+; void ROMDS1820(void)  //跳过ROM匹配
+
+	RSEG  ?PR?ROMDS1820?TCMAIN
+ROMDS1820:
+	USING	0
+			; SOURCE LINE # 466
+; {
+			; SOURCE LINE # 467
+; #pragma asm
+;   MOV A,#0CCH
+	  MOV A,#0CCH
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR1:
+	  WR1:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR1
+	  DJNZ R2,WR1
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 485
+	RET  	
+; END OF ROMDS1820
+
+; 
+; void TMVDS1820(void)  //温度转换指令
+
+	RSEG  ?PR?TMVDS1820?TCMAIN
+TMVDS1820:
+	USING	0
+			; SOURCE LINE # 487
+; {
+			; SOURCE LINE # 488
+; #pragma asm
+;   MOV A,#44H
+	  MOV A,#44H
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR2:
+	  WR2:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR2
+	  DJNZ R2,WR2
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 506
+	RET  	
+; END OF TMVDS1820
+
+; 
+; void TMRDS1820(void)  //读出温度指令
+
+	RSEG  ?PR?TMRDS1820?TCMAIN
+TMRDS1820:
+	USING	0
+			; SOURCE LINE # 508
+; {
+			; SOURCE LINE # 509
+; #pragma asm
+;   MOV A,#0BEH
+	  MOV A,#0BEH
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR3:
+	  WR3:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR3
+	  DJNZ R2,WR3
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 527
+	RET  	
+; END OF TMRDS1820
+
+; 
+; void TMWDS1820(void)  //写入温度限制指令
+
+	RSEG  ?PR?TMWDS1820?TCMAIN
+TMWDS1820:
+	USING	0
+			; SOURCE LINE # 529
+; {
+			; SOURCE LINE # 530
+; #pragma asm
+;   MOV A,#04EH
+	  MOV A,#04EH
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR13:
+	  WR13:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR13
+	  DJNZ R2,WR13
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 548
+	RET  	
+; END OF TMWDS1820
+
+; 
+; void TMREDS1820(void)		//COPY RAM to E2PRAM
+
+	RSEG  ?PR?TMREDS1820?TCMAIN
+TMREDS1820:
+	USING	0
+			; SOURCE LINE # 550
+; {
+			; SOURCE LINE # 551
+; #pragma asm
+;   MOV A,#48H
+	  MOV A,#48H
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR33:
+	  WR33:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR33
+	  DJNZ R2,WR33
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 569
+	RET  	
+; END OF TMREDS1820
+
+; 
+; void TMERDS1820(void)		//COPY E2PRAM to RAM
+
+	RSEG  ?PR?TMERDS1820?TCMAIN
+TMERDS1820:
+	USING	0
+			; SOURCE LINE # 571
+; {
+			; SOURCE LINE # 572
+; #pragma asm
+;   MOV A,#0B8H
+	  MOV A,#0B8H
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR43:
+	  WR43:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR43
+	  DJNZ R2,WR43
+;   SETB P3_3
+	  SETB P3_3
+; #pragma endasm
+; }
+			; SOURCE LINE # 590
+	RET  	
+; END OF TMERDS1820
+
+; 
+; void WriteDS1820(void)	//写入温度限制值
+
+	RSEG  ?PR?WriteDS1820?TCMAIN
+WriteDS1820:
+	USING	0
+			; SOURCE LINE # 592
+; {
+			; SOURCE LINE # 593
+; #pragma asm
+; 	MOV A,26H					//发出4EH写ROM指令后连发两个字节分别为上下限
+	  MOV A,26H					 
+;   MOV R2,#8
+	  MOV R2,#8
+;   CLR C
+	  CLR C
+;   WR23:
+	  WR23:
+;   CLR P3_3
+	  CLR P3_3
+;   MOV R3,#6
+	  MOV R3,#6
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   RRC A
+	  RRC A
+;   MOV P3_3,C
+	  MOV P3_3,C
+;   MOV R3,#23
+	  MOV R3,#23
+;   DJNZ R3,$
+	  DJNZ R3,$
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   DJNZ R2,WR23
+	  DJNZ R2,WR23
+;   SETB P3_3       
+	  SETB P3_3       
+; #pragma endasm
+; }
+			; SOURCE LINE # 611
+	RET  	
+; END OF WriteDS1820
+
+; 
+; void ReadDS1820(void) //读出温度值
+
+	RSEG  ?PR?ReadDS1820?TCMAIN
+ReadDS1820:
+	USING	0
+			; SOURCE LINE # 613
+; {
+			; SOURCE LINE # 614
+; #pragma asm
+;   MOV R4,#3 ; 将温度高位和低位，高温限制位从DS18B20中读出
+	  MOV R4,#3 ; 将温度高位和低位，高温限制位从DS18B20中读出
+;   MOV R1,#29H ; 低位存入29H(TEMPER_L),高位存入28H(TEMPER_H)，高温限制位存入27H(TMRomV)
+	  MOV R1,#29H ; 低位存入29H(TEMPER_L),高位存入28H(TEMPER_H)，高温限制位存入27H(TMRomV)
+;   RE00:
+	  RE00:
+;   MOV R2,#8
+	  MOV R2,#8
+;   RE01:
+	  RE01:
+;   CLR C
+	  CLR C
+;   SETB P3_3
+	  SETB P3_3
+;   NOP
+	  NOP
+;   NOP
+	  NOP
+;   CLR P3_3
+	  CLR P3_3
+;   NOP
+	  NOP
+;   NOP
+	  NOP
+;   NOP
+	  NOP
+;   SETB P3_3
+	  SETB P3_3
+;   MOV R3,#09
+	  MOV R3,#09
+;   RE10: 
+	  RE10: 
+;   DJNZ R3,RE10
+	  DJNZ R3,RE10
+;   MOV C,P3_3
+	  MOV C,P3_3
+;   MOV R3,#23
+	  MOV R3,#23
+;   RE20: 
+	  RE20: 
+;   DJNZ R3,RE20
+	  DJNZ R3,RE20
+;   RRC A
+	  RRC A
+;   DJNZ R2,RE01
+	  DJNZ R2,RE01
+;   MOV @R1,A
+	  MOV @R1,A
+;   DEC R1
+	  DEC R1
+;   DJNZ R4,RE00
+	  DJNZ R4,RE00
+; #pragma endasm
+; }
+			; SOURCE LINE # 643
+	RET  	
+; END OF ReadDS1820
+
+; 
+; void Delay_510(void)	//延时510微秒
+
+	RSEG  ?PR?Delay_510?TCMAIN
+Delay_510:
+	USING	0
+			; SOURCE LINE # 645
+; {
+			; SOURCE LINE # 646
+; #pragma asm
+; 	MOV R0,#7DH
+	  MOV R0,#7DH
+; 	MOV R1,#02H
+	  MOV R1,#02H
+; 	TSR1:
+	  TSR1:
+; 	DJNZ R0,TSR1
+	  DJNZ R0,TSR1
+; 	MOV R0,#7DH
+	  MOV R0,#7DH
+; 	DJNZ R1,TSR1
+	  DJNZ R1,TSR1
+; #pragma endasm
+; }
+			; SOURCE LINE # 655
+	RET  	
+; END OF Delay_510
+
+; 
+; void Delay_110(void)	//延时110微秒
+
+	RSEG  ?PR?Delay_110?TCMAIN
+Delay_110:
+	USING	0
+			; SOURCE LINE # 657
+; {
+			; SOURCE LINE # 658
+; #pragma asm
+; 	MOV R0,#19H
+	  MOV R0,#19H
+; 	MOV R1,#02H
+	  MOV R1,#02H
+; 	TSR2:
+	  TSR2:
+; 	DJNZ R0,TSR2
+	  DJNZ R0,TSR2
+; 	MOV R0,#19H
+	  MOV R0,#19H
+; 	DJNZ R1,TSR2
+	  DJNZ R1,TSR2
+; #pragma endasm
+; }
+			; SOURCE LINE # 667
+	RET  	
+; END OF Delay_110
+
+; 
+; void Delay_10ms(void)	//延时10ms
+
+	RSEG  ?PR?Delay_10ms?TCMAIN
+Delay_10ms:
+	USING	0
+			; SOURCE LINE # 669
+; {
+			; SOURCE LINE # 670
+; #pragma asm
+; 	MOV R0,#19H
+	  MOV R0,#19H
+; 	MOV R1,#0C8H
+	  MOV R1,#0C8H
+; 	TSR3:
+	  TSR3:
+; 	DJNZ R0,TSR3
+	  DJNZ R0,TSR3
+; 	MOV R0,#19H
+	  MOV R0,#19H
+; 	DJNZ R1,TSR3
+	  DJNZ R1,TSR3
+; #pragma endasm
+; }
+			; SOURCE LINE # 679
+	RET  	
+; END OF Delay_10ms
+
+; 
+; void Delay_4s(void)	//延时4s
+
+	RSEG  ?PR?Delay_4s?TCMAIN
+Delay_4s:
+	USING	0
+			; SOURCE LINE # 681
+; {
+			; SOURCE LINE # 682
+; #pragma asm
+;   MOV R2,#28H
+	  MOV R2,#28H
+;   TSR5:
+	  TSR5:
+; 	MOV R0,#0FAH
+	  MOV R0,#0FAH
+; 	MOV R1,#0C8H
+	  MOV R1,#0C8H
+; 	TSR4:
+	  TSR4:
+; 	DJNZ R0,TSR4
+	  DJNZ R0,TSR4
+; 	MOV R0,#0FAH
+	  MOV R0,#0FAH
+; 	DJNZ R1,TSR4
+	  DJNZ R1,TSR4
+;   DJNZ R2,TSR5
+	  DJNZ R2,TSR5
+; #pragma endasm
+; }
+			; SOURCE LINE # 694
+	RET  	
+; END OF Delay_4s
+
+	END

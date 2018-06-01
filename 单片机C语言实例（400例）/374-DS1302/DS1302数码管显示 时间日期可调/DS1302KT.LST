@@ -1,0 +1,230 @@
+C51 COMPILER V8.18   DS1302KT                                                              01/04/2010 16:36:09 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE DS1302KT
+OBJECT MODULE PLACED IN DS1302KT.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE DS1302KT.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <at89x52.h>
+   2          #include <DS1302.h>
+   3          //¶¨Òå¹²Ñô¼«×ÖÐÍÂë0123456789-
+   4          unsigned char code dispcode[]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0xbf};
+   5          unsigned char time[]={0,0,0,0,0,0,0,0};//ÓÃÀ´´¢´æÊ±¼ä
+   6          unsigned char date[]={0,0,0,0,0,0,0,0};//ÓÃÀ´´¢´æÈÕÆÚ
+   7          SYSTEMTIME  time1;   //ÔÚds1302.hÎÄ¼þÖÐÒÑ¾­¶¨ÒåÁËÒ»¸öÃû×ÖÎªSYSTEMTIMEµÄ½á¹¹Ìå,ÔÚÕâÀïÎÒÃÇ¶¨ÒåÒ»¸ö±äÁ¿Ãû
+   8                               //ÎªtimeµÄSYSTEMTIME½á¹¹Ìå        
+   9          void delay(unsigned char i)     //ÑÓÊ±×Ó³ÌÐò  
+  10          {
+  11   1        unsigned char j;
+  12   1        while((i--)!=0)
+  13   1        {
+  14   2          for(j=123;j>0;j--);
+  15   2        }
+  16   1      }
+  17          unsigned char button_time(n,x,y)        //Ê±ÖÓµ÷Õû×Ó³ÌÐò
+  18          unsigned char n,x,y;
+  19          {
+  20   1          if(P1_7==0)
+  21   1          {
+  22   2              delay(50);
+  23   2              if(P1_7==0)
+  24   2              {
+  25   3                      n++;
+  26   3                  if(n==x)
+  27   3                      n=0;
+  28   3                  while(P1_7==0);
+  29   3              }
+  30   2          }
+  31   1      
+  32   1          if(P1_5==0)
+  33   1          {
+  34   2              delay(50);
+  35   2              if(P1_5==0)
+  36   2              {
+  37   3                  if(n==0)
+  38   3                      n=y;
+  39   3                      else
+  40   3                  n--;                                                
+  41   3                  while(P1_5==0);
+  42   3              }
+  43   2          }
+  44   1          return n;
+  45   1      }
+  46          
+  47          unsigned char button_date(n,x,y)        //ÈÕÆÚµ÷Õû×Ó³ÌÐò
+  48          unsigned char n,x,y;
+  49          {
+  50   1          if(P1_7==0)
+  51   1          {
+  52   2              delay(50);
+  53   2              if(P1_7==0)
+  54   2              {
+  55   3                      n++;
+C51 COMPILER V8.18   DS1302KT                                                              01/04/2010 16:36:09 PAGE 2   
+
+  56   3                  if(n==x)
+  57   3                      n=1;
+  58   3                  while(P1_7==0);
+  59   3              }
+  60   2          }
+  61   1      
+  62   1          if(P1_5==0)
+  63   1          {
+  64   2              delay(50);
+  65   2              if(P1_5==0)
+  66   2              {
+  67   3                  if(n==1)
+  68   3                      n=y;
+  69   3                      else
+  70   3                  n--;                                                
+  71   3                  while(P1_5==0);
+  72   3              }
+  73   2          }
+  74   1          return n;
+  75   1      }
+  76          
+  77          void display(second10,second1,minute10,minute1,hour10,hour1)    //ÏÔÊ¾×Ó³ÌÐò
+  78          unsigned char second10,second1,minute10,minute1,hour10,hour1;  
+  79          {
+  80   1        P2=0xfe;
+  81   1        P0=dispcode[second10];//ÏÔÊ¾ÃëµÄÊ®Î»
+  82   1        delay(1);
+  83   1      
+  84   1        P2=0xfd;
+  85   1        P0=dispcode[second1]; //ÏÔÊ¾ÃëµÄ¸öÎ»
+  86   1        delay(1);
+  87   1      
+  88   1        P2=0xfb;
+  89   1        P0=dispcode[10];              //ÏÔÊ¾"-"
+  90   1        delay(1);
+  91   1      
+  92   1        P2=0xf7;
+  93   1        P0=dispcode[minute10];//ÏÔÊ¾·ÖµÄÊ®Î»
+  94   1        delay(1);
+  95   1      
+  96   1        P2=0xef;
+  97   1        P0=dispcode[minute1]; //ÏÔÊ¾·ÖµÄ¸öÎ»
+  98   1        delay(1);
+  99   1      
+ 100   1        P2=0xdf;
+ 101   1        P0=dispcode[10];              //ÏÔÊ¾"-"
+ 102   1        delay(1);
+ 103   1      
+ 104   1        P2=0xbf;
+ 105   1        P0=dispcode[hour10];  //ÏÔÊ¾Ê±µÄÊ®Î»
+ 106   1        delay(1);
+ 107   1      
+ 108   1        P2=0x7f;
+ 109   1        P0=dispcode[hour1];   //ÏÔÊ¾Ê±µÄ¸öÎ»
+ 110   1        delay(1);
+ 111   1      }       
+ 112          
+ 113          void main()
+ 114          {  
+ 115   1         unsigned char flag;
+ 116   1         Initial_DS1302();                                //³õÊ¼»¯DS1302Õâ¸öÊ±ÖÓÐ¾Æ¬,   
+ 117   1         while(1)                                                         
+C51 COMPILER V8.18   DS1302KT                                                              01/04/2010 16:36:09 PAGE 3   
+
+ 118   1         {
+ 119   2             DS1302_GetTime(&time1);                  //¶ÁÈ¡Ê±¼ä²ÎÊý            
+ 120   2             time[5]=(time1.Second)%10;               //°ÑÃëµÄ¸öÎ»Êý¾Ý´æÈëtime[5]
+ 121   2             time[4]=(time1.Second)/10;               //°ÑÃëµÄÊ®Î»Êý¾Ý´æÈëtime[4]
+ 122   2             time[3]=(time1.Minute)%10;               //°Ñ·ÖµÄ¸öÎ»Êý¾Ý´æÈëtime[3]
+ 123   2             time[2]=(time1.Minute)/10;               //°Ñ·ÖµÄÊ®Î»Êý¾Ý´æÈëtime[2]
+ 124   2             time[1]=(time1.Hour)%10;                 //°ÑÊ±µÄ¸öÎ»Êý¾Ý´æÈëtime[1]
+ 125   2             time[0]=(time1.Hour)/10;             //°ÑÊ±µÄÊ®Î»Êý¾Ý´æÈëtime[0]
+ 126   2                 date[5]=(time1.Day)%10;
+ 127   2                 date[4]=(time1.Day)/10;
+ 128   2                 date[3]=(time1.Month)%10;
+ 129   2                 date[2]=(time1.Month)/10;
+ 130   2                 date[1]=(time1.Year)%10;
+ 131   2                 date[0]=(time1.Year)/10;             
+ 132   2      
+ 133   2                 if(P1_4==0)          //Èç¹û°´ÏÂTime Start¼üÒ»ÏÂ,Ê±ÖÓ¿ªÊ¼Õý³£ÏÔÊ¾Ê±¼ä,ÔÙ°´Ò»ÏÂ,ÏÔÊ¾ÈÕÆÚ
+ 134   2                 {
+ 135   3                              delay(50);
+ 136   3                              if(P1_4==0)
+ 137   3                              {
+ 138   4                                      flag++;
+ 139   4                                      if(flag>1)
+ 140   4                                      {
+ 141   5                                              flag=0;
+ 142   5                                      }
+ 143   4                              }
+ 144   3                              while(P1_4==0);
+ 145   3                      }
+ 146   2                 if(P1_6==0)          //Èç¹û°´ÏÂTime Set¼üÒ»ÏÂ,¿ªÊ¼ÏÔÊ¾ÈÕÆÚ,ÔÙ°´Ò»ÏÂ½øÈëÈÕÆÚ¸úÊ±ÖÓµÄµ÷½ÚÄ£Ê½
+ 147   2                 {
+ 148   3                              delay(50);
+ 149   3                              if(P1_6==0)
+ 150   3                              {
+ 151   4                                      flag++;
+ 152   4                                      if(flag>7)
+ 153   4                                      {
+ 154   5                                              flag=0;
+ 155   5                                      }
+ 156   4                              }
+ 157   3                              while(P1_6==0);
+ 158   3                      }
+ 159   2      
+ 160   2                      switch(flag)
+ 161   2                      {
+ 162   3                              case 0:display(time[0],time[1],time[2],time[3],time[4],time[5]);                //µ÷ÓÃ×Óº¯Êýdisplay,°Ñ´æÈëÊý×étimeµÄÊ
+             -ý¾Ý¸øÏÔÊ¾³öÀ´
+ 163   3                                         break;
+ 164   3      
+ 165   3                              case 1:display(date[0],date[1],date[2],date[3],date[4],date[5]);                //µ÷ÓÃ×Óº¯Êýdisplay,°Ñ´æÈëÊý×édateµÄÊ
+             -ý¾Ý¸øÏÔÊ¾³öÀ´
+ 166   3                                         break;
+ 167   3      
+ 168   3                              case 2:time1.Year=button_date(time1.Year,100,99);                                               //µ÷ÕûÄê
+ 169   3                                         DS1302_SetTime(0x8c,time1.Year);
+ 170   3                                         display(date[0],date[1],10,10,10,10);
+ 171   3                                         break;
+ 172   3      
+ 173   3                              case 3:time1.Month=button_date(time1.Month,13,12);                                              //µ÷ÕûÔÂ
+ 174   3                                         DS1302_SetTime(0x88,time1.Month);
+ 175   3                                         display(10,10,date[2],date[3],10,10);
+ 176   3                                         break;
+ 177   3      
+C51 COMPILER V8.18   DS1302KT                                                              01/04/2010 16:36:09 PAGE 4   
+
+ 178   3                              case 4:time1.Day=button_date(time1.Day,32,31);                                                  //µ÷ÕûÈÕ
+ 179   3                                         DS1302_SetTime(0x86,time1.Day);
+ 180   3                                         display(10,10,10,10,date[4],date[5]);
+ 181   3                                         break;
+ 182   3      
+ 183   3                              case 5:time1.Hour=button_time(time1.Hour,24,23);                                            //µ÷ÕûÊ±
+ 184   3                                         DS1302_SetTime(0x84,time1.Hour);
+ 185   3                                         display(time[0],time[1],10,10,10,10);
+ 186   3                                         break;
+ 187   3      
+ 188   3                              case 6:time1.Minute=button_time(time1.Minute,60,59);                                //µ÷Õû·Ö
+ 189   3                                         DS1302_SetTime(0x82,time1.Minute);
+ 190   3                                         display(10,10,time[2],time[3],10,10);
+ 191   3                                         break;
+ 192   3      
+ 193   3                              case 7:time1.Second=button_time(time1.Second,60,59);                                //µ÷ÕûÃë
+ 194   3                                     DS1302_SetTime(0x80,time1.Second);
+ 195   3                                         display(10,10,10,10,time[4],time[5]);
+ 196   3                                         break;
+ 197   3                      }                
+ 198   2              }
+ 199   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    968    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     41       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

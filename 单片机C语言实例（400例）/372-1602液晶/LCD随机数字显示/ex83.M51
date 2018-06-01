@@ -1,0 +1,294 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/23/2009  11:15:16  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE ex83.obj TO ex83 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ex83.obj (EX83)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (RAND)
+
+
+LINK MAP OF MODULE:  ex83 (EX83)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         _DATA_GROUP_
+            DATA    000DH     0004H     UNIT         ?DT?RAND?RAND
+                    0011H     000FH                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     00C4H     UNIT         ?PR?MAIN?EX83
+            CODE    00C7H     0055H     UNIT         ?C?LIB_CODE
+            CODE    011CH     004DH     UNIT         ?PR?RAND?RAND
+            CODE    0169H     002EH     UNIT         ?PR?LCDINITIATE?EX83
+            CODE    0197H     0028H     UNIT         ?PR?_WRITEINSTRUCTION?EX83
+            CODE    01BFH     001FH     UNIT         ?PR?_WRITEDATA?EX83
+            CODE    01DEH     0017H     UNIT         ?CO?EX83
+            CODE    01F5H     0016H     UNIT         ?PR?BUSYTEST?EX83
+            CODE    020BH     0010H     UNIT         ?PR?_DELAY?EX83
+            CODE    021BH     000DH     UNIT         ?PR?DELAY1MS?EX83
+            CODE    0228H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0234H     0007H     UNIT         ?PR?_WRITEADDRESS?EX83
+
+
+
+OVERLAY MAP OF MODULE:   ex83 (EX83)
+
+
+SEGMENT                               BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT              START    LENGTH     START    LENGTH
+----------------------------------------------------------------------
+?C_C51STARTUP                      -----    -----      -----    -----
+  +--> ?PR?MAIN?EX83
+
+?PR?MAIN?EX83                      -----    -----      0008H    0005H
+  +--> ?PR?LCDINITIATE?EX83
+  +--> ?PR?_DELAY?EX83
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:15:16  PAGE 2
+
+
+  +--> ?PR?_WRITEADDRESS?EX83
+  +--> ?CO?EX83
+  +--> ?PR?_WRITEDATA?EX83
+  +--> ?PR?RAND?RAND
+
+?PR?LCDINITIATE?EX83               -----    -----      -----    -----
+  +--> ?PR?_WRITEINSTRUCTION?EX83
+  +--> ?PR?_DELAY?EX83
+
+?PR?_WRITEINSTRUCTION?EX83         -----    -----      -----    -----
+  +--> ?PR?_DELAY?EX83
+  +--> ?PR?BUSYTEST?EX83
+
+?PR?_DELAY?EX83                    -----    -----      -----    -----
+  +--> ?PR?DELAY1MS?EX83
+
+?PR?BUSYTEST?EX83                  0020H.0  0000H.1    -----    -----
+
+?PR?_WRITEADDRESS?EX83             -----    -----      -----    -----
+  +--> ?PR?_WRITEINSTRUCTION?EX83
+
+?PR?_WRITEDATA?EX83                -----    -----      -----    -----
+  +--> ?PR?BUSYTEST?EX83
+
+
+
+SYMBOL TABLE OF MODULE:  ex83 (EX83)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX83
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:0080H.7       PUBLIC        BF
+  D:00A8H         PUBLIC        IE
+  C:01DEH         PUBLIC        digit
+  C:019EH         PUBLIC        _WriteInstruction
+  D:00B8H         PUBLIC        IP
+  C:01E9H         PUBLIC        string
+  C:021BH         PUBLIC        delay1ms
+  B:00A0H.0       PUBLIC        RS
+  C:0003H         PUBLIC        main
+  B:00A0H.1       PUBLIC        RW
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0234H         PUBLIC        _WriteAddress
+  B:00A0H.2       PUBLIC        E
+  C:01F5H         PUBLIC        BusyTest
+  C:0169H         PUBLIC        LcdInitiate
+  D:00C8H         PUBLIC        T2CON
+  C:01BFH         PUBLIC        _WriteData
+  C:020BH         PUBLIC        _delay
+  D:00D0H         PUBLIC        PSW
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:15:16  PAGE 3
+
+
+  -------         PROC          DELAY1MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:021BH         LINE#         15
+  C:021BH         LINE#         16
+  C:021BH         LINE#         18
+  C:021DH         LINE#         19
+  C:0227H         LINE#         21
+  -------         ENDPROC       DELAY1MS
+  -------         PROC          _DELAY
+  D:0005H         SYMBOL        n
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:020BH         LINE#         26
+  C:020DH         LINE#         27
+  C:020DH         LINE#         29
+  C:0214H         LINE#         30
+  C:021AH         LINE#         31
+  -------         ENDPROC       _DELAY
+  -------         PROC          BUSYTEST
+  -------         DO            
+  B:0020H.0       SYMBOL        result
+  -------         ENDDO         
+  C:01F5H         LINE#         36
+  C:01F5H         LINE#         37
+  C:01F5H         LINE#         39
+  C:01F7H         LINE#         40
+  C:01F9H         LINE#         41
+  C:01FBH         LINE#         42
+  C:01FCH         LINE#         43
+  C:01FDH         LINE#         44
+  C:01FEH         LINE#         45
+  C:01FFH         LINE#         46
+  C:0203H         LINE#         47
+  C:0205H         LINE#         48
+  C:020AH         LINE#         49
+  -------         ENDPROC       BUSYTEST
+  C:0199H         SYMBOL        L?0030
+  -------         PROC          L?0029
+  -------         ENDPROC       L?0029
+  C:0199H         SYMBOL        L?0030
+  -------         PROC          _WRITEINSTRUCTION
+  D:0006H         SYMBOL        dictate
+  C:019EH         LINE#         54
+  C:01A0H         LINE#         55
+  C:01A0H         LINE#         56
+  C:01A8H         LINE#         57
+  C:01AAH         LINE#         58
+  C:01ACH         LINE#         59
+  C:01AEH         LINE#         61
+  C:01AFH         LINE#         62
+  C:01B0H         LINE#         63
+  C:01B2H         LINE#         64
+  C:01B3H         LINE#         65
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:15:16  PAGE 4
+
+
+  C:01B4H         LINE#         66
+  C:01B5H         LINE#         67
+  C:01B6H         LINE#         68
+  C:01B8H         LINE#         69
+  C:01B9H         LINE#         70
+  C:01BAH         LINE#         71
+  C:01BBH         LINE#         72
+  C:01BCH         LINE#         73
+  C:01BEH         LINE#         74
+  -------         ENDPROC       _WRITEINSTRUCTION
+  -------         PROC          _WRITEADDRESS
+  D:0007H         SYMBOL        x
+  C:0234H         LINE#         79
+  C:0234H         LINE#         80
+  C:0234H         LINE#         81
+  -------         ENDPROC       _WRITEADDRESS
+  -------         PROC          _WRITEDATA
+  D:0006H         SYMBOL        y
+  C:01BFH         LINE#         87
+  C:01C1H         LINE#         88
+  C:01C1H         LINE#         89
+  C:01C9H         LINE#         90
+  C:01CBH         LINE#         91
+  C:01CDH         LINE#         92
+  C:01CFH         LINE#         94
+  C:01D1H         LINE#         95
+  C:01D2H         LINE#         96
+  C:01D3H         LINE#         97
+  C:01D4H         LINE#         98
+  C:01D5H         LINE#         99
+  C:01D7H         LINE#         100
+  C:01D8H         LINE#         101
+  C:01D9H         LINE#         102
+  C:01DAH         LINE#         103
+  C:01DBH         LINE#         104
+  C:01DDH         LINE#         105
+  -------         ENDPROC       _WRITEDATA
+  -------         PROC          LCDINITIATE
+  C:0169H         LINE#         109
+  C:0169H         LINE#         110
+  C:0169H         LINE#         111
+  C:016BH         LINE#         112
+  C:016EH         LINE#         113
+  C:016EH         LINE#         114
+  C:0171H         LINE#         115
+  C:0171H         LINE#         116
+  C:0174H         LINE#         117
+  C:0179H         LINE#         118
+  C:017EH         LINE#         119
+  C:0183H         LINE#         120
+  C:0188H         LINE#         121
+  C:018DH         LINE#         122
+  C:0192H         LINE#         123
+  -------         ENDPROC       LCDINITIATE
+  -------         PROC          MAIN
+  -------         DO            
+  D:0003H         SYMBOL        i
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/23/2009  11:15:16  PAGE 5
+
+
+  D:0008H         SYMBOL        x
+  D:000AH         SYMBOL        D1
+  D:000BH         SYMBOL        D2
+  D:000CH         SYMBOL        D3
+  D:0003H         SYMBOL        D4
+  D:0005H         SYMBOL        D5
+  -------         ENDDO         
+  C:0003H         LINE#         128
+  C:0003H         LINE#         129
+  C:0003H         LINE#         133
+  C:0006H         LINE#         134
+  C:000BH         LINE#         135
+  C:0010H         LINE#         136
+  C:0012H         LINE#         137
+  C:001AH         LINE#         138
+  C:001AH         LINE#         139
+  C:001DH         LINE#         140
+  C:001EH         LINE#         141
+  C:0020H         LINE#         142
+  C:0020H         LINE#         143
+  C:0020H         LINE#         144
+  C:0027H         LINE#         145
+  C:0030H         LINE#         146
+  C:004AH         LINE#         147
+  C:0064H         LINE#         148
+  C:007EH         LINE#         149
+  C:008BH         LINE#         150
+  C:0090H         LINE#         151
+  C:0099H         LINE#         152
+  C:009FH         LINE#         153
+  C:00A6H         LINE#         154
+  C:00ADH         LINE#         155
+  C:00B2H         LINE#         156
+  C:00B9H         LINE#         157
+  C:00BBH         LINE#         158
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX83
+
+  -------         MODULE        ?C?UIDIV
+  C:00C7H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        RAND
+  D:000DH         PUBLIC        ?SRAND?BYTE
+  C:011CH         PUBLIC        RAND
+  C:015EH         PUBLIC        _SRAND
+  -------         ENDMOD        RAND
+
+Program Size: data=18.1 xdata=0 code=571
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

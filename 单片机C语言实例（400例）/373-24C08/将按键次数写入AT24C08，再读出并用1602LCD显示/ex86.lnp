@@ -1,0 +1,3 @@
+"ex86.obj" 
+TO "ex86" 
+RAMSIZE(256) 

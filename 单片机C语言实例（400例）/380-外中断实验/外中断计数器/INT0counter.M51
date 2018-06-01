@@ -1,0 +1,194 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/21/2009  17:59:27  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE int0counter.obj TO INT0counter RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  int0counter.obj (INT0COUNTER)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+
+
+LINK MAP OF MODULE:  INT0counter (INT0COUNTER)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?INT0COUNTER
+                    000AH     0006H                  *** GAP ***
+            REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
+            IDATA   0018H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     0005H     UNIT         ?PR?MAIN?INT0COUNTER
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     007EH     UNIT         ?PR?LEDSHOW?INT0COUNTER
+            CODE    008CH     0055H     UNIT         ?C?LIB_CODE
+            CODE    00E1H     0025H     UNIT         ?PR?EXTERN_INT0?INT0COUNTER
+            CODE    0106H     0024H     UNIT         ?PR?_DELAY?INT0COUNTER
+            CODE    012AH     0021H     UNIT         ?PR?DISPLAY?INT0COUNTER
+            CODE    014BH     0016H     UNIT         ?PR?INIT?INT0COUNTER
+            CODE    0161H     000CH     UNIT         ?CO?INT0COUNTER
+            CODE    016DH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   INT0counter (INT0COUNTER)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?DISPLAY?INT0COUNTER
+  +--> ?PR?LEDSHOW?INT0COUNTER
+
+?PR?LEDSHOW?INT0COUNTER
+  +--> ?CO?INT0COUNTER
+  +--> ?PR?_DELAY?INT0COUNTER
+
+*** NEW ROOT ***************************************************
+
+?PR?EXTERN_INT0?INT0COUNTER
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/21/2009  17:59:27  PAGE 2
+
+
+  +--> ?PR?_DELAY?INT0COUNTER
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?INT0COUNTER
+
+?PR?MAIN?INT0COUNTER
+  +--> ?PR?INIT?INT0COUNTER
+
+
+
+SYMBOL TABLE OF MODULE:  INT0counter (INT0COUNTER)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        INT0COUNTER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  C:0006H         PUBLIC        main
+  B:00B0H.2       PUBLIC        P32
+  D:0089H         PUBLIC        TMOD
+  C:014BH         PUBLIC        init
+  B:00A0H.5       PUBLIC        P25
+  B:00A0H.6       PUBLIC        P26
+  C:0161H         PUBLIC        tab
+  B:00A0H.7       PUBLIC        P27
+  D:0008H         PUBLIC        cnt
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:008AH         PUBLIC        TL0
+  B:00B8H.1       PUBLIC        PT0
+  B:0088H.4       PUBLIC        TR0
+  C:010AH         PUBLIC        _delay
+  C:00E1H         PUBLIC        extern_int0
+  C:012AH         PUBLIC        display
+  C:000EH         PUBLIC        ledshow
+  -------         PROC          INIT
+  C:014BH         LINE#         10
+  C:014BH         LINE#         11
+  C:014BH         LINE#         12
+  C:014DH         LINE#         13
+  C:014FH         LINE#         14
+  C:0151H         LINE#         15
+  C:0153H         LINE#         16
+  C:0156H         LINE#         17
+  C:0159H         LINE#         18
+  C:015CH         LINE#         19
+  C:015EH         LINE#         20
+  C:0160H         LINE#         22
+  -------         ENDPROC       INIT
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/21/2009  17:59:27  PAGE 3
+
+
+  C:0106H         SYMBOL        L?0023
+  -------         PROC          L?0022
+  -------         ENDPROC       L?0022
+  C:0106H         SYMBOL        L?0023
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        k
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:010AH         LINE#         24
+  C:010AH         LINE#         25
+  C:010AH         LINE#         27
+  C:0114H         LINE#         28
+  C:0114H         LINE#         29
+  C:0122H         LINE#         30
+  C:0129H         LINE#         31
+  -------         ENDPROC       _DELAY
+  -------         PROC          LEDSHOW
+  C:000EH         LINE#         34
+  C:000EH         LINE#         35
+  C:000EH         LINE#         37
+  C:001EH         LINE#         39
+  C:0037H         LINE#         40
+  C:0039H         LINE#         41
+  C:003CH         LINE#         42
+  C:003EH         LINE#         43
+  C:0064H         LINE#         44
+  C:0066H         LINE#         45
+  C:0069H         LINE#         46
+  C:006BH         LINE#         47
+  C:0084H         LINE#         48
+  C:0086H         LINE#         49
+  C:0089H         LINE#         50
+  C:008BH         LINE#         56
+  -------         ENDPROC       LEDSHOW
+  -------         PROC          DISPLAY
+  C:012AH         LINE#         58
+  C:0137H         LINE#         60
+  C:013AH         LINE#         61
+  C:013DH         LINE#         63
+  C:0140H         LINE#         67
+  -------         ENDPROC       DISPLAY
+  -------         PROC          MAIN
+  C:0006H         LINE#         73
+  C:0006H         LINE#         74
+  C:0006H         LINE#         75
+  C:0009H         LINE#         76
+  -------         ENDPROC       MAIN
+  -------         PROC          EXTERN_INT0
+  C:00E1H         LINE#         80
+  C:00E8H         LINE#         82
+  C:00EAH         LINE#         83
+  C:00F1H         LINE#         84
+  C:00F4H         LINE#         85
+  C:00FCH         LINE#         86
+  C:00FFH         LINE#         87
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/21/2009  17:59:27  PAGE 4
+
+
+  C:0101H         LINE#         89
+  -------         ENDPROC       EXTERN_INT0
+  -------         ENDMOD        INT0COUNTER
+
+  -------         MODULE        ?C?UIDIV
+  C:008CH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+Program Size: data=19.0 xdata=0 code=377
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

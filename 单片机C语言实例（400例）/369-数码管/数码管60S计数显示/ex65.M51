@@ -1,0 +1,177 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/04/2010  13:07:12  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE ex65.obj TO ex65 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ex65.obj (EX65)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ex65 (EX65)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?EX65
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0035H     UNIT         ?PR?_DISPLAYSECOND?EX65
+            CODE    0043H     0027H     UNIT         ?PR?INTERSERVE?EX65
+            CODE    006AH     001BH     UNIT         ?PR?MAIN?EX65
+            CODE    0085H     0019H     UNIT         ?PR?DELAY?EX65
+            CODE    009EH     000CH     UNIT         ?C_C51STARTUP
+            CODE    00AAH     000BH     UNIT         ?CO?EX65
+
+
+
+OVERLAY MAP OF MODULE:   ex65 (EX65)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX65
+
+?PR?MAIN?EX65
+  +--> ?PR?_DISPLAYSECOND?EX65
+
+?PR?_DISPLAYSECOND?EX65
+  +--> ?CO?EX65
+  +--> ?PR?DELAY?EX65
+
+
+
+SYMBOL TABLE OF MODULE:  ex65 (EX65)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:07:12  PAGE 2
+
+
+
+  -------         MODULE        EX65
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0008H         PUBLIC        second
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  C:0097H         PUBLIC        delay
+  C:00AAH         PUBLIC        Tab
+  D:00B8H         PUBLIC        IP
+  C:006AH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:000EH         PUBLIC        _DisplaySecond
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  C:0043H         PUBLIC        interserve
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:0009H         PUBLIC        int_time
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  C:0085H         SYMBOL        L?0013
+  -------         PROC          L?0012
+  -------         ENDPROC       L?0012
+  C:0085H         SYMBOL        L?0013
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:0097H         LINE#         10
+  C:0097H         LINE#         11
+  C:0097H         LINE#         13
+  C:009DH         LINE#         15
+  -------         ENDPROC       DELAY
+  -------         PROC          _DISPLAYSECOND
+  D:0006H         SYMBOL        k
+  C:000EH         LINE#         21
+  C:0010H         LINE#         22
+  C:0010H         LINE#         24
+  C:0013H         LINE#         25
+  C:001EH         LINE#         26
+  C:001EH         LINE#         27
+  C:001EH         LINE#         28
+  C:001EH         LINE#         29
+  C:001EH         LINE#         30
+  C:001EH         LINE#         31
+  C:001EH         LINE#         32
+  C:0021H         LINE#         33
+  C:0024H         LINE#         34
+  C:0027H         LINE#         35
+  C:0031H         LINE#         36
+  C:0031H         LINE#         37
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:07:12  PAGE 3
+
+
+  C:0031H         LINE#         38
+  C:0031H         LINE#         39
+  C:0031H         LINE#         40
+  C:0031H         LINE#         41
+  C:0031H         LINE#         42
+  C:0034H         LINE#         43
+  C:0037H         LINE#         44
+  C:003AH         LINE#         46
+  C:003DH         LINE#         47
+  C:003DH         LINE#         48
+  C:003DH         LINE#         49
+  C:003DH         LINE#         50
+  C:003DH         LINE#         51
+  C:003DH         LINE#         52
+  C:003DH         LINE#         53
+  C:0040H         LINE#         54
+  -------         ENDPROC       _DISPLAYSECOND
+  -------         PROC          MAIN
+  C:006AH         LINE#         56
+  C:006AH         LINE#         57
+  C:006AH         LINE#         58
+  C:006DH         LINE#         59
+  C:0070H         LINE#         61
+  C:0073H         LINE#         62
+  C:0075H         LINE#         63
+  C:0077H         LINE#         64
+  C:0079H         LINE#         65
+  C:007CH         LINE#         66
+  C:007EH         LINE#         67
+  C:007EH         LINE#         68
+  C:007EH         LINE#         69
+  C:0083H         LINE#         70
+  -------         ENDPROC       MAIN
+  -------         PROC          INTERSERVE
+  C:0043H         LINE#         75
+  C:0047H         LINE#         77
+  C:0049H         LINE#         78
+  C:004BH         LINE#         79
+  C:0050H         LINE#         80
+  C:0050H         LINE#         81
+  C:0053H         LINE#         82
+  C:0055H         LINE#         83
+  C:005AH         LINE#         84
+  C:005DH         LINE#         85
+  C:005DH         LINE#         86
+  C:0060H         LINE#         87
+  C:0063H         LINE#         88
+  C:0065H         LINE#         89
+  -------         ENDPROC       INTERSERVE
+  -------         ENDMOD        EX65
+
+Program Size: data=11.0 xdata=0 code=173
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

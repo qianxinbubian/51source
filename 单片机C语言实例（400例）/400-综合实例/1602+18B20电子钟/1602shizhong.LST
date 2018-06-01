@@ -1,0 +1,1176 @@
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 1602SHIZHONG
+OBJECT MODULE PLACED IN 1602shizhong.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 1602shizhong.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include"REGx52.h"
+   2          #include"RICHMCU.H"
+   3          sbit a0 = ACC^0;
+   4          sbit a1 = ACC^1;
+   5          sbit a2 = ACC^2;
+   6          sbit a3 = ACC^3;
+   7          sbit a4 = ACC^4;
+   8          sbit a5 = ACC^5;
+   9          sbit a6 = ACC^6;
+  10          sbit a7 = ACC^7;
+  11          sbit DQ = P3^3 ;                //18B20½Ó¿Ú
+  12          sbit speaker = P3^6 ;   //·äÃùÆ÷
+  13          sbit MODE = P1^4 ;      //Ä£Ê½¼ü
+  14          sbit INC = P1^5 ;       //Ôö¼Ó¼ü
+  15          sbit DEC = P1^6 ;       //¼õÉÙ¼ü
+  16          sbit OK = P1^7 ;        //OK¼ü
+  17          #define LCD1602_DATA P0 //8Î»Êý¾Ý²¢ÐÐ¿Ú
+  18          #define LCD1602_RS P2_0 //Ö¸ÁîORÊý¾Ý¼Ä´æÆ÷Ñ¡Ôñ
+  19          #define LCD1602_RW P2_1 //¶ÁÐ´¿ØÖÆ
+  20          #define LCD1602_EN P2_2 //Ê¹ÄÜ¿ØÖÆ
+  21          #define LCD1602_CLR 0x01        //ÇåÆÁ
+  22          #define LCD1602_MODE 0x38       //8Î»Êý¾Ý£¬Ë«ÁÐÏÔÊ¾£¬5*7×ÖÐÎ
+  23          #define LCD1602_ON 0x0c //¿ªÏÔÊ¾£¬¹Ø¹â±ê£¬¹â±ê²»ÉÁË¸
+  24          #define LCD1602_ADDR_MODE 0x06          //µØÖ·µÝÔö
+  25          #define DS1302_SCLK P1_0        //1302Ê±ÖÓÏß    
+  26          #define DS1302_IO P1_1          //1302Êý¾ÝÏß
+  27          #define DS1302_RST P1_2         //1302¸´Î»Ïß
+  28          
+  29          volatile uint8 data timedata[7] ;       //Ê±¼äÖµ
+  30          volatile uint8 data display_buffer1[16];        //ÏÔÊ¾»º³åÇø1 
+  31          volatile uint8 data display_buffer2[16];        //ÏÔÊ¾»º³åÇø2
+  32          volatile uint8 data temdata[5] ;        //´æ·ÅÎÂ¶ÈÖµ
+  33          volatile uint16 data tdat ;     //ÎÂ¶ÈÖµ±äÁ¿
+  34          volatile uint8 data tflag ;     //ÎÂ¶ÈÕý¸ºÖµ±êÖ¾
+  35          volatile int8 self_pos = 0 ;//×Ô¶¨ÒåÈý½ÇÐÎ±êÖ¾ÏÔÊ¾Î»ÖÃ±äÁ¿
+  36          volatile uint8 OK_VALUE = 0 ; //OK¼ü¼üÖµ±äÁ¿ 
+  37          volatile bit bdata DIS_ON = 1 ; //ÏÔÊ¾¿ª¹ØÎ» 1 == on 0 == off
+  38          volatile bit bdata SCAN_ON = 0 ; //°´¼üÉ¨Ãè¿ª¹ØÎ»£¬ÓÉ¶¨Ê±Æ÷Ã¿20MSË¢ÐÂ
+  39          volatile data MODE_ON = 0 ; //Ä£Ê½¼ü°´ÏÂºóÏÔÊ¾²Ëµ¥µÄ¿ª¹ØÎ»
+  40          volatile data INC_VALUE = 0 ;
+  41          volatile data DEC_VALUE = 0 ;
+  42          volatile bit bdata ALARM_VALUE = 0 ;//ÄÖÖÓ±êÖ¾Î» 
+  43          volatile bit bdata ALARM_ON = 1 ; //ÄÖÖÓÏìÊ±¹Ø±Õ±êÖ¾Î»
+  44          volatile uint8 data read_1 = 1,read_2 = 1,read_3 = 1,read_4 = 1;
+  45          volatile uint8 data stopwatch_count = 0;
+  46          volatile uint8 data stopwatch_second = 0;
+  47          volatile uint8 data stopwatch_minute  = 0;
+  48          volatile bit bdata STOPWATCH_START = 0;
+  49          uint8 code self_table1[]={
+  50                                                          0x08,0x0f,0x12,0x0f,0x0a,0x1f,0x02,0x02,//      Äê
+  51                                                          0x1f,0x11,0x1f,0x11,0x1f,0x11,0x15,0x17,//ÔÂ
+  52                                                          0x00,0x1f,0x11,0x1f,0x11,0x11,0x1f,0x00,//      ÈÕ
+  53                                                          0x01,0x0c,0x17,0x14,0x17,0x0c,0x01,0x00,//ÄÖÖÓ±êÖ¾
+  54                                                          0x10,0x18,0x1c,0x1e,0x1f,0x1c,0x18,0x10 };//Èý½ÇÐÎ·ûºÅ                                                          
+  55          
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 2   
+
+  56          
+  57          /**********************************************************
+  58          ·äÃùÆ÷
+  59          ************************************************************/
+  60          void delay_ms(uint16 count)        // ÑÓÊ±Ê±¼äcount*1ms
+  61          {       uint16 i;
+  62   1              for(;count>0;count--)
+  63   1              {
+  64   2                      for(i=0;i<110;i++)
+  65   2                      {
+  66   3                              nop;
+  67   3                      }
+  68   2              }
+  69   1      }
+  70          void speakers(uint8 speak_count)
+  71          {
+  72   1              for(;speak_count>0;speak_count--)
+  73   1                      {
+  74   2                              speaker = 0 ;
+  75   2                              delay_ms(1) ;
+  76   2                              speaker = 1 ;
+  77   2                              delay_ms(3) ;
+  78   2                      }
+  79   1      }
+  80          /***********************************************************
+  81          Ã¦¼ì²â
+  82          ************************************************************/
+  83           void LCD1602_check_busy(void)
+  84          {
+  85   1              LCD1602_DATA = 0xff;
+  86   1              LCD1602_RS = 0 ;        
+  87   1              LCD1602_RW = 1 ;        
+  88   1              LCD1602_EN = 1 ;        
+  89   1              while(LCD1602_DATA & 0x80) ;    
+  90   1              LCD1602_EN = 0 ;                        
+  91   1      }
+  92          
+  93          /**********************************************************
+  94          Ð´Ö¸Áî
+  95          ************************************************************/
+  96          
+  97           void LCD1602_write_cmd(uint8 cmd)
+  98          {
+  99   1              LCD1602_check_busy();   
+ 100   1              LCD1602_RS = 0 ;        
+ 101   1              LCD1602_RW = 0 ;        
+ 102   1              LCD1602_DATA = cmd ;    
+ 103   1              LCD1602_EN = 1 ;        
+ 104   1              LCD1602_EN = 0 ;
+ 105   1      }
+ 106          
+ 107          /***********************************************************
+ 108          Ð´Êý¾Ý
+ 109          *************************************************************/
+ 110           void LCD1602_write_data(uint8 dat)
+ 111          {
+ 112   1              LCD1602_check_busy();   
+ 113   1              LCD1602_RS = 1 ;        
+ 114   1              LCD1602_RW = 0 ;        
+ 115   1              LCD1602_DATA = dat ;    
+ 116   1              LCD1602_EN = 1 ;        
+ 117   1              LCD1602_EN = 0 ;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 3   
+
+ 118   1      }
+ 119          
+ 120          
+ 121          /***********************************************************
+ 122          1602³õÊ¼»¯
+ 123          ************************************************************/
+ 124           void LCD1602_init(void)
+ 125          {
+ 126   1              uint8 i  ;
+ 127   1              LCD1602_write_cmd(0x40);//CGRAMÆðÊ¼µØÖ·
+ 128   1              for(i=0;i<40;i++)
+ 129   1                      LCD1602_write_data(self_table1[i]);//Ð´Èë×Ô¶¨Òå×Ö·û
+ 130   1              LCD1602_write_cmd(LCD1602_MODE) ;
+ 131   1              LCD1602_write_cmd(LCD1602_ON) ;
+ 132   1              LCD1602_write_cmd(LCD1602_ADDR_MODE) ;
+ 133   1              LCD1602_write_cmd(LCD1602_CLR) ;
+ 134   1      }
+ 135          
+ 136          /************************************************************
+ 137          ÉèÖÃÏÔÊ¾×ø±ê
+ 138          ************************************************************/
+ 139           void LCD1602_set_postion(uint8 x , uint8 y)
+ 140          {
+ 141   1              if(y<2)
+ 142   1                      {
+ 143   2                              y &= 0x01 ;     //yÖµÏÞ¶¨ÔÚ0¡«1Ö®¼ä
+ 144   2                              x &= 0x0f ;     //xÖµÏÞ¶¨ÔÚ0¡«15Ö®¼ä
+ 145   2                              if(y == 0)
+ 146   2                                      x |= 0x40 ;     //Èç¹ûÏÔÊ¾ÊÇÔÚµÚ¶þÐÐ£¬ÔòxµÄÖµ¼Ó0x40
+ 147   2                              x |= 0x80 ;             //»ñµÃxµÄÖµ
+ 148   2                              LCD1602_write_cmd(x) ;//Ð´Èë×ø±êÖµµ½LCD
+ 149   2                      }
+ 150   1      }
+ 151          
+ 152          /************************************************************
+ 153          Ö¸¶¨Î»ÖÃÐ´×Ö·û
+ 154          *************************************************************/
+ 155           void LCD1602_write_char(uint8 x , uint8 y , uint8 chardata)
+ 156          {
+ 157   1              LCD1602_set_postion(x,y) ;
+ 158   1              LCD1602_write_data(chardata) ;
+ 159   1      }
+ 160          
+ 161          /************************************************************
+ 162          Ö¸¶¨Î»ÖÃÐ´×Ö·û´®
+ 163          *************************************************************/
+ 164           void LCD1602_write_string(uint8 x , uint8 y , uint8 *string)
+ 165          {
+ 166   1              LCD1602_set_postion(x,y) ;
+ 167   1              while((*string) != '\0')
+ 168   1              {       
+ 169   2                      LCD1602_write_data(*string) ;
+ 170   2                      string++ ;
+ 171   2              }
+ 172   1      }
+ 173          /***************************************************************
+ 174          Ö¸¶¨Î»ÖÃÏÔÊ¾×Ô¶¨Òå×Ö·û
+ 175          **************************************************************
+ 176          uint8 LCD1602_display_self(uint8 count)
+ 177          {
+ 178                  switch(count)
+ 179                          {
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 4   
+
+ 180                                  case 0 : sele_count = 0 ; break ;
+ 181                                  case 1 : sele_count = 1 ; break ;
+ 182                                  case 2 : sele_count = 2 ; break ;
+ 183                                  case 3 : sele_count = 3 ; break ;
+ 184                                  default : break ;
+ 185                          }
+ 186                  return(self_count) ;
+ 187          }*/
+ 188          
+ 189          
+ 190          /****************************************************************
+ 191          µ×²ãÇý¶¯º¯Êý(ÊäÈë)
+ 192          *****************************************************************/
+ 193           void DS1302_input(uint8 inputdata)
+ 194          {
+ 195   1              ACC = inputdata ;
+ 196   1              DS1302_IO = a0 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 197   1              DS1302_IO = a1 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 198   1              DS1302_IO = a2 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 199   1              DS1302_IO = a3 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 200   1              DS1302_IO = a4 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 201   1              DS1302_IO = a5 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 202   1              DS1302_IO = a6 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 203   1              DS1302_IO = a7 ; DS1302_SCLK = 1 ; DS1302_SCLK = 0 ;
+ 204   1      }
+ 205          
+ 206          /****************************************************************
+ 207          µ×²ãÇý¶¯º¯Êý(Êä³ö)¿ØÖÆÎ»µÄµÚÆßÎ»±ØÐëÎª1
+ 208          *****************************************************************/
+ 209           uint8 DS1302_output(void)
+ 210          {
+ 211   1              DS1302_IO = 1 ;
+ 212   1              a0 = DS1302_IO ;
+ 213   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a1 = DS1302_IO ;
+ 214   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a2 = DS1302_IO ;
+ 215   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a3 = DS1302_IO ;
+ 216   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a4 = DS1302_IO ;
+ 217   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a5 = DS1302_IO ;
+ 218   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a6 = DS1302_IO ;
+ 219   1              DS1302_SCLK = 1 ; DS1302_SCLK =0 ; a7 = DS1302_IO ;
+ 220   1              return(ACC);
+ 221   1      }
+ 222          
+ 223          /****************************************************************
+ 224          µ×²ãÇý¶¯º¯Êý(Ö¸¶¨µØÖ·Ð´Ò»¸ö×Ö½ÚµÄÊý¾Ý)
+ 225          *****************************************************************/
+ 226           void DS1302_write_byte(uint8 cmd , uint8 dat)
+ 227          {
+ 228   1              DS1302_SCLK = 0 ;
+ 229   1              DS1302_RST = 0 ;
+ 230   1              DS1302_RST = 1 ;
+ 231   1              DS1302_input(cmd) ;
+ 232   1              DS1302_input(dat) ;
+ 233   1              DS1302_RST = 0 ;
+ 234   1              DS1302_SCLK = 1 ;
+ 235   1      }
+ 236          
+ 237          /****************************************************************
+ 238          µ×²ãÇý¶¯º¯Êý(Ö¸¶¨µØÖ·¶ÁÈ¡Ò»×Ö½ÚµÄÊý¾Ý)
+ 239          *****************************************************************/
+ 240           uint8 DS1302_read_byte(uint8 cmd)
+ 241          {
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 5   
+
+ 242   1              uint8 receivedata = 0 ;
+ 243   1              DS1302_SCLK = 0 ;
+ 244   1              DS1302_RST = 0 ;
+ 245   1              DS1302_RST = 1 ;
+ 246   1              DS1302_input(cmd) ;
+ 247   1              receivedata = DS1302_output() ;
+ 248   1              DS1302_RST = 0 ;
+ 249   1              DS1302_SCLK = 1 ;
+ 250   1              return(receivedata) ;
+ 251   1      }
+ 252          
+ 253          /********************************************************
+ 254          ÉèÖÃ1302µÄ³õÊ¼Ê±¼ä
+ 255          *********************************************************/
+ 256           void DS1302_init()
+ 257          {       
+ 258   1                      if(DS1302_read_byte(0xc9) != 0xf0) 
+ 259   1                      {
+ 260   2                              DS1302_write_byte(0x8e,0x00) ;//ÔÊÐíÐ´²Ù×÷
+ 261   2                              DS1302_write_byte(0xc8,0xf0) ; //Ð´Èë³õÊ¼»¯±êÖ¾ £¬ÏµÍ³ÉÏµçºó¼ì²â´Ë±êÖ¾£¬¼´´Ë×Óº¯ÊýÖ»»áÔÚµÚÒ»´Î³õÊ¼»¯Ò»´
+             -Î¡£
+ 262   2                              DS1302_write_byte(0x8c,0x08) ;//Äê
+ 263   2                              DS1302_write_byte(0x8a,0x05) ;//ÐÇÆÚ
+ 264   2                              DS1302_write_byte(0x88,0x09) ;//ÔÂ
+ 265   2                              DS1302_write_byte(0x86,0x19) ;//ÈÕ
+ 266   2                              DS1302_write_byte(0x84,0x12) ;//Ê±
+ 267   2                              DS1302_write_byte(0x82,0x00) ;//·Ö
+ 268   2                              DS1302_write_byte(0x80,0x00) ;//Ãë
+ 269   2                              DS1302_write_byte(0x90,0xa5) ;//³äµç
+ 270   2                              
+ 271   2                              
+ 272   2              
+ 273   2                              DS1302_write_byte(0x8e,0x80) ;//½ûÖ¹Ð´²Ù×÷       
+ 274   2                      }
+ 275   1      }
+ 276          
+ 277          /********************************************************
+ 278          ¶ÁÈ¡Ê±¼äÊý¾Ý²¢·ÅÔÚtimedata[]ÖÐ
+ 279          *********************************************************/
+ 280           void DS1302_read_time()
+ 281          {
+ 282   1              timedata[0] = DS1302_read_byte(0x8d) ;  //Äê
+ 283   1              timedata[1] = DS1302_read_byte(0x89) ;  //ÔÂ
+ 284   1              timedata[2] = DS1302_read_byte(0x87) ;  //ÈÕ
+ 285   1              timedata[3] = DS1302_read_byte(0x85) ;  //Ê±
+ 286   1              timedata[4] = DS1302_read_byte(0x83) ;  //·Ö
+ 287   1              timedata[5] = DS1302_read_byte(0x81) ;  //Ãë
+ 288   1              timedata[6] = DS1302_read_byte(0x8b) ;  //ÐÇÆÚ
+ 289   1      }
+ 290          
+ 291          
+ 292          /***********************************************************
+ 293          DS18B20Ïà¹Øº¯Êý
+ 294          *************************************************************/
+ 295          void delay_18b20(uint16 sum) //¶ÌÔÝÑÓÊ±
+ 296          {
+ 297   1              while(sum--);
+ 298   1      }
+ 299          
+ 300          void rst_18b20()                 //18B20¸´Î»
+ 301          {       //uchar flag;
+ 302   1              DQ=1;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 6   
+
+ 303   1              delay_18b20(8);
+ 304   1              DQ=0;
+ 305   1              delay_18b20(80);
+ 306   1              DQ=1;
+ 307   1              delay_18b20(13);
+ 308   1              //flag=DQ;
+ 309   1              //return(flag);
+ 310   1      //      delay_18b20(20);
+ 311   1      }       
+ 312          
+ 313          
+ 314          void wr_18b20(uint8 dat)        //Ð´Ò»¸ö×Ö½ÚµÄÊý¾Ý
+ 315          {
+ 316   1              uint8 i=8;
+ 317   1              for(;i>0;i--)
+ 318   1              {
+ 319   2                      DQ=0;
+ 320   2                      DQ=dat&0x01;
+ 321   2                      delay_18b20(5);
+ 322   2                      DQ=1;
+ 323   2                      dat>>=1;
+ 324   2              }       
+ 325   1      }
+ 326          
+ 327          uint8 rd_18b20()                //¶ÁÒ»¸ö×Ö½ÚµÄÄÚÈÝ
+ 328          {
+ 329   1              uint8 dat=0,i=8;
+ 330   1              for(;i>0;i--)
+ 331   1              {
+ 332   2                      DQ=0;
+ 333   2                      dat>>=1;
+ 334   2                      DQ=1;
+ 335   2                      if(DQ)
+ 336   2                      dat|=0x80;
+ 337   2                      delay_18b20(4);
+ 338   2              }
+ 339   1              return(dat);
+ 340   1      }
+ 341          uint16 rd_temperature()         //¶ÁÈ¡ÎÂ¶ÈÖµ
+ 342          {       
+ 343   1              uint8 a=0,b=0;
+ 344   1              uint16 t=0;
+ 345   1              float tt=0;
+ 346   1              rst_18b20();            //¸´Î»
+ 347   1              wr_18b20(0xcc);         //Ìø¹ýROM
+ 348   1              wr_18b20(0x44);         //Æô¶¯ÎÂ¶È×ª»»
+ 349   1              rst_18b20();            //ÔÙ´Î¶Ô18B20²Ù×÷Ê±,ÐèÒªÖØÐÂ¸´Î»Ò»´Î
+ 350   1              wr_18b20(0xcc);         //Ìø¹ýROM
+ 351   1              wr_18b20(0xbe);         //¶ÁÈ¡ÄÚ²¿RAMµÄÄÚÈÝ
+ 352   1              a=rd_18b20();           //¶ÁÎÂ¶ÈÖµµÍÎ»(ÄÚ²¿RAMµÄµÚ0¸ö×Ö½Ú)
+ 353   1              b=rd_18b20();           //¶ÁÎÂ¶ÈÖµ¸ßÎ»(ÄÚ²¿RAMµÄµÚ1¸ö×Ö½Ú)
+ 354   1              t=b;
+ 355   1              t<<=8;                          //ÎÂ¶ÈÖµµÄ¸ß8Î»·ÅÔÚtµÄ¸ß8Î»
+ 356   1              t=t|a;                          //ÎÂ¶ÈÖµµÄµÍ8Î»·ÅÔÚtµÄµÍ8Î»
+ 357   1              if(t<0x0fff)            //ÅÐ¶ÏÎÂ¶ÈÖµµÃÕý¸ºÖµ
+ 358   1                      tflag=0;                //tflag=0ÎÂ¶ÈÖµÎªÕý
+ 359   1          else
+ 360   1         {
+ 361   2                      t=~t+1;                 //ÎÂ¶ÈÖµÎª¸º,¸ºÖµÒÔ²¹ÂëÐÎÊ½´æ·Å,ÕâÀïÒª½«Æä»¹Ô­³ÉÔ­Âë
+ 362   2                      tflag=1;                //tflag=1ÎÂ¶ÈÖµÎª¸º
+ 363   2         }
+ 364   1              tt=t*0.0625;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 7   
+
+ 365   1              t = tt*100 ;                    
+ 366   1              return(t);
+ 367   1              
+ 368   1      }
+ 369          
+ 370          //***********************************************//
+ 371          
+ 372          
+ 373          
+ 374          void tem_conv()                 //ÎÂ¶È×ª»»
+ 375                                  {               
+ 376   1                                      uint8 flagdat ;//¶¨ÒåÎÂ¶ÈÖµ·ûºÅ
+ 377   1                                      if(tflag==0)
+ 378   1                                      temdata[4]=flagdat=0x20;//ÎÂ¶ÈÎªÕý²»ÏÔÊ¾·ûºÅ
+ 379   1                                         else
+ 380   1                                       temdata[4]=flagdat=0x2d;//¸ºÎÂ¶ÈÏÔÊ¾¸ººÅ:-
+ 381   1                                       temdata[0]=tdat/1000+0x30;//ÎÂ¶ÈÊ®Î»
+ 382   1                                   temdata[1]=tdat%1000/100+0x30;//ÎÂ¶È¸öÎ»
+ 383   1                                   temdata[2]=tdat%100/10+0x30;//Ð¡ÊýÊ®Î»
+ 384   1                                   temdata[3]=tdat%10+0x30;//Ð¡Êý°ÙÎ»
+ 385   1                                      /*if(temdata[0]==0x30)
+ 386   1                                          {temdata[0]=0x20;//?????0,???
+ 387   1                                                      if(temdata[1]==0x30)
+ 388   1                                                  {
+ 389   1                                                              temdata[1]=0x20;//?????0,???0????
+ 390   1                                                  }
+ 391   1                                              }*/
+ 392   1                                      
+ 393   1                                }
+ 394                                  
+ 395          /**************************************************************
+ 396          ¸üÐÂÏÔÊ¾»º³åÇø
+ 397          ***************************************************************/
+ 398           void updata_buffer(void)
+ 399          {
+ 400   1              display_buffer1[0] = '2' ;
+ 401   1              display_buffer1[1] = '0' ;
+ 402   1              display_buffer1[2] = timedata[0]/16+0x30 ;
+ 403   1              display_buffer1[3] = timedata[0]%16+0x30 ;
+ 404   1              display_buffer1[4] = 0 ;
+ 405   1              display_buffer1[5] = timedata[1]/16+0x30 ;
+ 406   1              display_buffer1[6] = timedata[1]%16+0x30 ;
+ 407   1              display_buffer1[7] = 1 ;
+ 408   1              display_buffer1[8] = timedata[2]/16+0x30 ;
+ 409   1              display_buffer1[9] = timedata[2]%16+0x30 ;
+ 410   1              display_buffer1[10] = 2 ;
+ 411   1              
+ 412   1              display_buffer1[11] = ' ' ;
+ 413   1              switch(timedata[6]%16)
+ 414   1                      {
+ 415   2                              case 1 : {display_buffer1[12] = 'M' ; 
+ 416   3                                              display_buffer1[13] = 'o' ;
+ 417   3                                              display_buffer1[14] = 'n' ;     }break ;
+ 418   2                              case 2 : {display_buffer1[12] = 'T' ; 
+ 419   3                                              display_buffer1[13] = 'u' ;
+ 420   3                                              display_buffer1[14] = 'e' ;     }break ;
+ 421   2                              case 3 : {display_buffer1[12] = 'W' ; 
+ 422   3                                              display_buffer1[13] = 'e' ;
+ 423   3                                              display_buffer1[14] = 'd' ;     }break ;
+ 424   2                              case 4 : {display_buffer1[12] = 'T' ; 
+ 425   3                                              display_buffer1[13] = 'h' ;
+ 426   3                                              display_buffer1[14] = 'u' ;     }break ;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 8   
+
+ 427   2                              case 5 : {display_buffer1[12] = 'F' ; 
+ 428   3                                              display_buffer1[13] = 'r' ;
+ 429   3                                              display_buffer1[14] = 'i' ;     }break ;
+ 430   2                              case 6 : {display_buffer1[12] = 'S' ; 
+ 431   3                                              display_buffer1[13] = 'a' ;
+ 432   3                                              display_buffer1[14] = 't' ;     }break ;
+ 433   2                              case 7 : {display_buffer1[12] = 'S' ; 
+ 434   3                                              display_buffer1[13] = 'u' ;
+ 435   3                                              display_buffer1[14] = 'n' ;     }break ;
+ 436   2                              default : break;
+ 437   2                      }
+ 438   1              if(ALARM_VALUE == 1)
+ 439   1                      display_buffer1[15] = 3 ;
+ 440   1              else
+ 441   1                      display_buffer1[15] = ' ' ;
+ 442   1              display_buffer2[0] = timedata[3]/16+0x30 ;
+ 443   1              display_buffer2[1] = timedata[3]%16+0x30 ;
+ 444   1              display_buffer2[2] = ':' ;
+ 445   1              display_buffer2[3] = timedata[4]/16+0x30 ;
+ 446   1              display_buffer2[4] = timedata[4]%16+0x30 ;
+ 447   1              display_buffer2[5] = ':' ;
+ 448   1              display_buffer2[6] = timedata[5]/16+0x30 ;
+ 449   1              display_buffer2[7] = timedata[5]%16+0x30 ;
+ 450   1              display_buffer2[8] = temdata[4] ;
+ 451   1              display_buffer2[9] = temdata[0] ;
+ 452   1              display_buffer2[10] = temdata[1] ;
+ 453   1              display_buffer2[11] = '.' ;
+ 454   1              display_buffer2[12] = temdata[2] ;
+ 455   1              display_buffer2[13] = temdata[3] ;
+ 456   1              display_buffer2[14] = 0xdf ;
+ 457   1              display_buffer2[15] = 'C' ;
+ 458   1      }
+ 459          
+ 460          /******************************************************************
+ 461          ÏÔÊ¾»º³åÇøÄÚÈÝ
+ 462          *******************************************************************/
+ 463           void display_buffer(void)
+ 464          {
+ 465   1              uint8 i ;
+ 466   1              LCD1602_write_cmd(0x80) ;
+ 467   1              for(i=0;i<16;i++)
+ 468   1              LCD1602_write_data(display_buffer1[i]);
+ 469   1              LCD1602_write_cmd(0xc0) ;
+ 470   1              for(i=0;i<16;i++)
+ 471   1              LCD1602_write_data(display_buffer2[i]);
+ 472   1      }
+ 473          /*****************************************************************
+ 474          °´¼üÉ¨Ãèº¯Êý
+ 475          ******************************************************************/
+ 476          
+ 477          void key_scan(void)
+ 478          {
+ 479   1              if(MODE == 0)
+ 480   1                      {
+ 481   2                              delay_ms(20) ;
+ 482   2                              while(!MODE) ;
+ 483   2                              speakers(5) ;
+ 484   2                              DIS_ON = 0 ;
+ 485   2                              MODE_ON ++ ;
+ 486   2                              if(MODE_ON == 1 && OK_VALUE == 0)
+ 487   2                              LCD1602_write_cmd(0x01) ;
+ 488   2                              if(MODE_ON == 2 && OK_VALUE == 0)
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 9   
+
+ 489   2                                      {
+ 490   3                                              MODE_ON = 0 ;
+ 491   3                                              DIS_ON = 1 ;
+ 492   3                                              self_pos = 0 ;
+ 493   3                                      }
+ 494   2                      }
+ 495   1              
+ 496   1              if(INC == 0 && MODE_ON == 1 && OK_VALUE == 0)
+ 497   1                      {
+ 498   2                              delay_ms(20) ; 
+ 499   2                              while(!INC) ;
+ 500   2                              speakers(5) ;
+ 501   2                              LCD1602_write_cmd(0x01) ;
+ 502   2                              self_pos++ ;
+ 503   2                              if(self_pos > 2)
+ 504   2                              self_pos = 0 ;
+ 505   2                      }
+ 506   1              if(DEC == 0 && MODE_ON == 1 && OK_VALUE == 0)
+ 507   1                      {
+ 508   2                              delay_ms(20) ;
+ 509   2                              while(!DEC) ;
+ 510   2                              speakers(5) ;
+ 511   2                              LCD1602_write_cmd(0x01) ;
+ 512   2                              self_pos-- ;
+ 513   2                              if(self_pos < -3)
+ 514   2                              self_pos = -1 ;
+ 515   2                      }
+ 516   1              if(DEC == 0 )
+ 517   1                      {
+ 518   2                              delay_ms(20) ;
+ 519   2                              while(!DEC) ;
+ 520   2                              speakers(5) ;
+ 521   2                              DEC_VALUE++;
+ 522   2                      }
+ 523   1              if(INC == 0)
+ 524   1                      {
+ 525   2                              delay_ms(20) ;
+ 526   2                              while(!INC) ;
+ 527   2                              speakers(5) ;
+ 528   2                              INC_VALUE++;
+ 529   2                      }
+ 530   1              if(OK == 0 && MODE_ON != 0)
+ 531   1                      {
+ 532   2                              delay_ms(20) ;
+ 533   2                              while(!OK) ;
+ 534   2                              speakers(5) ;
+ 535   2                              LCD1602_write_cmd(0x01) ;
+ 536   2                              OK_VALUE++;
+ 537   2                              INC_VALUE = 0 ;
+ 538   2                              DEC_VALUE = 0 ;
+ 539   2                      }
+ 540   1              if(OK == 0 && MODE_ON == 0)
+ 541   1                      {
+ 542   2                              delay_ms(20) ;
+ 543   2                              while(!OK) ;
+ 544   2                              speakers(5) ;
+ 545   2                              ALARM_ON = 1 ;
+ 546   2                              if(ALARM_VALUE == 1)
+ 547   2                                      ALARM_VALUE = 0 ;
+ 548   2                              else
+ 549   2                                      ALARM_VALUE = 1 ;
+ 550   2                      }       
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 10  
+
+ 551   1      }
+ 552          /*******************************************************************
+ 553          °´¼ü²Ëµ¥ÈË»ú½»»¥º¯Êý(µÚÒ»¼¶)
+ 554          ********************************************************************/
+ 555          void menu_display_1()
+ 556          {
+ 557   1              if(MODE_ON == 1 && OK_VALUE == 0)
+ 558   1                      {
+ 559   2                              switch(self_pos)
+ 560   2                                      {       
+ 561   3                                              case -3 : {
+ 562   4                                                                      LCD1602_write_char(0,1,4) ;
+ 563   4                                                                      LCD1602_write_string(1,1,"1 Time setting ") ;
+ 564   4                                                                      LCD1602_write_string(1,0,"2 Alarm setting") ;
+ 565   4                                                                }break;
+ 566   3                                              case -2 : {
+ 567   4                                                                      LCD1602_write_char(0,0,4) ;
+ 568   4                                                                      LCD1602_write_string(1,1,"1 Time setting ") ;
+ 569   4                                                                      LCD1602_write_string(1,0,"2 Alarm setting") ;
+ 570   4                                                                }break;
+ 571   3                                              case -1 : {
+ 572   4                                                                      LCD1602_write_char(0,0,4) ;
+ 573   4                                                                      LCD1602_write_string(1,1,"2 Alarm setting ") ;
+ 574   4                                                                      LCD1602_write_string(1,0,"3 Stopwatch") ;
+ 575   4                                                                }break;
+ 576   3                                              case 0 :  {
+ 577   4                                                                      LCD1602_write_char(0,1,4) ;
+ 578   4                                                                      LCD1602_write_string(1,1,"1 Time setting ") ;
+ 579   4                                                                      LCD1602_write_string(1,0,"2 Alarm setting") ;
+ 580   4                                                                }break ;
+ 581   3                                              case 1 :  {
+ 582   4                                                                      LCD1602_write_char(0,0,4) ;
+ 583   4                                                                      LCD1602_write_string(1,1,"1 Time setting ") ;
+ 584   4                                                                      LCD1602_write_string(1,0,"2 Alarm setting") ;
+ 585   4                                                                }break ;
+ 586   3                                              case 2 :  {
+ 587   4                                                                      LCD1602_write_char(0,0,4) ;
+ 588   4                                                                      LCD1602_write_string(1,1,"2 Alarm setting ") ;
+ 589   4                                                                      LCD1602_write_string(1,0,"3 Stopwatch") ;
+ 590   4                                                                }break ;
+ 591   3                                              default :  break ;
+ 592   3                                      }       
+ 593   2                      }
+ 594   1      }
+ 595          
+ 596          /*******************************************************************
+ 597          °´¼ü²Ëµ¥ÈË»ú½»»¥º¯Êý(µÚ¶þ¼¶)
+ 598          ********************************************************************/
+ 599          void menu_display_2(void)
+ 600          {
+ 601   1              uint8 i ,j;
+ 602   1              if(MODE_ON != 0 && OK_VALUE != 0)
+ 603   1                      {
+ 604   2                              LCD1602_write_cmd(0x0f) ;
+ 605   2                              if(self_pos == 0 || self_pos == -3)
+ 606   2                                      {
+ 607   3                                              
+ 608   3                                              LCD1602_write_cmd(0x81) ;
+ 609   3                                              for(i=0;i<15;i++)
+ 610   3                                                      LCD1602_write_data(display_buffer1[i]) ;
+ 611   3                                              LCD1602_write_cmd(0xc4) ;
+ 612   3                                              for(j=0;j<8;j++)
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 11  
+
+ 613   3                                                      LCD1602_write_data(display_buffer2[j]) ;
+ 614   3                                              if(MODE_ON == 1)
+ 615   3                                                      {
+ 616   4                                                              uint8 item ;
+ 617   4                                                              LCD1602_write_cmd(0x84) ;
+ 618   4                                                              if(INC_VALUE !=0 )
+ 619   4                                                                      {
+ 620   5                                                                              item = DS1302_read_byte(0x8d) ;
+ 621   5                                                                              item=(item/16)*10+item%16;
+ 622   5                                                                              item++;
+ 623   5                                                                              if(item==100)item=0;
+ 624   5                                                                              item=(item/10)*16+item%10;
+ 625   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 626   5                                                                              DS1302_write_byte(0x8c,item);
+ 627   5                                                                              INC_VALUE = 0 ;
+ 628   5                                                                      }
+ 629   4                                                              if(DEC_VALUE != 0)
+ 630   4                                                                      {
+ 631   5                                                                              item = DS1302_read_byte(0x8d) ;
+ 632   5                                                                              item=(item/16)*10+item%16;
+ 633   5                                                                              item--;
+ 634   5                                                                              if(item < 0)item=99;
+ 635   5                                                                              item=(item/10)*16+item%10;
+ 636   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 637   5                                                                              DS1302_write_byte(0x8c,item);
+ 638   5                                                                              DEC_VALUE = 0 ;
+ 639   5                                                                      }
+ 640   4                                                      }
+ 641   3                                              else if(MODE_ON == 2)
+ 642   3                                                              {
+ 643   4                                                                      uint8 item ;
+ 644   4                                                                      LCD1602_write_cmd(0x87) ;
+ 645   4                                                                      if(INC_VALUE !=0 )
+ 646   4                                                                              {
+ 647   5                                                                                      item = DS1302_read_byte(0x89) ;
+ 648   5                                                                                      item=(item/16)*10+item%16;
+ 649   5                                                                                      item++;
+ 650   5                                                                                      if(item==13)item=1;
+ 651   5                                                                                      item=(item/10)*16+item%10;
+ 652   5                                                                                      DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 653   5                                                                                      DS1302_write_byte(0x88,item);
+ 654   5                                                                                      INC_VALUE = 0 ;
+ 655   5                                                                              }
+ 656   4                                                                      if(DEC_VALUE != 0)
+ 657   4                                                                              {
+ 658   5                                                                                      item = DS1302_read_byte(0x89) ;
+ 659   5                                                                                      item=(item/16)*10+item%16;
+ 660   5                                                                                      item--;
+ 661   5                                                                                      if(item == 0)item=12;
+ 662   5                                                                                      item=(item/10)*16+item%10;
+ 663   5                                                                                      DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 664   5                                                                                      DS1302_write_byte(0x88,item);
+ 665   5                                                                                      DEC_VALUE = 0 ;
+ 666   5                                                                              }
+ 667   4                                                                      }
+ 668   3                                              
+ 669   3                                              else if(MODE_ON == 3)
+ 670   3                                                      {
+ 671   4                                                              uint8 item ;
+ 672   4                                                              LCD1602_write_cmd(0x8a) ;
+ 673   4                                                              if(INC_VALUE !=0 )
+ 674   4                                                                      {
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 12  
+
+ 675   5                                                                              item = DS1302_read_byte(0x87) ;
+ 676   5                                                                              item=(item/16)*10+item%16;
+ 677   5                                                                              item++;
+ 678   5                                                                              if(item==32)item=1;
+ 679   5                                                                              item=(item/10)*16+item%10;
+ 680   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 681   5                                                                              DS1302_write_byte(0x86,item);
+ 682   5                                                                              INC_VALUE = 0 ;
+ 683   5                                                                      }
+ 684   4                                                              if(DEC_VALUE != 0)
+ 685   4                                                                      {
+ 686   5                                                                              item = DS1302_read_byte(0x87) ;
+ 687   5                                                                              item=(item/16)*10+item%16;
+ 688   5                                                                              item--;
+ 689   5                                                                              if(item == 0)item=31;
+ 690   5                                                                              item=(item/10)*16+item%10;
+ 691   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 692   5                                                                              DS1302_write_byte(0x86,item);
+ 693   5                                                                              DEC_VALUE = 0 ;
+ 694   5                                                                      }
+ 695   4                                                      }
+ 696   3                                              
+ 697   3                                              else if(MODE_ON == 4)
+ 698   3                                                      {
+ 699   4                                                              uint8 item ;
+ 700   4                                                              LCD1602_write_cmd(0x8f) ;
+ 701   4                                                              if(INC_VALUE !=0 )
+ 702   4                                                                      {
+ 703   5                                                                              item = DS1302_read_byte(0x8b) ;
+ 704   5                                                                              item=(item/16)*10+item%16;
+ 705   5                                                                              item++;
+ 706   5                                                                              if(item==8)item=1;
+ 707   5                                                                              item=(item/10)*16+item%10;
+ 708   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 709   5                                                                              DS1302_write_byte(0x8a,item);
+ 710   5                                                                              INC_VALUE = 0 ;
+ 711   5                                                                      }
+ 712   4                                                              if(DEC_VALUE != 0)
+ 713   4                                                                      {
+ 714   5                                                                              item = DS1302_read_byte(0x8b) ;
+ 715   5                                                                              item=(item/16)*10+item%16;
+ 716   5                                                                              item--;
+ 717   5                                                                              if(item == 0)item=7;
+ 718   5                                                                              item=(item/10)*16+item%10;
+ 719   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 720   5                                                                              DS1302_write_byte(0x8a,item);
+ 721   5                                                                              DEC_VALUE = 0 ;
+ 722   5                                                                      }       
+ 723   4                                                      }       
+ 724   3                                              else if(MODE_ON == 5)
+ 725   3                                                      {
+ 726   4                                                              uint8 item ;
+ 727   4                                                              LCD1602_write_cmd(0xc5) ;
+ 728   4                                                              if(INC_VALUE !=0 )
+ 729   4                                                                      {
+ 730   5                                                                              item = DS1302_read_byte(0x85) ;
+ 731   5                                                                              item=(item/16)*10+item%16;
+ 732   5                                                                              item++;
+ 733   5                                                                              if(item==24)item=0;
+ 734   5                                                                              item=(item/10)*16+item%10;
+ 735   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 736   5                                                                              DS1302_write_byte(0x84,item);
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 13  
+
+ 737   5                                                                              INC_VALUE = 0 ;
+ 738   5                                                                      }
+ 739   4                                                              if(DEC_VALUE != 0)
+ 740   4                                                                      {
+ 741   5                                                                              item = DS1302_read_byte(0x85) ;
+ 742   5                                                                              item=(item/16)*10+item%16;
+ 743   5                                                                              item--;
+ 744   5                                                                              if(item == -1)item=23;
+ 745   5                                                                              item=(item/10)*16+item%10;
+ 746   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 747   5                                                                              DS1302_write_byte(0x84,item);
+ 748   5                                                                              DEC_VALUE = 0 ;
+ 749   5                                                                      }
+ 750   4                                                      }
+ 751   3                                                      
+ 752   3                                              else if(MODE_ON == 6)
+ 753   3                                                      {
+ 754   4                                                              uint8 item ;
+ 755   4                                                              LCD1602_write_cmd(0xc8) ;
+ 756   4                                                              if(INC_VALUE !=0 )
+ 757   4                                                                      {
+ 758   5                                                                              item = DS1302_read_byte(0x83) ;
+ 759   5                                                                              item=(item/16)*10+item%16;
+ 760   5                                                                              item++;
+ 761   5                                                                              if(item==60)item=0;
+ 762   5                                                                              item=(item/10)*16+item%10;
+ 763   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 764   5                                                                              DS1302_write_byte(0x82,item);
+ 765   5                                                                              INC_VALUE = 0 ;
+ 766   5                                                                      }
+ 767   4                                                              if(DEC_VALUE != 0)
+ 768   4                                                                      {
+ 769   5                                                                              item = DS1302_read_byte(0x83) ;
+ 770   5                                                                              item=(item/16)*10+item%16;
+ 771   5                                                                              item--;
+ 772   5                                                                              if(item == -1)item=59;
+ 773   5                                                                              item=(item/10)*16+item%10;
+ 774   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 775   5                                                                              DS1302_write_byte(0x82,item);
+ 776   5                                                                              DEC_VALUE = 0 ;
+ 777   5                                                                      }
+ 778   4                                                      }
+ 779   3                                                      
+ 780   3                                              else if(MODE_ON == 7)
+ 781   3                                                      {
+ 782   4                                                              uint8 item ;
+ 783   4                                                              LCD1602_write_cmd(0xcb) ;
+ 784   4                                                              if(INC_VALUE !=0 )
+ 785   4                                                                      {
+ 786   5                                                                              item = DS1302_read_byte(0x81) ;
+ 787   5                                                                              item=(item/16)*10+item%16;
+ 788   5                                                                              item++;
+ 789   5                                                                              if(item==60)item=0;
+ 790   5                                                                              item=(item/10)*16+item%10;
+ 791   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 792   5                                                                              DS1302_write_byte(0x80,item);
+ 793   5                                                                              INC_VALUE = 0 ;
+ 794   5                                                                      }
+ 795   4                                                              if(DEC_VALUE != 0)
+ 796   4                                                                      {
+ 797   5                                                                              item = DS1302_read_byte(0x81) ;
+ 798   5                                                                              item=(item/16)*10+item%16;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 14  
+
+ 799   5                                                                              item--;
+ 800   5                                                                              if(item == -1)item=59;
+ 801   5                                                                              item=(item/10)*16+item%10;
+ 802   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 803   5                                                                              DS1302_write_byte(0x80,item);
+ 804   5                                                                              DEC_VALUE = 0 ;
+ 805   5                                                                      }
+ 806   4                                                      }
+ 807   3                                              else
+ 808   3                                                      {
+ 809   4                                                              LCD1602_write_cmd(0x86);
+ 810   4                                                              MODE_ON = 1 ;
+ 811   4                                                      }
+ 812   3                                                                      
+ 813   3                                              if(OK_VALUE == 2 )
+ 814   3                                                      {
+ 815   4                                                              MODE_ON = 1 ;
+ 816   4                                                              OK_VALUE = 0 ;
+ 817   4                                                              LCD1602_write_cmd(0x01) ;
+ 818   4                                                              LCD1602_write_cmd(0x0c) ;
+ 819   4                                                      }
+ 820   3                                      }
+ 821   2                              if(self_pos == 1 || self_pos == -2)
+ 822   2                                      {       //uint8 alarm_temp ;
+ 823   3                                              LCD1602_write_cmd(0x80);
+ 824   3                                              LCD1602_write_string(0,1,"Alarm time ") ;
+ 825   3                                              LCD1602_write_data(DS1302_read_byte(0xc1)/16+0x30);
+ 826   3                                              LCD1602_write_data(DS1302_read_byte(0xc1)%16+0x30);
+ 827   3                                              LCD1602_write_data(':');
+ 828   3                                              
+ 829   3                                              LCD1602_write_data(DS1302_read_byte(0xc3)/16+0x30);
+ 830   3                                              LCD1602_write_data(DS1302_read_byte(0xc3)%16+0x30);
+ 831   3                                              if(ALARM_VALUE == 1)
+ 832   3                                                      LCD1602_write_string(2,0," ON") ; 
+ 833   3                                              else 
+ 834   3                                                      LCD1602_write_string(2,0,"OFF") ;
+ 835   3                                              LCD1602_write_cmd(0xcb) ;
+ 836   3                                              LCD1602_write_data(DS1302_read_byte(0xc5)/16+0x30);
+ 837   3                                              LCD1602_write_data(DS1302_read_byte(0xc5)%16+0x30);
+ 838   3                                              LCD1602_write_data(':');
+ 839   3                                              LCD1602_write_data(DS1302_read_byte(0xc7)/16+0x30);
+ 840   3                                              LCD1602_write_data(DS1302_read_byte(0xc7)%16+0x30);
+ 841   3                                              LCD1602_write_cmd(0x8c) ;
+ 842   3                                              if(MODE_ON == 1)
+ 843   3                                                      {
+ 844   4                                                              uint8 item ;
+ 845   4                                                              if(INC_VALUE !=0 )
+ 846   4                                                                      {
+ 847   5                                                                              item = DS1302_read_byte(0xc1) ;
+ 848   5                                                                              item=(item/16)*10+item%16;
+ 849   5                                                                              item++;
+ 850   5                                                                              if(item==24)item=0;
+ 851   5                                                                              item=(item/10)*16+item%10;
+ 852   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 853   5                                                                              DS1302_write_byte(0xc0,item);
+ 854   5                                                                              INC_VALUE = 0 ;
+ 855   5                                                                      }
+ 856   4                                                              if(DEC_VALUE != 0)
+ 857   4                                                                      {
+ 858   5                                                                              item = DS1302_read_byte(0xc1) ;
+ 859   5                                                                              item=(item/16)*10+item%16;
+ 860   5                                                                              item--;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 15  
+
+ 861   5                                                                              if(item == -1)item=23;
+ 862   5                                                                              item=(item/10)*16+item%10;
+ 863   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 864   5                                                                              DS1302_write_byte(0xc0,item);
+ 865   5                                                                              DEC_VALUE = 0 ;
+ 866   5                                                                      }
+ 867   4                                                      }
+ 868   3                                              else if(MODE_ON == 2)
+ 869   3                                                      {
+ 870   4                                                              uint8 item ;
+ 871   4                                                              LCD1602_write_cmd(0x8f) ;
+ 872   4                                                              if(INC_VALUE !=0 )
+ 873   4                                                                      {
+ 874   5                                                                              item = DS1302_read_byte(0xc3) ;
+ 875   5                                                                              item=(item/16)*10+item%16;
+ 876   5                                                                              item++;
+ 877   5                                                                              if(item==60)item=0;
+ 878   5                                                                              item=(item/10)*16+item%10;
+ 879   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 880   5                                                                              DS1302_write_byte(0xc2,item);
+ 881   5                                                                              INC_VALUE = 0 ;
+ 882   5                                                                      }
+ 883   4                                                              if(DEC_VALUE != 0)
+ 884   4                                                                      {
+ 885   5                                                                              item = DS1302_read_byte(0xc3) ;
+ 886   5                                                                              item=(item/16)*10+item%16;
+ 887   5                                                                              item--;
+ 888   5                                                                              if(item == -1)item=59;
+ 889   5                                                                              item=(item/10)*16+item%10;
+ 890   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 891   5                                                                              DS1302_write_byte(0xc2,item);
+ 892   5                                                                              DEC_VALUE = 0 ;
+ 893   5                                                                      }
+ 894   4                                                      }
+ 895   3                                              else if(MODE_ON == 3)
+ 896   3                                                      {
+ 897   4                                                              LCD1602_write_cmd(0xc4);
+ 898   4                                                              if(INC_VALUE != 0 || DEC_VALUE !=0 )
+ 899   4                                                                      {
+ 900   5                                                                              INC_VALUE = 0 ;
+ 901   5                                                                              DEC_VALUE = 0 ;
+ 902   5                                                                              ALARM_VALUE^=1 ; //È¡·´
+ 903   5                                                                      }
+ 904   4                                                      }
+ 905   3                                              else if(MODE_ON == 4)
+ 906   3                                                      {
+ 907   4                                                              uint8 item ;
+ 908   4                                                              LCD1602_write_cmd(0xcc) ;
+ 909   4                                                              if(INC_VALUE !=0 )
+ 910   4                                                                      {
+ 911   5                                                                              item = DS1302_read_byte(0xc5) ;
+ 912   5                                                                              item=(item/16)*10+item%16;
+ 913   5                                                                              item++;
+ 914   5                                                                              if(item==24)item=0;
+ 915   5                                                                              item=(item/10)*16+item%10;
+ 916   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 917   5                                                                              DS1302_write_byte(0xc4,item);
+ 918   5                                                                              INC_VALUE = 0 ;
+ 919   5                                                                      }
+ 920   4                                                              if(DEC_VALUE != 0)
+ 921   4                                                                      {
+ 922   5                                                                              item = DS1302_read_byte(0xc5) ;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 16  
+
+ 923   5                                                                              item=(item/16)*10+item%16;
+ 924   5                                                                              item--;
+ 925   5                                                                              if(item == -1)item=23;
+ 926   5                                                                              item=(item/10)*16+item%10;
+ 927   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 928   5                                                                              DS1302_write_byte(0xc4,item);
+ 929   5                                                                              DEC_VALUE = 0 ;
+ 930   5                                                                      }
+ 931   4                                                      }
+ 932   3                                              else if(MODE_ON == 5)
+ 933   3                                                      {
+ 934   4                                                              uint8 item ;
+ 935   4                                                              LCD1602_write_cmd(0xcf) ;
+ 936   4                                                              if(INC_VALUE !=0 )
+ 937   4                                                                      {
+ 938   5                                                                              item = DS1302_read_byte(0xc7) ;
+ 939   5                                                                              item=(item/16)*10+item%16;
+ 940   5                                                                              item++;
+ 941   5                                                                              if(item==60)item=0;
+ 942   5                                                                              item=(item/10)*16+item%10;
+ 943   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 944   5                                                                              DS1302_write_byte(0xc6,item);
+ 945   5                                                                              INC_VALUE = 0 ;
+ 946   5                                                                      }
+ 947   4                                                              if(DEC_VALUE != 0)
+ 948   4                                                                      {
+ 949   5                                                                              item = DS1302_read_byte(0xc7) ;
+ 950   5                                                                              item=(item/16)*10+item%16;
+ 951   5                                                                              item--;
+ 952   5                                                                              if(item == -1)item=59;
+ 953   5                                                                              item=(item/10)*16+item%10;
+ 954   5                                                                              DS1302_write_byte(0x8e,0x00);//ÔÊÐíÐ´²Ù×÷
+ 955   5                                                                              DS1302_write_byte(0xc6,item);
+ 956   5                                                                              DEC_VALUE = 0 ;
+ 957   5                                                                      }
+ 958   4                                                      }
+ 959   3                                              else
+ 960   3                                                      {
+ 961   4                                                              LCD1602_write_cmd(0x8c);
+ 962   4                                                              MODE_ON = 1 ;
+ 963   4                                                      }
+ 964   3                                              if(OK_VALUE == 2 )
+ 965   3                                                      {
+ 966   4                                                              MODE_ON = 1 ;
+ 967   4                                                              OK_VALUE = 0 ;
+ 968   4                                                              LCD1602_write_cmd(0x01) ;
+ 969   4                                                              LCD1602_write_cmd(0x0c) ;
+ 970   4                                                      }
+ 971   3                                      }
+ 972   2                              if(self_pos == 2 || self_pos == -1)
+ 973   2                                      {
+ 974   3                                              
+ 975   3                                              if(DEC_VALUE != 0)
+ 976   3                                                      {
+ 977   4                                                              TR0 = 0;
+ 978   4                                                              
+ 979   4                                                              DEC_VALUE = 0 ;
+ 980   4                                                      }
+ 981   3                                              
+ 982   3                                              if(INC_VALUE != 0 )
+ 983   3                                                      {       
+ 984   4                                                              TR0= 1 ;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 17  
+
+ 985   4                                                              INC_VALUE = 0 ;
+ 986   4                                                      }
+ 987   3                                              LCD1602_write_cmd(0x0c) ;
+ 988   3                                              LCD1602_write_string(4,1,"stopwatch") ;
+ 989   3                                      LCD1602_write_char(5,0,stopwatch_minute/10+0x30) ;
+ 990   3                                              LCD1602_write_char(6,0,stopwatch_minute%10+0x30) ;
+ 991   3                                              LCD1602_write_char(7,0,':') ;
+ 992   3                                              LCD1602_write_char(8,0,stopwatch_second/10+0x30) ;
+ 993   3                                              LCD1602_write_char(9,0,stopwatch_second%10+0x30) ;
+ 994   3                                              LCD1602_write_char(10,0,':') ;
+ 995   3                                              LCD1602_write_char(11,0,stopwatch_count/10+0x30) ;
+ 996   3                                              LCD1602_write_char(12,0,stopwatch_count%10+0x30) ;
+ 997   3                                      
+ 998   3                                              
+ 999   3                                              if(OK_VALUE == 2 )
+1000   3                                                      {
+1001   4                                                              TR0 = 0 ;
+1002   4                                                              stopwatch_minute = 0;
+1003   4                                                              stopwatch_second = 0;
+1004   4                                                              stopwatch_count = 0;
+1005   4                                                      }
+1006   3                                              if(OK_VALUE == 3)
+1007   3                                                      {
+1008   4                                                              TR0 = 0 ;
+1009   4                                                              MODE_ON = 1 ;
+1010   4                                                              OK_VALUE = 0 ;
+1011   4                                                              stopwatch_minute = 0;
+1012   4                                                              stopwatch_second = 0;
+1013   4                                                              stopwatch_count = 0;
+1014   4                                                              LCD1602_write_cmd(0x01) ;
+1015   4                                                      }
+1016   3                                      }
+1017   2                      }
+1018   1              
+1019   1      }
+1020          /***********************************************************
+1021          ÄÖÖÓ³õÊ¼»¯
+1022          ************************************************************/
+1023          void alarm_init(void)
+1024          {
+1025   1              DS1302_write_byte(0x8e,0x00) ;//ÔÊÐíÐ´²Ù×÷
+1026   1      
+1027   1              DS1302_write_byte(0xc0,0x12) ;//µÚÒ»¸öÄÖÖÓµÄÊ±
+1028   1              DS1302_write_byte(0xc2,0x00) ;//µÚÒ»¸öÄÖÖÓµÄ·Ö
+1029   1              DS1302_write_byte(0xc4,0x12) ;//µÚ¶þ¸öÄÖÖÓµÄÊ±
+1030   1              DS1302_write_byte(0xc6,0x00) ;//µÚ¶þ¸öÄÖÖÓµÄ·Ö
+1031   1                      
+1032   1              DS1302_write_byte(0x8e,0x80) ;//½ûÖ¹Ð´²Ù×÷              
+1033   1      }
+1034          /***********************************************************
+1035          ¼ì²âÄÖÖÓÊÇ·ñµ½ÁË¶¨Ê±Ê±¼ä
+1036          ************************************************************/
+1037          void alarm_check(void)
+1038          {
+1039   1              
+1040   1              if(ALARM_VALUE ==1 && ALARM_ON == 1)
+1041   1                      {
+1042   2                              read_1 = DS1302_read_byte(0x85) ;
+1043   2                              read_1 ^= DS1302_read_byte(0xc1);
+1044   2                              read_2 = DS1302_read_byte(0x83) ;
+1045   2                              read_2 ^= DS1302_read_byte(0xc3);
+1046   2                              read_3 = DS1302_read_byte(0x85) ;
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 18  
+
+1047   2                              read_3 ^= DS1302_read_byte(0xc5);
+1048   2                              read_4 = DS1302_read_byte(0x83) ;
+1049   2                              read_4 ^= DS1302_read_byte(0xc7);
+1050   2                      }
+1051   1              if((read_1 == 0) && (read_2 == 0) || (read_3 == 0) && (read_4 == 0))
+1052   1                      {
+1053   2                              if(ALARM_VALUE == 1)
+1054   2                                      {
+1055   3                                              speakers(100) ;
+1056   3                                              delay_ms(10);
+1057   3                                              speakers(10);
+1058   3                                              delay_ms(5);
+1059   3                                              ALARM_ON = 0 ;
+1060   3                                      }
+1061   2                      }
+1062   1      }
+1063          /***********************************************************
+1064          Ö÷º¯Êý
+1065          ************************************************************/
+1066          void main(void)
+1067          {
+1068   1              TMOD = 0x01 ;
+1069   1              TH0 = 0xd8 ;
+1070   1              TL0 = 0xf0 ;
+1071   1              EA = 1 ;
+1072   1              ET0 = 1 ;
+1073   1              TR0 = 0 ;
+1074   1              LCD1602_init() ;
+1075   1              alarm_init() ;
+1076   1              DS1302_init() ;
+1077   1              speakers(20)  ;
+1078   1              while(1)
+1079   1                      {       
+1080   2                              
+1081   2                              key_scan() ;
+1082   2                              menu_display_1() ;
+1083   2                              menu_display_2() ;
+1084   2                              if(STOPWATCH_START == 0)
+1085   2                                      {
+1086   3                                              alarm_check();
+1087   3                                              DS1302_read_time();
+1088   3                                              tdat=rd_temperature();  //ÎÂ¶È¶ÁÈ¡
+1089   3                                              tem_conv();                             //ÎÂ¶È×ª»»
+1090   3                                              updata_buffer();
+1091   3                                              if(DIS_ON == 1)
+1092   3                                                      {
+1093   4                                                                      
+1094   4                                                              display_buffer();
+1095   4                                                      }       
+1096   3                                      }
+1097   2                      }
+1098   1      }
+1099          void t0_server(void) interrupt 1 using 1
+1100          {
+1101   1              TH0 = 0xd8 ;
+1102   1              TL0 = 0xf0 ;
+1103   1              stopwatch_count++ ;
+1104   1              if(stopwatch_count == 100)
+1105   1                      {
+1106   2                              stopwatch_second++ ;
+1107   2                              stopwatch_count = 0 ;
+1108   2                      }
+C51 COMPILER V8.02   1602SHIZHONG                                                          07/23/2009 15:22:57 PAGE 19  
+
+1109   1              if(stopwatch_second == 60)
+1110   1                      {
+1111   2                              stopwatch_second = 0 ;
+1112   2                              stopwatch_minute++ ;
+1113   2                      }
+1114   1              if(stopwatch_minute == 60)
+1115   1                      {stopwatch_minute = 0 ;}
+1116   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   3648    ----
+   CONSTANT SIZE    =    131    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     62       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      5    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

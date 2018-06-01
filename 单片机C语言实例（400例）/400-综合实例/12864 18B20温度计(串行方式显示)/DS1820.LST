@@ -1,0 +1,115 @@
+C51 COMPILER V9.00   DS1820                                                                04/25/2012 11:44:08 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE DS1820
+OBJECT MODULE PLACED IN DS1820.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE DS1820.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /**********************************************************
+   2          *DS1820驱动程序
+   3          *版本:V1.0
+   4          *编程:飞扬
+   5          **********************************************************/
+   6          #include <at89x52.h>
+   7          //引脚定义
+   8          sbit DS1820_DQ= P3^3; //单总线引脚
+   9          //函数声明
+  10          bit DS1820_Reset();
+  11          void DS1820_WriteData(unsigned char wData);
+  12          unsigned char DS1820_ReadData();
+  13          //存放温度数据
+  14          unsigned char data temperature[2]; //将温度存储在低128RAM单元
+  15          /**********************************************************
+  16          *读温度数据函数
+  17          **********************************************************/
+  18          void read_temp()
+  19          {
+  20   1       unsigned char i;
+  21   1       DS1820_Reset();                  //复位
+  22   1       DS1820_WriteData(0xcc); //跳过ROM命令
+  23   1       DS1820_WriteData(0x44); //温度转换命令
+  24   1       DS1820_Reset();                  //复位
+  25   1       DS1820_WriteData(0xcc); //跳过ROM命令
+  26   1       DS1820_WriteData(0xbe); //读DS1820温度暂存器命令
+  27   1       for (i=0;i<2;i++)
+  28   1              {
+  29   2              temperature[i]=DS1820_ReadData();
+  30   2              }
+  31   1       DS1820_Reset();                  //复位,结束读数据
+  32   1       }
+  33          
+  34          /**********************************************************
+  35          *DS1820复位及存在检测(通过存在脉冲可以判断DS1820是否损坏)
+  36          *函数名称:DS1820_Reset()
+  37          *说明:函数返回一个位标量(0或1)flag=0存在,反之flag=1不存在
+  38          **********************************************************/
+  39          bit DS1820_Reset()
+  40          {
+  41   1       unsigned char i;
+  42   1       bit flag;                      //DS1820存在标志位
+  43   1       DS1820_DQ = 0;         //拉低总线
+  44   1       for (i=240;i>0;i--);//延时480微秒,产生复位脉冲
+  45   1       DS1820_DQ = 1;         //释放总线
+  46   1       for (i=40;i>0;i--); //延时80微秒对总线采样
+  47   1       flag =  DS1820_DQ;
+  48   1       for (i=200;i>0;i--); //延时400微秒等待总线恢复
+  49   1       return (flag);         //根据flag的值可以知道DS1820是否存在或损坏
+  50   1      }                                       //可以加声音告警提示DS1820故障
+  51          /**********************************************************
+  52          *写数据到DS1820
+  53          *函数名称:DS1820_WriteData()
+  54          *
+  55          **********************************************************/
+C51 COMPILER V9.00   DS1820                                                                04/25/2012 11:44:08 PAGE 2   
+
+  56          void DS1820_WriteData(unsigned char wData)
+  57          {
+  58   1       unsigned char i,j;
+  59   1       for (i=8;i>0;i--)
+  60   1              {
+  61   2               DS1820_DQ = 0;         //拉低总线,产生写信号
+  62   2               for (j=2;j>0;j--);     //延时4us
+  63   2               DS1820_DQ = wData&0x01; //发送1位
+  64   2               for (j=30;j>0;j--); //延时60us,写时序至少要60us
+  65   2               DS1820_DQ = 1;         //释放总线,等待总线恢复
+  66   2               wData>>=1;     //准备下一位数据的传送
+  67   2              }
+  68   1      }
+  69          /**********************************************************
+  70          *从DS1820中读出数据
+  71          *函数名称:DS1820_ReadData()
+  72          *
+  73          **********************************************************/
+  74          unsigned char DS1820_ReadData()
+  75          {
+  76   1       unsigned char i,j,TmepData;
+  77   1       for (i=8;i>0;i--)
+  78   1              {
+  79   2                      TmepData>>=1;
+  80   2                      DS1820_DQ = 0;          //拉低总线,产生读信号
+  81   2                      for (j=2;j>0;j--);      //延时4us
+  82   2                              DS1820_DQ = 1;  //释放总线,准备读数据
+  83   2                      for (j=4;j>0;j--);      //延时8微秒读数据
+  84   2                              if (DS1820_DQ == 1)
+  85   2                                      TmepData |= 0x80;
+  86   2                      for (j=30;j>0;j--); //延时60us
+  87   2                      DS1820_DQ = 1;          //拉高总线,准备下一位数据的读取.
+  88   2              }
+  89   1              return (TmepData);//返回读到的数据
+  90   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    132    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

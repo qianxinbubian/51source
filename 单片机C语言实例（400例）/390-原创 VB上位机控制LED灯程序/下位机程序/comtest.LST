@@ -1,0 +1,56 @@
+C51 COMPILER V8.02   COMTEST                                                               08/05/2009 13:10:15 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE COMTEST
+OBJECT MODULE PLACED IN comtest.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE comtest.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>
+   3          unsigned char tmp;
+   4          void send_char(unsigned char txd);
+   5          main()
+   6          {
+   7   1              TMOD = 0x20;                    // 定时器1工作于8位自动重载模式, 用于产生波特率
+   8   1              TH1 = 0xFD;                             // 波特率9600
+   9   1              TL1 = 0xFD;
+  10   1              SCON = 0x50;                    // 设定串行口工作方式
+  11   1              PCON &= 0xef;                   // 波特率不倍增 
+  12   1              TR1 = 1;                                // 启动定时器1
+  13   1              IE = 0x0;                               // 禁止任何中断
+  14   1              while(1)
+  15   1              {
+  16   2              
+  17   2                      if(RI)                                          // 是否有数据到来
+  18   2                      {
+  19   3                              RI = 0;
+  20   3                              tmp = SBUF;                             // 暂存接收到的数据
+  21   3                              P0 = tmp;                               // 数据传送到P0口
+  22   3                              send_char(tmp);                 // 回传接收到的数据
+  23   3                      }               
+  24   2              }
+  25   1      }
+  26          void send_char(unsigned char txd)
+  27          // 传送一个字符
+  28          {
+  29   1              SBUF = txd;
+  30   1              while(!TI);                             // 等特数据传送
+  31   1              TI = 0;                                 // 清除数据传送标志
+  32   1      }
+  33          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     46    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

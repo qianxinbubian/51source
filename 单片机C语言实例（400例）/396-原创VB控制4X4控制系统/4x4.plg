@@ -1,0 +1,66 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\Administrator\桌面\4x4矩阵键盘实验(计算法)\4x4.uv2
+Project File Date:  06/23/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 4x4.c...
+linking...
+Program Size: data=10.0 xdata=0 code=338
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 4x4.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEND_CHAR?4X4
+Program Size: data=10.0 xdata=0 code=333
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling 4x4.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEND_CHAR?4X4
+Program Size: data=10.0 xdata=0 code=336
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling 4x4.c...
+linking...
+Program Size: data=10.0 xdata=0 code=341
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 4x4.c...
+4X4.C(48): error C193: 'parameter': bad operand type
+4X4.C(49): error C193: 'parameter': bad operand type
+4X4.C(50): error C193: 'parameter': bad operand type
+4X4.C(51): error C193: 'parameter': bad operand type
+4X4.C(52): error C193: 'parameter': bad operand type
+4X4.C(53): error C193: 'parameter': bad operand type
+4X4.C(54): error C193: 'parameter': bad operand type
+4X4.C(55): error C193: 'parameter': bad operand type
+4X4.C(56): error C193: 'parameter': bad operand type
+4X4.C(57): error C193: 'parameter': bad operand type
+4X4.C(58): error C193: 'parameter': bad operand type
+4X4.C(59): error C193: 'parameter': bad operand type
+4X4.C(60): error C193: 'parameter': bad operand type
+4X4.C(61): error C193: 'parameter': bad operand type
+4X4.C(62): error C193: 'parameter': bad operand type
+4X4.C(63): error C193: 'parameter': bad operand type
+Target not created
+Build target 'Target 1'
+compiling 4x4.c...
+4X4.C(15): error C141: syntax error near 'P0'
+Target not created
+Build target 'Target 1'
+compiling 4x4.c...
+linking...
+Program Size: data=12.0 xdata=0 code=355
+creating hex file from "4x4"...
+"4x4" - 0 Error(s), 0 Warning(s).

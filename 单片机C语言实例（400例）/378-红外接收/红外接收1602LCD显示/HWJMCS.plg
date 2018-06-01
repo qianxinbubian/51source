@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\新版程序\红外接收\红外接收1602LCD显示\HWJMCS.uv2
+Project File Date:  07/15/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling HWJMCS.C...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?BUSYTEST?HWJMCS
+    CALLER1: ?PR?INT0?HWJMCS
+    CALLER2: ?C_C51STARTUP
+Program Size: data=18.2 xdata=0 code=711
+creating hex file from "HWJMCS"...
+"HWJMCS" - 0 Error(s), 1 Warning(s).

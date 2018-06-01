@@ -1,0 +1,126 @@
+C51 COMPILER V8.02   DCMTRTS                                                               07/21/2009 18:07:07 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE DCMTRTS
+OBJECT MODULE PLACED IN DCMTRTS.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE DCMTRTS.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /****************************************************************************** 
+   2          *                                                                            * 
+   3          *关于频率和占空比的确定，对于12M晶振，假定PWM输出频率为1KHZ,这样定时中断次数 * 
+   4          *设定为C=10，即0.01MS中断一次，则TH0=FF,TL0=F6;由于设定中断时间为0.01ms，这样* 
+   5          *可以设定占空比可从1-100变化。即0.01ms*100=1ms                               * 
+   6          ******************************************************************************/ 
+   7          #include <REGX51.H> 
+   8          #define uchar unsigned char      
+   9          /***************************************************************************** 
+  10          * TH0和TL0是计数器0的高8位和低8位计数器，计算办法:TL0=(65536-C)%256;         * 
+  11          * TH0=(65536-C)/256,其中C为所要计数的次数即多长时间产生一次中断；TMOD是计数器* 
+  12          * 工作模式选择，0X01表示选用模式1,它有16位计数器，最大计数脉冲为65536,最长时 * 
+  13          * 间为1ms*65536=65.536ms                                                     * 
+  14          ******************************************************************************/ 
+  15          #define V_TH0  0XFF                  
+  16          #define V_TL0  0XF6                  
+  17          #define V_TMOD 0X01                  
+  18          
+  19          void init_sys(void);            /*系统初始化函数*/ 
+  20          void Delay5Ms(void); 
+  21          
+  22          unsigned char ZKB1,ZKB2; 
+  23          
+  24          void main (void) 
+  25          { 
+  26   1      init_sys(); 
+  27   1        ZKB1=40;            /*占空比初始值设定*/ 
+  28   1        ZKB2=70;            /*占空比初始值设定*/ 
+  29   1        while(1) 
+  30   1        { 
+  31   2             if (!P1_4) //如果按了+键，增加占空比 
+  32   2            { 
+  33   3             Delay5Ms(); 
+  34   3             if (!P1_4) 
+  35   3               { 
+  36   4               ZKB1++; 
+  37   4               ZKB2=100-ZKB1; 
+  38   4               } 
+  39   3            } 
+  40   2      
+  41   2             if (!P1_5) //如果按了-键，减少占空比 
+  42   2            { 
+  43   3             Delay5Ms(); 
+  44   3             if (!P1_5) 
+  45   3               { 
+  46   4               ZKB1--; 
+  47   4               ZKB2=100-ZKB1; 
+  48   4               } 
+  49   3            } 
+  50   2      /*对占空比值限定范围*/ 
+  51   2      if (ZKB1>99) ZKB1=1; 
+  52   2      if (ZKB1<1) ZKB1=99; 
+  53   2       
+  54   2        }
+  55   1        
+C51 COMPILER V8.02   DCMTRTS                                                               07/21/2009 18:07:07 PAGE 2   
+
+  56   1      
+  57   1         
+  58   1      } 
+  59          
+  60          
+  61          /****************************************************** 
+  62          *函数功能：对系统进行初始化，包括定时器初始化和变量初始化*/ 
+  63          void init_sys(void)            /*系统初始化函数*/ 
+  64          { 
+  65   1        /*定时器初始化*/ 
+  66   1        TMOD=V_TMOD; 
+  67   1        TH0=V_TH0; 
+  68   1        TL0=V_TL0; 
+  69   1        TR0=1; 
+  70   1        ET0=1; 
+  71   1        EA=1; 
+  72   1      } 
+  73          
+  74          
+  75          //延时 
+  76          void Delay5Ms(void) 
+  77          { 
+  78   1      unsigned int TempCyc = 1000; 
+  79   1      while(TempCyc--); 
+  80   1      } 
+  81          
+  82          /*中断函数*/ 
+  83          void timer0(void) interrupt 1 using 2 
+  84          { 
+  85   1      static uchar click=0;                  /*中断次数计数器变量*/ 
+  86   1      TH0=V_TH0;                                    /*恢复定时器初始值*/ 
+  87   1      TL0=V_TL0; 
+  88   1      ++click; 
+  89   1      if (click>=100) click=0; 
+  90   1      
+  91   1      if (click<=ZKB1)      /*当小于占空比值时输出低电平，高于时是高电平，从而实现占空比的调整*/ 
+  92   1        P1_0=0; 
+  93   1      else 
+  94   1        P1_0=1; 
+  95   1      
+  96   1      if (click<=ZKB2)                        
+  97   1        P1_1=0; 
+  98   1      else 
+  99   1        P1_1=1; 
+ 100   1      
+ 101   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    151    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

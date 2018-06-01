@@ -1,0 +1,200 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/04/2010  13:05:14  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE SMGWY.obj TO SMGWY RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  SMGWY.obj (SMGWY)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  SMGWY (SMGWY)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000BH     UNIT         ?DT?SMGWY
+            DATA    0013H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0014H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    009AH     0044H     UNIT         ?PR?LEDDISPLAY?SMGWY
+            CODE    00DEH     002BH     UNIT         ?PR?MAIN?SMGWY
+            CODE    0109H     001FH     UNIT         ?PR?EXCHANGE2?SMGWY
+            CODE    0128H     001AH     UNIT         ?PR?_DELAYMS?SMGWY
+            CODE    0142H     0010H     UNIT         ?PR?EXCHANGE1?SMGWY
+            CODE    0152H     000CH     UNIT         ?C_INITSEG
+            CODE    015EH     000BH     UNIT         ?CO?SMGWY
+
+
+
+OVERLAY MAP OF MODULE:   SMGWY (SMGWY)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?LEDDISPLAY?SMGWY           -----    -----
+  +--> ?CO?SMGWY
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?SMGWY
+  +--> ?C_INITSEG
+
+?PR?MAIN?SMGWY                 0013H    0001H
+  +--> ?PR?EXCHANGE1?SMGWY
+  +--> ?PR?_DELAYMS?SMGWY
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:05:14  PAGE 2
+
+
+  +--> ?PR?EXCHANGE2?SMGWY
+
+?PR?EXCHANGE1?SMGWY            -----    -----
+  +--> ?PR?_DELAYMS?SMGWY
+
+?PR?EXCHANGE2?SMGWY            -----    -----
+  +--> ?PR?_DELAYMS?SMGWY
+
+
+
+SYMBOL TABLE OF MODULE:  SMGWY (SMGWY)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        SMGWY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:0008H         PUBLIC        shift
+  C:00DEH         PUBLIC        main
+  C:009AH         PUBLIC        leddisplay
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  C:015EH         PUBLIC        ledcode
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  D:0009H         PUBLIC        n
+  C:012CH         PUBLIC        _delayms
+  C:0142H         PUBLIC        exchange1
+  C:0109H         PUBLIC        exchange2
+  D:000AH         PUBLIC        display
+  D:00D0H         PUBLIC        PSW
+  C:0128H         SYMBOL        L?0025
+  -------         PROC          L?0024
+  -------         ENDPROC       L?0024
+  C:0128H         SYMBOL        L?0025
+  -------         PROC          _DELAYMS
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0005H         SYMBOL        t
+  -------         ENDDO         
+  C:012CH         LINE#         21
+  C:012CH         LINE#         23
+  C:012CH         LINE#         25
+  C:0136H         LINE#         26
+  C:0136H         LINE#         28
+  C:0141H         LINE#         29
+  C:0141H         LINE#         30
+  -------         ENDPROC       _DELAYMS
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:05:14  PAGE 3
+
+
+  -------         PROC          EXCHANGE1
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:0142H         LINE#         38
+  C:0142H         LINE#         39
+  C:0142H         LINE#         42
+  C:0144H         LINE#         44
+  C:0144H         LINE#         45
+  C:014AH         LINE#         46
+  C:014DH         LINE#         49
+  C:0151H         LINE#         50
+  -------         ENDPROC       EXCHANGE1
+  -------         PROC          EXCHANGE2
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0109H         LINE#         58
+  C:0109H         LINE#         59
+  C:0109H         LINE#         62
+  C:010BH         LINE#         63
+  C:010DH         LINE#         64
+  C:010DH         LINE#         67
+  C:0119H         LINE#         68
+  C:011DH         LINE#         69
+  C:0120H         LINE#         70
+  C:0123H         LINE#         73
+  C:0127H         LINE#         74
+  -------         ENDPROC       EXCHANGE2
+  -------         PROC          MAIN
+  -------         DO            
+  D:0013H         SYMBOL        times
+  -------         ENDDO         
+  C:00DEH         LINE#         82
+  C:00DEH         LINE#         84
+  C:00DEH         LINE#         86
+  C:00E1H         LINE#         87
+  C:00E4H         LINE#         88
+  C:00E7H         LINE#         89
+  C:00EAH         LINE#         90
+  C:00EDH         LINE#         92
+  C:00F0H         LINE#         93
+  C:00F3H         LINE#         94
+  C:00F6H         LINE#         95
+  C:00F9H         LINE#         96
+  C:00FBH         LINE#         99
+  C:00FBH         LINE#         101
+  C:00FBH         LINE#         102
+  C:00FEH         LINE#         103
+  C:0101H         LINE#         106
+  C:0104H         LINE#         107
+  C:0107H         LINE#         108
+  -------         ENDPROC       MAIN
+  -------         PROC          LEDDISPLAY
+  C:009AH         LINE#         116
+  C:00A7H         LINE#         119
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:05:14  PAGE 4
+
+
+  C:00AAH         LINE#         120
+  C:00ADH         LINE#         121
+  C:00AFH         LINE#         122
+  C:00BBH         LINE#         123
+  C:00BEH         LINE#         124
+  C:00C6H         LINE#         125
+  C:00CDH         LINE#         126
+  C:00CDH         LINE#         127
+  C:00D0H         LINE#         128
+  C:00D3H         LINE#         129
+  C:00D3H         LINE#         130
+  -------         ENDPROC       LEDDISPLAY
+  -------         ENDMOD        SMGWY
+
+Program Size: data=21.0 xdata=0 code=353
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

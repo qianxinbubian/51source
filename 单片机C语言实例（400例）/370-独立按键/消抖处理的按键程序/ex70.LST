@@ -1,0 +1,73 @@
+C51 COMPILER V8.18   EX70                                                                  01/04/2010 13:09:39 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE EX70
+OBJECT MODULE PLACED IN ex70.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ex70.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //软件消抖的独立式键盘输入实验
+   2          #include<reg52.h>    //  包含51单片机寄存器定义的头文件
+   3          sbit S1=P1^4;        //将S1位定义为P1.4引脚
+   4          sbit LED0=P0^0;       //将LED0位定义为P0.0引脚
+   5          /*************************************************
+   6          函数功能：延时约30ms
+   7          **************************************************/
+   8          void delay(void)
+   9          {
+  10   1         unsigned char i,j;
+  11   1              for(i=0;i<100;i++)
+  12   1                for(j=0;j<100;j++)
+  13   1                  ;
+  14   1      }
+  15          /*************************************************
+  16          函数功能：主函数
+  17          **************************************************/
+  18          void main(void)  //主函数
+  19          {
+  20   1         LED0=0;       //P0.0引脚输出低电平
+  21   1      while(1)
+  22   1         {
+  23   2                  if(S1==0)   //P1.0引脚输出低电平，按键S1被按下
+  24   2               {
+  25   3                 delay(); //延时一段时间再次检测
+  26   3                  if(S1==0)   // 按键S1的确被按下
+  27   3                    LED0=~LED0;  //P0.0引脚取反
+  28   3                      while(!S1);       
+  29   3                }     
+  30   2                        
+  31   2                              
+  32   2              }
+  33   1      }
+  34          
+  35          
+  36          
+  37          
+  38          
+  39          
+  40          
+  41          
+  42          
+  43          
+  44          
+  45          
+  46          
+  47          
+  48          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     31    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V8.18   EX70                                                                  01/04/2010 13:09:39 PAGE 2   
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,6 @@
+"main.obj",
+"i2c.obj",
+"delay.obj",
+"display.obj" 
+TO "PCF8591AD一路采集数码管显示" 
+RAMSIZE(256) 

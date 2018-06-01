@@ -1,0 +1,146 @@
+C51 COMPILER V8.02   1602                                                                  07/23/2009 11:17:57 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN 1602.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "LCD1602.h"
+   3          /*******************主函数**********************************/
+   4          uchar string[]=" I LOVE YOU! C51 ";            //这里是要显示的字符
+   5          void main(void)
+   6          {
+   7   1       uchar *cp;
+   8   1       cp=string;
+   9   1       LCD_init();
+  10   1       while(1)
+  11   1       {
+  12   2        LCD_send_command(LCD_CLEAR_SCREEN);
+  13   2        delay_ms(2);
+  14   2        LCD_disp_string(0,0,cp);
+  15   2        delay_ms(100);
+  16   2               cp++;
+  17   2        if(*cp=='\0')
+  18   2        {
+  19   3         cp=string;                 //到达字符的尾部时,改变指针,重新指向字符串的头部
+  20   3        }
+  21   2       }
+  22   1      }
+  23          /*********************************************************/
+  24          /**************LCD1602的初始化***************************/
+  25          void LCD_init(void)
+  26          {
+  27   1       LCD_send_command(LCD_DISPLAY_DOUBLE_LINE);
+  28   1       LCD_send_command(LCD_AC_AUTO_INCREMENT|LCD_MOVE_DISENABLE);
+  29   1       LCD_send_command(LCD_DISPLAY_ON|LCD_CURSOR_OFF);
+  30   1       LCD_send_command(LCD_CLEAR_SCREEN);
+  31   1      }
+  32          /********************************************************/
+  33           
+  34          void LCD_check_busy(void)   //检测LCD状态，看它是不是还在忙呢
+  35          {
+  36   1       do
+  37   1        {
+  38   2         LCD_EN=0;
+  39   2         LCD_RS=0;
+  40   2         LCD_RW=1;
+  41   2         LCDIO=0xff;
+  42   2         LCD_EN=1;
+  43   2         }
+  44   1         while(LCD_BUSY==1);
+  45   1        
+  46   1          LCD_EN=0;
+  47   1      }
+  48          /************LCD1602写命令*******************************/
+  49          void LCD_send_command(uchar command)
+  50          {
+  51   1       LCD_check_busy();
+  52   1       LCD_RS=LOW;
+  53   1       LCD_RW=LOW;
+  54   1       LCD_EN=HIGH;
+  55   1       LCDIO=command;
+C51 COMPILER V8.02   1602                                                                  07/23/2009 11:17:57 PAGE 2   
+
+  56   1       LCD_EN=LOW;
+  57   1      }
+  58          /********************************************************/
+  59          /*****************LCD1602写数据**************************/
+  60          void LCD_send_data(uchar dat)
+  61          {
+  62   1       LCD_check_busy();
+  63   1       LCD_RS=HIGH;
+  64   1       LCD_RW=LOW;
+  65   1       LCD_EN=HIGH;
+  66   1       LCDIO=dat;
+  67   1       LCD_EN=LOW;
+  68   1      }
+  69          /********************************************************
+  70           void LCD_write_char(uchar x,uchar y,uchar dat)
+  71          {
+  72               unsigned char address;
+  73               if (y == LINE1) 
+  74                   address = LINE1_HEAD + x;
+  75               else 
+  76                  address = LINE2_HEAD + x;
+  77               LCD_send_command(address); 
+  78              LCD_send_data(dat);
+  79          }
+  80          ******************LCD1602显示字符串*********************/
+  81          void LCD_disp_string(uchar x,uchar y,uchar *Data)
+  82          {
+  83   1       if(y==LINE1)
+  84   1       {
+  85   2        if(x<LINE_LENGTH)
+  86   2        {
+  87   3         LCD_send_command(LINE1_HEAD+x);
+  88   3         for(;x<LINE_LENGTH&&*Data!='\0';x++)
+  89   3         {
+  90   4          LCD_send_data(*(Data++));
+  91   4         }
+  92   3         if(*Data!='\0')
+  93   3         {
+  94   4          x=0;
+  95   4          y=LINE2;
+  96   4         }
+  97   3        }
+  98   2       }
+  99   1       if(y==LINE2)
+ 100   1       {
+ 101   2        LCD_send_command(LINE2_HEAD+x);
+ 102   2        for(;x<LINE_LENGTH&&*Data!='\0';x++)
+ 103   2        {
+ 104   3         LCD_send_data(*(Data++));
+ 105   3        }
+ 106   2       }
+ 107   1      }
+ 108          /****************************************************************/
+ 109          /********************延时函数***********************************/
+ 110            
+ 111          /***************************************************************/
+ 112          void delay_ms(uint n)
+ 113          {
+ 114   1       uint i,j;
+ 115   1       for(i=n;i>0;i--)
+ 116   1          for(j=0;j<1140;j++)
+ 117   1          ;
+C51 COMPILER V8.02   1602                                                                  07/23/2009 11:17:57 PAGE 3   
+
+ 118   1      }
+ 119          /*********************************************************************/ 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    290    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     18       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,130 @@
+C51 COMPILER V8.18   DJS                                                                   12/15/2009 21:12:56 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE DJS
+OBJECT MODULE PLACED IN djs.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE djs.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          sbit Key_UP=P3^2;
+   3          sbit Key_DOWN=P3^3;
+   4          unsigned char KeyV,TempKeyV;                                                       
+   5          sbit P25=P2^5;//数码管第5位
+   6          sbit P26=P2^6;//数码管第6位
+   7          sbit P27=P2^7;//数码管第7位
+   8          sbit JDQ=P3^7;//继电器
+   9          
+  10           unsigned int js;
+  11           unsigned int ds;//倒计时初始时间 
+  12           unsigned char jsflag;
+  13          static unsigned int i;
+  14          unsigned char code LEDDis[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xFF,0xBF};
+  15          
+  16          void Delay(unsigned int ii)     //1MS
+  17          {
+  18   1      unsigned int jj;
+  19   1      for(;ii>0;ii--)
+  20   1      for(jj=0;jj<125;jj++)
+  21   1      {;}
+  22   1      
+  23   1      }
+  24          void main()
+  25          {
+  26   1              EA = 1;                                 //允许CPU中断
+  27   1              ET0 = 1;                                //定时器0中断打开
+  28   1              ET1=1;                                  //定时器1中断打开
+  29   1              TMOD = 0x11;                    //设定时器0 1为模式1，16位模式
+  30   1              TH0=0xB8;
+  31   1              TL0=0x00;                               //设定时值为（20ms）
+  32   1              TH1=0xdc;                                       //设定时值为（10ms）
+  33   1              TL1=0x00;
+  34   1              TR0 = 1;
+  35   1              TR1=1;
+  36   1              ds=999;
+  37   1              KeyV = 0;
+  38   1              TempKeyV = 0;
+  39   1              jsflag=0;
+  40   1      while(1);
+  41   1      }
+  42          
+  43          //定时器0中断外理中键扫描和显示
+  44          void Key_Time0(void) interrupt 1 using 2
+  45          {
+  46   1        TH0=0xB8;
+  47   1              TL0=0x00;                               //设定时值为20000us（20ms)
+  48   1        if (!Key_UP)
+  49   1          KeyV = 1;
+  50   1        if (!Key_DOWN)
+  51   1          KeyV = 2;
+  52   1         if (KeyV!= 0)      //有键按下
+  53   1          {
+  54   2            Delay(10);   //延时防抖  按下10ms再测
+  55   2            if (!Key_UP)
+C51 COMPILER V8.18   DJS                                                                   12/15/2009 21:12:56 PAGE 2   
+
+  56   2              TempKeyV = 1;
+  57   2            if (!Key_DOWN)
+  58   2              TempKeyV = 2;
+  59   2                       if (KeyV == TempKeyV)   //两次值相等为确定接下了键
+  60   2                 {
+  61   3                         if (KeyV == 1){
+  62   4                                         jsflag=0;
+  63   4                                                         if(ds==0){
+  64   5                                                         ds=600;
+  65   5                                                         }
+  66   4                                                              js=js+1;
+  67   4                                                              JDQ=0;   //继电器吸合
+  68   4                                                      
+  69   4              if(js==50){
+  70   5              js=0;
+  71   5               ds=ds-1;
+  72   5               
+  73   5              }
+  74   4      }
+  75   3      if(KeyV==2){
+  76   4                jsflag=1;
+  77   4              }
+  78   3      }
+  79   2      }
+  80   1         if(jsflag==1){
+  81   2         JDQ=1;
+  82   2         }
+  83   1         if(ds==0){
+  84   2         JDQ=1;
+  85   2         jsflag=1;
+  86   2         KeyV=0;
+  87   2         }
+  88   1      }
+  89          void disp_Time1(void) interrupt 3 using 3
+  90          {       TH1=0xdc;
+  91   1              TL1=0x00;
+  92   1               P0=LEDDis[ds/100];
+  93   1      P25=0;
+  94   1        Delay(2);
+  95   1                P25=1;
+  96   1        P0=LEDDis[(ds%100)/10];
+  97   1      P26=0;
+  98   1        Delay(2);
+  99   1       P26=1;
+ 100   1       P0=LEDDis[ds%10];
+ 101   1      P27=0;
+ 102   1       Delay(2);
+ 103   1        P27=1;
+ 104   1              
+ 105   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    347    ----
+   CONSTANT SIZE    =     12    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

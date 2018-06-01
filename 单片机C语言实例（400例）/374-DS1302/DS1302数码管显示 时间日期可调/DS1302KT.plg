@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\光盘\RZ-51V20\RZ-51V20 实例程序\9-DS1302\DS1302数码管显示 时间日期可调\DS1302KT.uv2
+Project File Date:  12/15/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling DS1302KT.C...
+linking...
+Program Size: data=57.1 xdata=0 code=1195
+creating hex file from "DS1302KT"...
+"DS1302KT" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS1302KT.C...
+linking...
+Program Size: data=57.1 xdata=0 code=1195
+creating hex file from "DS1302KT"...
+"DS1302KT" - 0 Error(s), 0 Warning(s).

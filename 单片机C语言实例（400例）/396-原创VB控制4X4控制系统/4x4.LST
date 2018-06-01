@@ -1,0 +1,125 @@
+C51 COMPILER V8.02   4X4                                                                   08/05/2009 18:13:16 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 4X4
+OBJECT MODULE PLACED IN 4x4.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 4x4.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <AT89X52.H> 
+   2          
+   3          #include<stdio.h>
+   4          unsigned char tmp;
+   5          void send_char(unsigned char txd);
+   6          unsigned char code table[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0
+             -x8e};//共阳数码管显示0~F
+   7          void delay()                   //延时子程序
+   8          {
+   9   1       unsigned char n, m;
+  10   1       for (n = 100; n > 0; n--)
+  11   1        for (m = 300; m > 0; m--);    
+  12   1      }
+  13          void display(unsigned char S)      //显示子程序
+  14          {                 send_char(table[S]);
+  15   1       P0 = table[S]; //数码管是P0口驱动的
+  16   1       delay();                    
+  17   1       P2 = 0x7f; //数码管选通开关（P2.7选通 也就是数码管的第八位 (从左到右顺序)）
+  18   1      
+  19   1      }
+  20          unsigned char Keycan(void) //按键扫描程序 P1.0--P1.3为行线 P1.4--P1.7为列线
+  21          {
+  22   1        unsigned char rcode, ccode;
+  23   1        P1 = 0xF0;      // 发全0行扫描码，列线输入
+  24   1        if((P1&0xF0) != 0xF0) // 若有键按下
+  25   1        {
+  26   2          delay();// 延时去抖动 
+  27   2          if((P1&0xF0) != 0xF0)
+  28   2          {  rcode = 0xFE;         // 逐行扫描初值
+  29   3          while((rcode&0x10) != 0)
+  30   3          {
+  31   4             P1 = rcode;         // 输出行扫描码
+  32   4          if((P1&0xF0) != 0xF0) // 本行有键按下
+  33   4          {
+  34   5             ccode = (P1&0xF0)|0x0F;
+  35   5             do{;}while((P1&0xF0) != 0xF0); //等待键释放
+  36   5             return ((~rcode) + (~ccode)); // 返回键编码
+  37   5          }
+  38   4          else
+  39   4          rcode = (rcode<<1)|0x01; // 行扫描码左移一位
+  40   4          }
+  41   3       }
+  42   2        }  
+  43   1        return 0; // 无键按下，返回值为0
+  44   1      }
+  45          void KeyDispaly(unsigned char key)
+  46          {
+  47   1         switch(key)
+  48   1         {
+  49   2         case 0x11: display(0); break;
+  50   2         case 0x21: display(1); break;
+  51   2         case 0x41: display(2); break;
+  52   2         case 0x81: display(3); break;
+  53   2         case 0x12: display(4); break;
+  54   2         case 0x22: display(5); break;
+C51 COMPILER V8.02   4X4                                                                   08/05/2009 18:13:16 PAGE 2   
+
+  55   2         case 0x42: display(6); break;
+  56   2         case 0x82: display(7); break;
+  57   2         case 0x14: display(8); break;
+  58   2         case 0x24: display(9); break;
+  59   2         case 0x44: display(10); break;
+  60   2         case 0x84: display(11); break;
+  61   2         case 0x18: display(12); break;
+  62   2         case 0x28: display(13); break;
+  63   2         case 0x48: display(14); break;
+  64   2         case 0x88: display(15); break;
+  65   2         default: break;
+  66   2         }
+  67   1      }
+  68          int main(void)
+  69          { 
+  70   1         unsigned char Key;
+  71   1              TMOD = 0x20;                    // 定时器1工作于8位自动重载模式, 用于产生波特率
+  72   1              TH1 = 0xFD;                             // 波特率9600
+  73   1              TL1 = 0xFD;
+  74   1              SCON = 0x50;                    // 设定串行口工作方式
+  75   1              PCON &= 0xef;                   // 波特率不倍增 
+  76   1              TR1 = 1;                                // 启动定时器1
+  77   1              IE = 0x0;                               // 禁止任何中断
+  78   1         while(1)
+  79   1         {
+  80   2           Key = Keycan();   
+  81   2           KeyDispaly(Key);
+  82   2                      if(RI)                                          // 是否有数据到来
+  83   2                      {
+  84   3                              RI = 0;
+  85   3                              tmp = SBUF;                             // 暂存接收到的数据
+  86   3                              P2=0x7f;
+  87   3                              P0 = tmp;                               // 数据传送到P0口
+  88   3                              send_char(tmp);                 // 回传接收到的数据
+  89   3                      }               
+  90   2         } 
+  91   1      return 0;
+  92   1      }
+  93          void send_char(unsigned char txd)
+  94          // 传送一个字符
+  95          {
+  96   1              SBUF = txd;
+  97   1              while(!TI);                             // 等特数据传送
+  98   1              TI = 0;                                 // 清除数据传送标志
+  99   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    286    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

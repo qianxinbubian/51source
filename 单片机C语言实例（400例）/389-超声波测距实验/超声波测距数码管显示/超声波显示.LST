@@ -1,0 +1,159 @@
+C51 COMPILER V8.05a   砡蒧波显蔩                                                           12/13/2015 17:46:06 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE 砡蒧波显蔩
+OBJECT MODULE PLACED IN 超声波显示.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 超声波显示.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //超声波模块显示程序
+   2          #include <reg52.h>     //包括一个52标准内核的头文件
+   3          #define uchar unsigned char //定义一下方便使用
+   4          #define uint  unsigned int
+   5          #define ulong unsigned long
+   6          sbit Tx  = P3^2; //产生脉冲引脚
+   7          sbit Rx  = P3^3; //回波引脚
+   8          uchar code SEG7[10]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90};//数码管0-9
+   9          uint distance[4];  //测距接收缓冲区
+  10          uchar ge,shi,bai,temp,flag,outcomeH,outcomeL,i;  //自定义寄存器
+  11          bit succeed_flag;  //测量成功标志
+  12          //********函数声明
+  13          void conversion(uint temp_data);
+  14          void delay_20us();
+  15          void main(void)   // 主程序
+  16          {  uint distance_data,a,b;
+  17   1         uchar CONT_1;   
+  18   1         i=0;
+  19   1         flag=0;
+  20   1              Tx=0;       //首先拉低脉冲输入引脚
+  21   1              TMOD=0x11;    //定时器0，定时器1，16位工作方式
+  22   1              TR0=1;       //启动定时器0
+  23   1         IT1=0;        //由高电平变低电平，触发外部中断
+  24   1              ET0=1;        //打开定时器0中断
+  25   1              EX1=0;        //关闭外部中断
+  26   1              EA=1;         //打开总中断0     
+  27   1        
+  28   1              
+  29   1      while(1)         //程序循环
+  30   1              {
+  31   2        EA=0;
+  32   2                   Tx=1;
+  33   2              delay_20us();
+  34   2              Tx=0;         //产生一个20us的脉冲，在Tx引脚  
+  35   2              while(Rx==0); //等待Rx回波引脚变高电平
+  36   2                   succeed_flag=0; //清测量成功标志
+  37   2                   EX1=1;          //打开外部中断
+  38   2                        TH1=0;          //定时器1清零
+  39   2              TL1=0;          //定时器1清零
+  40   2                   TF1=0;          //
+  41   2              TR1=1;          //启动定时器1
+  42   2         EA=1;
+  43   2      
+  44   2            while(TH1 < 30);//等待测量的结果，周期65.535毫秒（可用中断实现）  
+  45   2                        TR1=0;          //关闭定时器1
+  46   2              EX1=0;          //关闭外部中断
+  47   2      
+  48   2          if(succeed_flag==1)
+  49   2                   {  
+  50   3                         distance_data=outcomeH;                //测量结果的高8位
+  51   3                 distance_data<<=8;                   //放入16位的高8位
+  52   3                           distance_data=distance_data|outcomeL;//与低8位合并成为16位结果数据
+  53   3                  distance_data*=12;                  //因为定时器默认为12分频
+  54   3                 distance_data/=58;                   //微秒的单位除以58等于厘米
+  55   3               }                                      //为什么除以58等于厘米，  Y米=（X秒*344）/2
+C51 COMPILER V8.05a   砡蒧波显蔩                                                           12/13/2015 17:46:06 PAGE 2   
+
+  56   2                                                                     // X秒=（ 2*Y米）/344 ==》X秒=0.0058*Y米 ==》厘米=微秒/58 
+  57   2          if(succeed_flag==0)
+  58   2                         {
+  59   3                  distance_data=0;                    //没有回波则清零
+  60   3      
+  61   3                 }
+  62   2      
+  63   2                 distance[i]=distance_data; //将测量结果的数据放入缓冲区
+  64   2                  i++;
+  65   2                       if(i==3)
+  66   2                           {
+  67   3                             distance_data=(distance[0]+distance[1]+distance[2]+distance[3])/4;
+  68   3                  
+  69   3      
+  70   3            
+  71   3                 a=distance_data;
+  72   3             if(b==a) CONT_1=0;
+  73   3             if(b!=a) CONT_1++;
+  74   3             if(CONT_1>=3)
+  75   3                         { CONT_1=0;
+  76   4                                b=a;
+  77   4                                conversion(b);
+  78   4                              }       
+  79   3                               i=0;
+  80   3                              }            
+  81   2               }
+  82   1      }
+  83          //***************************************************************
+  84          //外部中断1，用做判断回波电平
+  85          INT1_()  interrupt 2   // 外部中断是2号
+  86           {    
+  87   1           outcomeH =TH1;    //取出定时器的值
+  88   1           outcomeL =TL1;    //取出定时器的值
+  89   1           succeed_flag=1;   //至成功测量的标志
+  90   1           EX1=0;            //关闭外部中断
+  91   1        }
+  92          //****************************************************************
+  93          //定时器0中断,用做显示
+  94          timer0() interrupt 1  // 定时器0中断是1号
+  95             {
+  96   1               TH0=0xfd; //写入定时器0初始值
+  97   1               TL0=0x77;              
+  98   1               switch(flag)   
+  99   1            {case 0x00:P0=ge; P2=0x7f;flag++;break;
+ 100   2                  case 0x01:P0=shi;P2=0xbf;flag++;break;
+ 101   2                  case 0x02:P0=bai;P2=0xdf;flag=0;break;
+ 102   2            }
+ 103   1         }
+ 104          
+ 105          //显示数据转换程序
+ 106          void conversion(uint temp_data)  
+ 107           {  
+ 108   1          uchar ge_data,shi_data,bai_data ;
+ 109   1          bai_data=temp_data/100 ;
+ 110   1          temp_data=temp_data%100;   //取余运算
+ 111   1          shi_data=temp_data/10 ;
+ 112   1          temp_data=temp_data%10;   //取余运算
+ 113   1          ge_data=temp_data;
+ 114   1      
+ 115   1          bai_data=SEG7[bai_data];
+ 116   1          shi_data=SEG7[shi_data]&0x7f;
+ 117   1          ge_data =SEG7[ge_data];
+C51 COMPILER V8.05a   砡蒧波显蔩                                                           12/13/2015 17:46:06 PAGE 3   
+
+ 118   1      
+ 119   1          EA=0;
+ 120   1          bai = bai_data;
+ 121   1          shi = shi_data;
+ 122   1          ge  = ge_data ; 
+ 123   1               EA=1;
+ 124   1       }
+ 125          //******************************************************************
+ 126          
+ 127          
+ 128          void delay_20us()
+ 129           {  uchar bt ;
+ 130   1          for(bt=0;bt<60;bt++);
+ 131   1       }
+ 132           
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    370    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

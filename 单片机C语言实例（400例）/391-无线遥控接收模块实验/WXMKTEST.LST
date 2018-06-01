@@ -1,0 +1,123 @@
+C51 COMPILER V8.05a   WXMKTEST                                                             05/23/2015 00:44:19 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE WXMKTEST
+OBJECT MODULE PLACED IN WXMKTEST.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE WXMKTEST.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #include <intrins.h>
+   3          #define uchar unsigned char 
+   4          #define uint unsigned int 
+   5          uchar i,j;
+   6          sbit P2_7=P2^7;
+   7          sbit fmq=P3^6;
+   8          sbit P3_7=P3^7;
+   9          sbit D0=P1^0;
+  10          sbit D1=P1^1;
+  11          sbit D2=P1^2;
+  12          sbit D3=P1^3;
+  13          void delay1ms(unsigned int i)
+  14          {
+  15   1      
+  16   1      unsigned char j;
+  17   1       while(i--)
+  18   1       {
+  19   2       for(j=0;j<115;j++)       //1ms基准延时程序 
+  20   2       {
+  21   3        ;
+  22   3       }
+  23   2       
+  24   2       
+  25   2       }
+  26   1        
+  27   1      }
+  28          
+  29          void delay500us()
+  30          {
+  31   1      
+  32   1      unsigned char j;
+  33   1      
+  34   1       for(j=0;j<57;j++)        //500us基准延时程序 
+  35   1       {
+  36   2        ;
+  37   2       } 
+  38   1      }
+  39          
+  40          void beep()     //产生1KHZ频率声音的函数
+  41          {
+  42   1              fmq=0;
+  43   1              delay500us();
+  44   1              fmq=1;
+  45   1              delay500us();   
+  46   1      
+  47   1      }
+  48          void beep1()
+  49          {
+  50   1      uint k;
+  51   1      for(k=0;k<500;k++)
+  52   1      {
+  53   2      beep();
+  54   2      
+  55   2      }
+C51 COMPILER V8.05a   WXMKTEST                                                             05/23/2015 00:44:19 PAGE 2   
+
+  56   1      fmq=1;
+  57   1      delay1ms(500);
+  58   1      
+  59   1      }
+  60          
+  61          
+  62          
+  63          
+  64          
+  65          void main(void)
+  66          {
+  67   1      P2_7=0;//开数码管显示 选通左右侧的数码管
+  68   1      P0=0xc0; //初始显示数字0
+  69   1      P3=0xff; //P3口设置为输入状态 先全部写1 
+  70   1      
+  71   1       while(1){
+  72   2      
+  73   2      
+  74   2      
+  75   2      //i=i&0x0f; //和0x0f相与 屏蔽高四位,读取无线遥控码
+  76   2      
+  77   2      if (D0==1)//如果是0x04，则代表无线遥控器的按键A按下，执行显示
+  78   2      {
+  79   3      P0=0x88; //字母A的字型码
+  80   3      beep1();
+  81   3      }
+  82   2      if (D1==1)//如果是0x01，则代表无线遥控器的按键b按下，执行显示
+  83   2      {
+  84   3      P0=0x83;//字母b的字型码
+  85   3       fmq=1;
+  86   3      }
+  87   2      if (D2==1)//如果是0x08，则代表无线遥控器的按键C按下，执行显示 
+  88   2      { 
+  89   3      P0=0xc6;//字母C的字型码
+  90   3       P3_7=0;//继电器吸合
+  91   3      }
+  92   2      if (D3==1)//如果是0x02，则代表无线遥控器的按键d按下，执行显示
+  93   2      {
+  94   3      P0=0xa1;//字母d的字型码
+  95   3       P3_7=1; //继电器释放
+  96   3      }
+  97   2       }
+  98   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    108    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

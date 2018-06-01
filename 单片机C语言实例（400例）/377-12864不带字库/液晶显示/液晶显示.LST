@@ -1,0 +1,243 @@
+C51 COMPILER V8.18   液晶显示                                                              01/04/2010 08:27:55 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE 液晶显示
+OBJECT MODULE PLACED IN 液晶显示.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 液晶显示.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>
+   3          #define uint unsigned int
+   4          #define uchar unsigned char
+   5          #define DATA P0 //LCD12864数据线
+   6          sbit RS=P2^0; // 数据\指令 选择
+   7          sbit RW=P2^1; // 读\写 选择
+   8          sbit EN=P2^2; // 读\写使能
+   9          sbit cs1=P2^3; // 片选1
+  10          sbit cs2=P2^4; // 片选2 
+  11          /********************************/
+  12          /*  定义中文字库                */
+  13          /********************************/
+  14          uchar code Hzk[]={
+  15          /*--  文字:  相  --*/
+  16          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  17          0x10,0x10,0x10,0xD0,0xFF,0x90,0x10,0x00,0xFE,0x22,0x22,0x22,0x22,0xFE,0x00,0x00,
+  18          0x08,0x04,0x03,0x00,0xFF,0x00,0x03,0x00,0xFF,0x42,0x42,0x42,0x42,0xFF,0x00,0x00,
+  19          
+  20          /*--  文字:  信  --*/
+  21          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  22          0x00,0x80,0x60,0xF8,0x07,0x00,0x04,0x24,0x24,0x25,0x26,0x24,0x24,0x24,0x04,0x00,
+  23          0x01,0x00,0x00,0xFF,0x00,0x00,0x00,0xF9,0x49,0x49,0x49,0x49,0x49,0xF9,0x00,0x00,
+  24          
+  25          /*--  文字:  自  --*/
+  26          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  27          0x00,0x00,0x00,0xF8,0x88,0x8C,0x8A,0x89,0x88,0x88,0x88,0xF8,0x00,0x00,0x00,0x00,
+  28          0x00,0x00,0x00,0xFF,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0xFF,0x00,0x00,0x00,0x00,
+  29          
+  30          /*--  文字:  己  --*/
+  31          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  32          0x00,0x00,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0xFE,0x00,0x00,0x00,0x00,
+  33          0x00,0x00,0x3F,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x78,0x00,0x00,
+  34          
+  35          /*--  文字:  超  --*/
+  36          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  37          0x40,0x48,0x48,0x48,0xFF,0x48,0x48,0x42,0xA2,0x9E,0x82,0xA2,0xC2,0xBE,0x00,0x00,
+  38          0x80,0x60,0x1F,0x20,0x7F,0x44,0x44,0x40,0x4F,0x48,0x48,0x48,0x48,0x4F,0x40,0x00,
+  39          
+  40          /*--  文字:  越  --*/
+  41          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  42          0x40,0x48,0x48,0xFF,0x48,0x48,0x00,0xF8,0x08,0x08,0xFF,0x08,0x89,0x6A,0x00,0x00,
+  43          0x80,0x7E,0x10,0x3F,0x44,0x44,0x40,0x4F,0x44,0x50,0x49,0x46,0x49,0x5C,0x40,0x00,
+  44          
+  45          /*--  文字:  自  --*/
+  46          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  47          0x00,0x00,0x00,0xF8,0x88,0x8C,0x8A,0x89,0x88,0x88,0x88,0xF8,0x00,0x00,0x00,0x00,
+  48          0x00,0x00,0x00,0xFF,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0xFF,0x00,0x00,0x00,0x00,
+  49          
+  50          /*--  文字:  己  --*/
+  51          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  52          0x00,0x00,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0x82,0xFE,0x00,0x00,0x00,0x00,
+  53          0x00,0x00,0x3F,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x78,0x00,0x00,
+  54          /*-- 文字:  ☆  --*/
+  55          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+C51 COMPILER V8.18   液晶显示                                                              01/04/2010 08:27:55 PAGE 2   
+
+  56          0x40,0xC0,0x40,0x40,0x40,0x60,0x1C,0x03,0x1C,0x60,0x40,0x40,0x40,0xC0,0x40,0x00,
+  57          0x00,0x00,0x41,0x39,0x26,0x10,0x10,0x08,0x08,0x10,0x26,0x39,0x41,0x00,0x00,0x00,
+  58          /*--  文字:  ＊  --*/
+  59          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+  60          0x00,0x00,0x40,0x40,0x80,0x80,0x00,0xFC,0x00,0x80,0x80,0x40,0x40,0x00,0x00,0x00,
+  61          0x00,0x00,0x00,0x10,0x08,0x04,0x03,0x01,0x03,0x04,0x08,0x10,0x00,0x00,0x00,0x00,
+  62          };
+  63           /*状态检查，LCD是否忙*/
+  64          void CheckState()               
+  65          {uchar dat;//状态信息（判断是否忙）
+  66   1       RS=0; // 数据\指令选择，D/I（RS）=“L” ，表示 DB7∽DB0 为显示指令数据 
+  67   1       RW=1; //R/W=“H” ，E=“H”数据被读到DB7∽DB0 
+  68   1       do{DATA=0x00;
+  69   2          EN=1;       //EN下降沿
+  70   2              dat=DATA;
+  71   2          EN=0;
+  72   2          dat=0x80 & dat; //仅当第7位为0时才可操作(判别busy信号)
+  73   2          }while(!(dat==0x00));
+  74   1      }
+  75           /*写命令到LCD中*/
+  76          SendCommandToLCD(uchar com)
+  77          {CheckState();//状态检查，LCD是否忙
+  78   1       RS=0;   //向LCD发送命令。RS=0写指令，RS=1写数据
+  79   1       RW=0;//R/W=“L” ，E=“H→L”数据被写到 IR 或 DR 
+  80   1       DATA=com;       //com :命令
+  81   1       EN=1;//EN下降沿
+  82   1       EN=0;
+  83   1      }
+  84          /*设置页 0xb8是页的首地址*/
+  85          void SetLine(uchar page)        
+  86          {page=0xb8|page; //1011 1xxx 0<=page<=7 设定页地址--X 0-7,8行为一页64/8=8，共8页
+  87   1       SendCommandToLCD(page);
+  88   1      }
+  89           /*设定显示开始行，0xc0是行的首地址*/
+  90          void SetStartLine(uchar startline)         
+  91          {startline=0xc0|startline; //1100 0000
+  92   1       SendCommandToLCD(startline); //设置从哪行开始：0--63，一般从0 行开始显示
+  93   1      }
+  94          /*设定列地址--Y 0-63 ，0x40是列的首地址*/
+  95          void SetColumn(uchar column)    
+  96          {column=column &0x3f; //column最大值为64，越出 0=<column<=63
+  97   1       column= 0x40|column; //01xx xxxx
+  98   1       SendCommandToLCD(column);
+  99   1      }
+ 100           /*开关显示，0x3f是开显示，0x3e是关显示*/
+ 101          void SetOnOff(uchar onoff)         
+ 102          {onoff=0x3e|onoff; //0011 111x,onoff只能为0或者1
+ 103   1       SendCommandToLCD(onoff);
+ 104   1      }
+ 105          /*写显示数据 */
+ 106          void WriteByte(uchar dat)       
+ 107          {CheckState();//状态检查，LCD是否忙
+ 108   1       RS=1; //RS=0写指令，RS=1写数据
+ 109   1       RW=0;////R/W=“L” ，E=“H→L”数据被写到 IR 或 DR 
+ 110   1       DATA=dat;//dat:显示数据
+ 111   1       EN=1; //EN下降源
+ 112   1       EN=0;
+ 113   1      }
+ 114          /*选择屏幕screen: 0-全屏,1-左屏,2-右屏*/
+ 115          void SelectScreen(uchar screen)   
+ 116          {switch(screen)
+ 117   1       {case 0: cs1=1;//全屏
+C51 COMPILER V8.18   液晶显示                                                              01/04/2010 08:27:55 PAGE 3   
+
+ 118   2        cs2=1; 
+ 119   2        break; 
+ 120   2        case 1: cs1=1;//左屏 
+ 121   2        cs2=0;
+ 122   2        break;
+ 123   2        case 2: cs1=0;//右屏
+ 124   2        cs2=1; 
+ 125   2        break;
+ 126   2       }
+ 127   1      }
+ 128           /*清屏screen: 0-全屏,1-左屏,2-右屏*/
+ 129          void ClearScreen(uchar screen)    
+ 130          {uchar i,j;
+ 131   1       SelectScreen(screen);
+ 132   1       for(i=0;i<8;i++)        //控制页数0-7，共8页
+ 133   1       {SetLine(i);
+ 134   2        SetColumn(0);
+ 135   2        for(j=0;j<64;j++)        //控制列数0-63，共64列
+ 136   2        {WriteByte(0x00);} //写点内容，列地址自动加1
+ 137   2       }
+ 138   1      }
+ 139          /*延时程序*/
+ 140          void delay(uint z)              
+ 141          {uint i,j;
+ 142   1       for(i=0; i<z; i++)
+ 143   1       for(j = 0; j < 110; j++);
+ 144   1      }
+ 145          /*初始化LCD*/
+ 146          void InitLCD()    
+ 147          {CheckState();
+ 148   1       SelectScreen(0);
+ 149   1       SetOnOff(0); //关显示
+ 150   1       SelectScreen(0);
+ 151   1       SetOnOff(1); //开显示
+ 152   1       SelectScreen(0);
+ 153   1       ClearScreen(0);//清屏
+ 154   1       SetStartLine(0); //开始行:0
+ 155   1      }
+ 156          /*显示全角汉字*/
+ 157          void Display(uchar ss,uchar page,uchar column,uchar number)
+ 158          {int i; //选屏参数，page选页参数，column选列参数，number选第几汉字输出
+ 159   1       SelectScreen(ss);
+ 160   1       column=column&0x3f;
+ 161   1       SetLine(page); //写上半页
+ 162   1       SetColumn(column); //控制列
+ 163   1       for(i=0;i<16;i++)  //控制16列的数据输出
+ 164   1       {WriteByte(Hzk[i+32*number]);} //i+32*number汉字的前16个数据输出
+ 165   1       SetLine(page+1);                //写下半页
+ 166   1       SetColumn(column);        //控制列
+ 167   1       for(i=0;i<16;i++)        //控制16列的数据输出
+ 168   1       {WriteByte(Hzk[i+32*number+16]);}//i+32*number+16汉字的后16个数据输出
+ 169   1      } 
+ 170          /*显示半角汉字和数字和字母
+ 171          void Displayen(uchar ss,uchar page,uchar column,uchar number)
+ 172          {uint i;//选屏参数，pagr选页参数，column选列参数，number选第几汉字输出
+ 173           SelectScreen(ss);
+ 174           column=column&0x3f;
+ 175           SetLine(page); //写上半页
+ 176           SetColumn(column);
+ 177           for(i=0;i<8;i++)
+ 178           {WriteByte(Ezk[i+16*number]);}
+ 179           SetLine(page+1);       //写下半页
+C51 COMPILER V8.18   液晶显示                                                              01/04/2010 08:27:55 PAGE 4   
+
+ 180           SetColumn(column);
+ 181           for(i=0;i<8;i++)
+ 182           {WriteByte(Ezk[i+16*number+8]);}
+ 183          }*/  
+ 184          /*主函数*/
+ 185          void main()
+ 186          {uint i,j,n=0;
+ 187   1       InitLCD();//初始12864
+ 188   1       while(1)
+ 189   1       {for(i=0;i<2;i++)//显示边上的☆和＊
+ 190   2        {for(j=1;j<3;j++)
+ 191   3         {Display(j,0,i*32+n*16,8);
+ 192   4              Display(j,6,i*32+(!n)*16,8);
+ 193   4              Display(j,0,i*32+(!n)*16,9);
+ 194   4              Display(j,6,i*32+n*16,9);
+ 195   4         }
+ 196   3        }
+ 197   2        Display(1,4-2*n,0,8);
+ 198   2        Display(2,2+2*n,48,8);
+ 199   2        Display(1,2+2*n,0,9);
+ 200   2        Display(2,2+2*(!n),48,9);
+ 201   2        //显示汉字
+ 202   2        for(i=0;i<2;i++)  
+ 203   2        {Display(1,2,32+i*16,i);/*Display(选屏参数(cs1,cs2)，pagr选页参数，column选列参数，number选第几汉字输出)
+             -*/
+ 204   3         Display(1,4,32+i*16,i+4);
+ 205   3         Display(2,2,0+i*16,i+2);
+ 206   3         Display(2,4,0+i*16,i+6);
+ 207   3        }
+ 208   2        n=!n;
+ 209   2        delay(255);
+ 210   2        delay(255);
+ 211   2       }
+ 212   1      }
+*** WARNING C290 IN LINE 83 OF 液晶显示.C: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    717    ----
+   CONSTANT SIZE    =    320    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

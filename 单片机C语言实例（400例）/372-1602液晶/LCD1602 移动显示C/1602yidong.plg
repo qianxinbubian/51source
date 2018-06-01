@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\新版程序\1602液晶\LCD1602 移动显示C\1602yidong.uv2
+Project File Date:  09/13/2007
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling yidong.c...
+linking...
+Program Size: data=9.1 xdata=0 code=383
+creating hex file from "1602yidong"...
+"1602yidong" - 0 Error(s), 0 Warning(s).

@@ -1,0 +1,232 @@
+C51 COMPILER V8.18   24C08JISHI                                                            12/31/2009 23:25:56 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE 24C08JISHI
+OBJECT MODULE PLACED IN 24C08jishi.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 24C08jishi.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //24c08地址为0xa0
+   2          #include <reg52.h>
+   3          #define uchar unsigned char 
+   4          unsigned char code table[]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90}; 
+   5          unsigned char sec=0; //定义计数值,每过1秒,sec加1   
+   6          unsigned int count; //定时中断次数        
+   7          bit  write=0; //写24C08的标志;
+   8          sbit gewei=P2^7; //个位选通定义      
+   9          sbit shiwei=P2^6; //十位选通定义     
+  10          /////////24C08读写驱动程序////////////////////
+  11          sbit scl=P3^4; // 24c08 SCL                  
+  12          sbit sda=P3^5; // 24c08 SDA     
+  13          sbit K5=P1^4;  //清0按键             
+  14          
+  15          /***********************************************/
+  16          void delay()   //delay 5us
+  17          { ;; }
+  18          
+  19          /**********************************************/
+  20          void delay1(uchar x)
+  21          {
+  22   1              uchar a,b;
+  23   1              for(a=x;a>0;a--)
+  24   1               for(b=100;b>0;b--);
+  25   1      }
+  26          /**********************************************/
+  27          void start()  //开始信号
+  28          {       
+  29   1              sda=1;
+  30   1              delay();
+  31   1              scl=1;
+  32   1              delay();
+  33   1              sda=0;
+  34   1              delay();
+  35   1      }
+  36          
+  37          /************************************************/
+  38          void stop()   //停止信号
+  39          {
+  40   1              sda=0;
+  41   1              delay();
+  42   1              scl=1;
+  43   1              delay();
+  44   1              sda=1;
+  45   1              delay();
+  46   1      }
+  47          /**************************************************/
+  48          void respons()  //应答
+  49          {
+  50   1              uchar i;
+  51   1              scl=1;
+  52   1              delay();
+  53   1              while((sda==1)&&(i<250))i++;
+  54   1              scl=0;
+  55   1              delay();
+C51 COMPILER V8.18   24C08JISHI                                                            12/31/2009 23:25:56 PAGE 2   
+
+  56   1      }
+  57          
+  58          /**************************************************/
+  59          void init_24c08()  //初始化24C02
+  60          {
+  61   1              sda=1;
+  62   1              delay();
+  63   1              scl=1;
+  64   1              delay();
+  65   1      }
+  66          /************************************************/
+  67          void write_byte(uchar date)
+  68          {
+  69   1              uchar i,temp;
+  70   1              temp=date;
+  71   1              for(i=0;i<8;i++)
+  72   1              {
+  73   2                      temp=temp<<1;
+  74   2                      scl=0;
+  75   2                  delay();
+  76   2                      sda=CY;
+  77   2                      delay();
+  78   2                      scl=1;
+  79   2                      delay();
+  80   2              //      scl=0;
+  81   2           // delay();
+  82   2              }
+  83   1              scl=0;
+  84   1              delay();
+  85   1              sda=1;
+  86   1              delay();
+  87   1      }
+  88          /**********************************************/
+  89          uchar read_byte()
+  90          {
+  91   1              uchar i,k;
+  92   1              scl=0;
+  93   1              delay();
+  94   1              sda=1;
+  95   1              delay();
+  96   1              for(i=0;i<8;i++)
+  97   1              {
+  98   2                      scl=1;
+  99   2                      delay();        
+ 100   2                      k=(k<<1)|sda;
+ 101   2                      scl=0;
+ 102   2                      delay();        
+ 103   2              }
+ 104   1              return k;
+ 105   1      }
+ 106          
+ 107          /*****************************************************************/
+ 108          
+ 109          void write_24c08(uchar address,uchar shuju) //给指定地址中写入数据
+ 110          {
+ 111   1              start();
+ 112   1              write_byte(0xa0);    //  最低位为0写，1读
+ 113   1              respons();
+ 114   1              write_byte(address);
+ 115   1              respons();
+ 116   1              write_byte(shuju);
+ 117   1              respons();
+C51 COMPILER V8.18   24C08JISHI                                                            12/31/2009 23:25:56 PAGE 3   
+
+ 118   1              stop();
+ 119   1      }
+ 120          
+ 121          /*****************************************************************/
+ 122          uchar read_24c08(uchar address) //从24c08指定地址中读出数据 
+ 123          {
+ 124   1              uchar date;
+ 125   1              start();
+ 126   1              write_byte(0xa0);
+ 127   1              respons();
+ 128   1              write_byte(address);
+ 129   1              respons();
+ 130   1      
+ 131   1              start();
+ 132   1              write_byte(0xa1);
+ 133   1              respons();
+ 134   1              date=read_byte();
+ 135   1              stop();
+ 136   1              return date;
+ 137   1      }
+ 138          
+ 139          /////////////24C02读写驱动程序完/////////////////////
+ 140          
+ 141          
+ 142          /***********************************************************/
+ 143          void LEDshow() //LED显示函数    
+ 144          {
+ 145   1              
+ 146   1          P0=table[sec/10]; 
+ 147   1          shiwei=0; 
+ 148   1              delay1(40); 
+ 149   1              shiwei=1;
+ 150   1      
+ 151   1              P0=table[sec%10];
+ 152   1          gewei=0; 
+ 153   1              delay1(40); 
+ 154   1              gewei=1;        
+ 155   1      }
+ 156          
+ 157          /***********************************************************/
+ 158          void main(void) 
+ 159          { 
+ 160   1      
+ 161   1              TMOD=0x01; //定时器工作在方式1
+ 162   1              ET0=1; 
+ 163   1          EA=1; 
+ 164   1              init_24c08(); //初始化24C08
+ 165   1              sec=read_24c08(2);//读出保存的数据赋于sec
+ 166   1              TH0=(65536-50000)/256; //对TH0 TL0赋值
+ 167   1              TL0=(65536-50000)%256; //使定时器0.05秒中断一次
+ 168   1              TR0=1; //开始计时
+ 169   1                      while(1) 
+ 170   1                      {
+ 171   2                          LEDshow();
+ 172   2                              if(write==1) //判断计时器是否计时一秒       
+ 173   2                              {
+ 174   3                              write=0; //清零 
+ 175   3                              write_24c08(2,sec); //在24c08的地址2中写入数据sec          
+ 176   3                              }
+ 177   2      
+ 178   2                        if(K5==0){
+ 179   3                              delay1(10);
+C51 COMPILER V8.18   24C08JISHI                                                            12/31/2009 23:25:56 PAGE 4   
+
+ 180   3                              if(K5==0){
+ 181   4                               sec=0;
+ 182   4                              }
+ 183   3                }
+ 184   2                      }
+ 185   1      }
+ 186          
+ 187          
+ 188          /**************************************************************/
+ 189          
+ 190          void t0(void) interrupt 1 using 0 //定时中断服务函数   
+ 191          { 
+ 192   1              TH0=(65536-50000)/256; //对TH0 TL0赋值   
+ 193   1              TL0=(65536-50000)%256; //重装计数初值  
+ 194   1              count++; //每过50ms tcnt加一        
+ 195   1              if(count==20) //计满20次(1秒)时    
+ 196   1              { 
+ 197   2                      count=0; //重新再计
+ 198   2                      sec++;
+ 199   2                      write=1; //1秒写一次24C08
+ 200   2                      if(sec==100) //定时100秒,在从零开始计时
+ 201   2                      {sec=0;} 
+ 202   2              } 
+ 203   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    347    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

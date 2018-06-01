@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\RZ-51\实验板配套实例程序\本站原创 VB遥控播放器红外遥控解码\s51yaokong.uv2
+Project File Date:  07/21/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling s51yk.c...
+linking...
+Program Size: data=116.0 xdata=0 code=901
+creating hex file from "s51yaokong"...
+"s51yaokong" - 0 Error(s), 0 Warning(s).

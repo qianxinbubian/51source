@@ -1,0 +1,37 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\新版程序\红外接收\数码管遥控解码\ir.uv2
+Project File Date:  07/08/2008
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+A51 MACRO ASSEMBLER V8.00 - SN: K1SVC-ENSFHD
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2005
+"C:\Keil\C51\BIN\A51.EXE" "F:\单片机\学习夹\ir\STARTUP.A51" SET (SMALL) DEBUG PRINT(.\STARTUP.lst) OBJECT(.\STARTUP.obj) EP
+A51 FATAL ERROR -
+  FILE:       F:\单片机\学习夹\ir\STARTUP.A51
+  ERROR:      FILE DOES NOT EXIST
+A51 TERMINATED.
+Target not created
+Build target 'Target 1'
+compiling ir.c...
+linking...
+Program Size: data=55.2 xdata=0 code=801
+creating hex file from "ir"...
+"ir" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling ir.c...
+linking...
+Program Size: data=55.2 xdata=0 code=801
+creating hex file from "ir"...
+"ir" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling ir.c...
+linking...
+Program Size: data=55.2 xdata=0 code=801
+creating hex file from "ir"...
+"ir" - 0 Error(s), 0 Warning(s).

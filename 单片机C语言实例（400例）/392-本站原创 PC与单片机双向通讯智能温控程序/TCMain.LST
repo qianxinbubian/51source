@@ -1,0 +1,741 @@
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE TCMAIN
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE TCMain.c ROM(SMALL) BROWSE DEBUG OBJECTEXTEND SRC(.\TCMain.SRC)
+
+line level    source
+
+   1          #include <AT89X51.H>
+   2          #include <intrins.h>
+   3          #define Key_UP            P1_4 
+   4          #define Key_DOWN          P1_5   
+   5          #define Key_SET           P1_6   
+   6          #define RelayOutPort      P3_7  
+   7          #define LEDPort           P0      
+   8          #define DELPort           P3_6   
+   9          #define LEDTwoC           P2_6    
+  10          #define LEDThreeC         P2_7    
+  11          #define TMPort                    P3_3
+  12          #define INBUF_LEN 5 //数据长度
+  13          unsigned char inbuf1[INBUF_LEN]={'0','0','0','0','0'};//发送缓冲区
+  14          unsigned char inbuf2[50];//接收缓冲区
+  15          unsigned char count3;
+  16          void init_serialcomm( void )
+  17          {
+  18   1      SCON = 0x50 ; //SCON: serail mode 1, 8-bit UART, enable ucvr
+  19   1      TMOD |= 0x20 ; //TMOD: timer 1, mode 2, 8-bit reload
+  20   1      PCON |= 0x80 ; //SMOD=1;
+  21   1      TH1 = 0xFA ; //Baud:4800 fosc=11.0592MHz
+  22   1      IE |= 0x90 ; //Enable Serial Interrupt
+  23   1      TR1 = 1 ; // timer 1 run
+  24   1      }
+  25          //向串口发送一个字符
+  26          void send_char_com( unsigned char ch)
+  27          {
+  28   1      SBUF=ch;
+  29   1      while (TI== 0 );
+  30   1      TI= 0 ;
+  31   1      }
+  32          //向串口发送一个字符串，strlen 为该字符串长度
+  33          void send_string_com( unsigned char *str, unsigned int strlen)
+  34          {
+  35   1      unsigned int k= 0 ;
+  36   1      do
+  37   1      {
+  38   2      send_char_com(*(str + k));
+  39   2      k++;
+  40   2      } while (k < strlen);
+  41   1      }
+  42          //串口接收中断函数
+  43          void serial () interrupt 4 using 3
+  44          {
+  45   1      if (RI) //RI==开始接收
+  46   1      {
+  47   2      unsigned char ch;
+  48   2      RI = 0 ; //软件RI=0
+  49   2      ch=SBUF;
+  50   2      if (ch> 1 )
+  51   2      {
+  52   3      count3= 0 ;
+  53   3      inbuf2[count3]=ch;
+  54   3      }
+  55   2      else
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 2   
+
+  56   2      {
+  57   3      count3++;
+  58   3      inbuf2[count3]=ch;
+  59   3      }
+  60   2      }
+  61   1      }       
+  62          
+  63          unsigned char code LEDDis[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xFF,0xBF}; //0-9的LED笔划,
+             -0xFF为空,0xF7为负号
+  64          unsigned char dis_8[12]={'0','1','2','3','4','5','6','7','8','9',' ','-'};
+  65          static unsigned char bdata StateREG;    //可位寻址的状态寄存器
+  66          sbit DS1820ON = StateREG^0;               //DS1820是否存在
+  67          sbit SetTF = StateREG^1;              //是否是在温度设置状态
+  68          sbit KeySETDown = StateREG^2;         //是否已按过SET键标识
+  69          sbit PowTF = StateREG^3;              //电源电源标识
+  70          sbit KeyTF = StateREG^4;                                                        //键盘是否允许
+  71          
+  72          //sbit KeySETDowning = StateREG^5;                      //SET是否正在按下
+  73          static unsigned char bdata TLV _at_ 0x0029;         //温度变量高低位
+  74          static unsigned char bdata THV _at_ 0x0028;
+  75          static signed char TMV;       //转换后的温度值
+  76          static unsigned char KeyV,TempKeyV;      //键值
+  77          static unsigned char Second;
+  78          static unsigned char flag;
+  79          static signed char TMRomV _at_ 0x0027;    //高温限制
+  80          static signed char TMSetV _at_ 0x0026;    //温度设定值
+  81          static unsigned char KSDNum;    //SET键连按时的采集次数
+  82          static unsigned char IntNum,IntNum2,IntNum3;    //中断发生次数，IntNum用于SET长按检测，IntNum2用于设定状态
+             -时LED闪烁
+  83          static signed char LED_One,LED_Two,LED_Three;  //LED的显示位 LED_One为十位，LED_Two为个位
+  84          static unsigned char Sign; //负号标识
+  85          
+  86          void main(void)
+  87          {
+  88   1      
+  89   1              void InitDS1820(void);   //定义函数
+  90   1              void ROMDS1820(void);
+  91   1              void TMVDS1820(void);
+  92   1              void TMRDS1820(void);
+  93   1              void TMWDS1820(void);
+  94   1              void TMREDS1820(void);
+  95   1              void TMERDS1820(void);
+  96   1              void ReadDS1820(void);
+  97   1              void WriteDS1820(void);
+  98   1              void Delay_510(void);
+  99   1              void Delay_110(void);
+ 100   1              void Delay_10ms(void);
+ 101   1              void Delay_4s(void);
+ 102   1              void V2ToV(void);
+ 103   1              
+ 104   1               DELPort=1;
+ 105   1              StateREG = 0;   //初始化变量
+ 106   1              SetTF = 0;      
+ 107   1              PowTF = 0;                      //关电源
+ 108   1              THV = 0;
+ 109   1              TLV = 0;
+ 110   1              TMV = 0;
+ 111   1              KeyV = 0;
+ 112   1              TempKeyV = 0;
+ 113   1              KSDNum = 0;
+ 114   1              IntNum = 0;
+ 115   1              IntNum2 = 0;
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 3   
+
+ 116   1              IntNum3 = 0;
+ 117   1              LED_One = 0;
+ 118   1              LED_Two = 0;
+ 119   1      
+ 120   1              InitDS1820(); //初始化
+ 121   1              ROMDS1820();    //跳过ROM
+ 122   1              TMERDS1820();  //E2PRAM中温度上限值调入RAM
+ 123   1              InitDS1820(); //初始化
+ 124   1              ROMDS1820();    //跳过ROM
+ 125   1              TMRDS1820();    //读出温度指令
+ 126   1              ReadDS1820(); //读出温度值和上限值
+ 127   1              TMSetV = TMRomV;  //拷贝保存在DS18B20ROM里的上限值到TMSetV
+ 128   1      
+ 129   1              EA = 1;                                 //允许CPU中断
+ 130   1              ET0 = 1;                                //定时器0中断打开
+ 131   1              TMOD = 0x1;                     //设定时器0为模式1，16位模式
+ 132   1              TH0=0xB1;
+ 133   1              TL0=0xDF;                               //设定时值为20000us（20ms）
+ 134   1              TR0 = 1;
+ 135   1              
+ 136   1              while(1){                               //开始定时
+ 137   2      
+ 138   2              
+ 139   2      
+ 140   2               
+ 141   2      
+ 142   2      
+ 143   2      if (flag==0){
+ 144   3      if (Second==1){
+ 145   4                              Delay_4s();
+ 146   4                              Delay_4s();
+ 147   4                              Delay_4s();
+ 148   4                              Delay_4s();
+ 149   4                              Delay_4s();
+ 150   4                              Delay_4s();
+ 151   4                              
+ 152   4                        DELPort=0; 
+ 153   4                        Second=0;
+ 154   4                        }
+ 155   3                         }
+ 156   2                       }
+ 157   1              
+ 158   1              
+ 159   1      }
+ 160          
+ 161          //定时器0中断外理中键扫描和显示
+ 162          void KeyAndDis_Time0(void) interrupt 1 using 2
+ 163          {
+ 164   1        TH0=0xB1;
+ 165   1              TL0=0xDF;                               //设定时值为20000us（20ms)
+ 166   1      
+ 167   1              LEDPort = 0xFF;
+ 168   1              
+ 169   1         
+ 170   1                 if (inbuf2[0]==0x33){
+ 171   2                 send_char_com('O');
+ 172   2                 send_char_com('O');
+ 173   2                 send_char_com('O');
+ 174   2                 SetTF = 1;
+ 175   2      //send_string_com(inbuf2,1);
+ 176   2      //BEEP=0;
+ 177   2      //RELAY=0;
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 4   
+
+ 178   2      send_char_com('O');
+ 179   2           //inbuf2[0]=0x00;
+ 180   2               inbuf2[0]=0x00;
+ 181   2      } 
+ 182   1      
+ 183   1      if (inbuf2[0]==0x36){
+ 184   2      
+ 185   2      //send_string_com(inbuf2,1);
+ 186   2      //BEEP=1;
+ 187   2      send_char_com('N');
+ 188   2      send_char_com('N');
+ 189   2      send_char_com('N');
+ 190   2      SetTF = 0;
+ 191   2      
+ 192   2      inbuf2[0]=0x00;
+ 193   2      
+ 194   2      } 
+ 195   1      
+ 196   1      if (inbuf2[0]==0x34){
+ 197   2                 KeyV=2;
+ 198   2      //send_string_com(inbuf2,1);
+ 199   2      //BEEP=0;
+ 200   2      //RELAY=0;
+ 201   2        TMSetV = TMSetV - 1;
+ 202   2          inbuf2[0]=0x00;
+ 203   2      } 
+ 204   1      
+ 205   1      if (inbuf2[0]==0x35){
+ 206   2      
+ 207   2      //send_string_com(inbuf2,1);
+ 208   2      //BEEP=1;
+ 209   2      //RELAY=1;
+ 210   2       TMSetV = TMSetV + 1;    //上调温度
+ 211   2       inbuf2[0]=0x00;
+ 212   2      } 
+ 213   1      
+ 214   1      if (inbuf2[0]==0x74){
+ 215   2               KeyV=2;
+ 216   2      //send_string_com(inbuf2,1);
+ 217   2      //BEEP=1;
+ 218   2      //RELAY=1;
+ 219   2      } 
+ 220   1      
+ 221   1      if (inbuf2[0]==0x90){
+ 222   2               KeyV=1;
+ 223   2      //send_string_com(inbuf2,1);
+ 224   2      //BEEP=1;
+ 225   2      //RELAY=1;
+ 226   2      } 
+ 227   1      
+ 228   1      
+ 229   1        if (!Key_UP)
+ 230   1          KeyV = 1;
+ 231   1        if (!Key_DOWN)
+ 232   1          KeyV = 2;
+ 233   1        if (!Key_SET)
+ 234   1          KeyV = 3;
+ 235   1              //KeySETDowning = 0;  //清除
+ 236   1        if (KeyV != 0)      //有键按下
+ 237   1          {
+ 238   2            Delay_10ms();   //延时防抖  按下10ms再测
+ 239   2            if (!Key_UP)
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 5   
+
+ 240   2              TempKeyV = 1;
+ 241   2            if (!Key_DOWN)
+ 242   2              TempKeyV = 2;
+ 243   2            if (!Key_SET)
+ 244   2              TempKeyV = 3;
+ 245   2            if (KeyV == TempKeyV)   //两次值相等为确定接下了键
+ 246   2              {
+ 247   3                if (KeyV == 3)      //按下SET键，如在SET状态就退出，否则进入
+ 248   3                  {
+ 249   4                                                              //KeySETDowning = 1; //表明SET正在按下
+ 250   4                                                              
+ 251   4                              
+ 252   4                    PowTF = 0;      //电源标识开
+ 253   4                                                              if (!KeyTF)
+ 254   4                      if (SetTF){
+ 255   5                                      send_char_com('N');
+ 256   5      send_char_com('N');
+ 257   5      send_char_com('N');
+ 258   5                                      SetTF = 0;    //标识位标识退出设定
+ 259   5                                                      
+ 260   5                                                                                      InitDS1820(); //初始化
+ 261   5                                                                              ROMDS1820();    //跳过ROM
+ 262   5                                                                              TMWDS1820();    //写温度上限指令
+ 263   5                                                                                      WriteDS1820();  //写温度上限到DS18B20ROM
+ 264   5                                                                                      WriteDS1820();  //写温度上限到DS18B20ROM
+ 265   5                                                                                      WriteDS1820();  //写温度上限到DS18B20ROM
+ 266   5                                                                                      InitDS1820(); //初始化
+ 267   5                                                                              ROMDS1820();    //跳过ROM
+ 268   5                                                                              TMREDS1820();   //温度上限值COPY回E2PRAM
+ 269   5                                                                              }
+ 270   4                      else {
+ 271   5                                      send_char_com('O');
+ 272   5                 send_char_com('O');
+ 273   5                 send_char_com('O');
+ 274   5                              SetTF = 1;}
+ 275   4                                               
+ 276   4                                         
+ 277   4                    if (!KeySETDown) //没有第一次按下SET时，KeySETDown标识置1
+ 278   4                      KeySETDown = 1;
+ 279   4                    else
+ 280   4                      KSDNum = KSDNum + 1;  //前一秒内有按过SET则开始计数
+ 281   4                  }
+ 282   3                if (SetTF)  //在SET状态下
+ 283   3                  {
+ 284   4                               
+ 285   4                    if ((KeyV == 1) && (!KeyTF))
+ 286   4                      TMSetV = TMSetV + 1;    //上调温度
+ 287   4                    if ((KeyV == 2) && (!KeyTF))
+ 288   4                      TMSetV = TMSetV - 1;    //下调温度
+ 289   4                    if (TMSetV <= 20)          //限制温度上下限
+ 290   4                      TMSetV = 20;
+ 291   4                    if (TMSetV >= 75)
+ 292   4                      TMSetV = 75;
+ 293   4                  }
+ 294   3                      if ((!KeyTF) && (IntNum3 == 0)) KeyTF = 1; //当键盘处于可用时，锁定
+ 295   3              }
+ 296   2      
+ 297   2           
+ 298   2          }
+ 299   1        KeyV = 0;
+ 300   1        TempKeyV = 0;   //清空变量准备下次键扫描
+ 301   1      
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 6   
+
+ 302   1        if (!PowTF)
+ 303   1          {
+ 304   2            InitDS1820();     //初始化
+ 305   2            ROMDS1820();      //跳过ROM
+ 306   2            TMVDS1820();  //温度转换指令
+ 307   2      
+ 308   2            Delay_510();
+ 309   2            Delay_510();  //延时等待转换完成
+ 310   2      
+ 311   2            InitDS1820(); //初始化
+ 312   2            ROMDS1820();      //跳过ROM
+ 313   2            TMRDS1820();      //读出温度指令
+ 314   2            ReadDS1820(); //读出温度值
+ 315   2      
+ 316   2            V2ToV();        //转换显示值
+ 317   2            if (TMV > TMSetV)   //根据采集到的温度值控制继电器
+ 318   2              {
+ 319   3                RelayOutPort = 0;
+ 320   3                        flag=0;
+ 321   3                        }
+ 322   2            else
+ 323   2                          {
+ 324   3                RelayOutPort = 1;
+ 325   3                        DELPort=1; 
+ 326   3                        Second=1;
+ 327   3                        flag=1;
+ 328   3      
+ 329   3                      
+ 330   3                        }
+ 331   2      
+ 332   2            if (SetTF) IntNum2 = IntNum2 + 1; //用于闪烁计数
+ 333   2            if (IntNum2 > 50 ) IntNum2 = 0;
+ 334   2                              if (KeyTF) IntNum3 = IntNum3 + 1; //用于防止按键连按
+ 335   2                              if (IntNum3 > 25) 
+ 336   2                                      {
+ 337   3                                              IntNum3 = 0;
+ 338   3                                              KeyTF = 0;
+ 339   3                                      }
+ 340   2      
+ 341   2            if ((SetTF) && (IntNum2 < 25)) goto InitEnd;  //计数在后半段时显示
+ 342   2               
+ 343   2                LEDPort = LED_Two;
+ 344   2            LEDTwoC = 0;
+ 345   2            Delay_510();
+ 346   2            LEDTwoC = 1;    //显示十位数
+ 347   2            LEDPort = LED_Three;
+ 348   2            LEDThreeC = 0;
+ 349   2            Delay_510();
+ 350   2            LEDThreeC = 1;    //显示个位数
+ 351   2          }
+ 352   1      InitEnd:;
+ 353   1      }
+ 354          
+ 355          void V2ToV(void)        //数值转换
+ 356          {
+ 357   1        TLV = TLV >> 4;                       
+ 358   1        THV = THV << 4;                       //读出的高低位数值移位
+ 359   1        TMV = TLV | THV;              //合并高低位放入TM为实际温度值
+ 360   1              Sign = 0;
+ 361   1        if (SetTF || !Key_SET)
+ 362   1          Sign = TMSetV >> 7;          //取符号
+ 363   1        else
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 7   
+
+ 364   1           Sign = TMV >> 7;
+ 365   1      
+ 366   1              if (Sign)
+ 367   1                      {
+ 368   2                      if (SetTF || !Key_SET)
+ 369   2                                      {
+ 370   3                              LED_One = (~(TMSetV-1)) / 100;          //SET状态下显示设定值
+ 371   3                              LED_Two = ((~(TMSetV-1)) - LED_One * 100)/10;
+ 372   3                                  LED_Three = (~(TMSetV-1)) - LED_One * 100 - LED_Two * 10;
+ 373   3                                      inbuf1[0]=dis_8[LED_Two];
+ 374   3        inbuf1[1]=dis_8[LED_Three];
+ 375   3        //inbuf1[2]=dis_8[ LED_Three];
+ 376   3        inbuf1[2]=0x0d;
+ 377   3        inbuf1[3]=0x0a;
+ 378   3                                      }
+ 379   2                      else
+ 380   2                                      {
+ 381   3                              LED_One = (~(TMV-1)) / 100;                                                     //转换百位值            
+ 382   3                              LED_Two = ((~(TMV-1)) - LED_One * 100)/10;
+ 383   3                                  LED_Three = (~(TMV-1)) - LED_One * 100 - LED_Two * 10;
+ 384   3                                              inbuf1[0]=dis_8[LED_Two];
+ 385   3        inbuf1[1]=dis_8[LED_Three];
+ 386   3       inbuf1[2]=dis_8[0];
+ 387   3        inbuf1[3]=0x0d;
+ 388   3        inbuf1[4]=0x0a;
+ 389   3                                      }
+ 390   2                      }
+ 391   1              else
+ 392   1                      { 
+ 393   2                      if (SetTF || !Key_SET)
+ 394   2                                      {
+ 395   3                              LED_One = (TMSetV) / 100;          //SET状态下显示设定值
+ 396   3                              LED_Two = (TMSetV - LED_One * 100)/10;
+ 397   3                                  LED_Three = TMSetV - LED_One * 100 - LED_Two * 10;
+ 398   3                                              inbuf1[0]=dis_8[LED_Two];
+ 399   3        inbuf1[1]=dis_8[LED_Three];
+ 400   3       inbuf1[2]=dis_8[0];
+ 401   3        inbuf1[3]=0x0d;
+ 402   3        inbuf1[4]=0x0a;
+ 403   3                                      }
+ 404   2                      else
+ 405   2                                      {
+ 406   3                              LED_One = (TMV) / 100;                                                  //转换百位值            
+ 407   3                              LED_Two = (TMV - LED_One * 100)/10;
+ 408   3                                  LED_Three = TMV - LED_One * 100 - LED_Two * 10;
+ 409   3                                              inbuf1[0]=dis_8[LED_Two];
+ 410   3        inbuf1[1]=dis_8[LED_Three];
+ 411   3       inbuf1[2]=dis_8[0];
+ 412   3        inbuf1[3]=0x0d;
+ 413   3        inbuf1[4]=0x0a;
+ 414   3                                      }
+ 415   2                      }
+ 416   1      
+ 417   1         init_serialcomm(); //初始化串口
+ 418   1      
+ 419   1      //while ( 1 )
+ 420   1      //{
+ 421   1      send_string_com(inbuf1,INBUF_LEN);
+ 422   1      
+ 423   1       //转LED字段    
+ 424   1              if (LED_One) //超过百时十位的处理
+ 425   1                      LED_Two = LEDDis[LED_Two];              
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 8   
+
+ 426   1              else
+ 427   1                      {
+ 428   2                              if (LED_Two == 0)
+ 429   2                                      LED_Two = LEDDis[10];
+ 430   2                              else
+ 431   2                                      LED_Two = LEDDis[LED_Two];
+ 432   2                      }
+ 433   1              if (Sign)
+ 434   1                      LED_One = LEDDis[11];
+ 435   1              else
+ 436   1                      {
+ 437   2                              if (LED_One == 0)
+ 438   2                                      LED_One = LEDDis[10];
+ 439   2                              else
+ 440   2                                      LED_One = LEDDis[LED_One];
+ 441   2                      }
+ 442   1              LED_Three = LEDDis[LED_Three];
+ 443   1      }
+ 444          
+ 445          void InitDS1820(void)           //初始化DS1820
+ 446          {
+ 447   1              TMPort = 1;             //拉高TMPort
+ 448   1              _nop_();      //保持一个周期
+ 449   1              TMPort = 0;             //拉低TMPort
+ 450   1        Delay_510();  //延时  DS1820复位时间要500us的低电平
+ 451   1        TMPort = 1;   //拉高TMPort
+ 452   1              _nop_();      //保持  
+ 453   1              _nop_();
+ 454   1              _nop_();
+ 455   1      
+ 456   1        Delay_110();  //延时110us 等待DS1820回应
+ 457   1        if (!TMPort)  //回应信号为低电平
+ 458   1          DS1820ON = 1;
+ 459   1        else
+ 460   1          DS1820ON = 0;
+ 461   1        Delay_110();  //延时
+ 462   1        Delay_110();
+ 463   1        TMPort = 1;   //拉高TMPort
+ 464   1      }
+ 465          
+ 466          void ROMDS1820(void)  //跳过ROM匹配
+ 467          {
+ 468   1      #pragma asm
+ 469   1        MOV A,#0CCH
+ 470   1        MOV R2,#8
+ 471   1        CLR C
+ 472   1        WR1:
+ 473   1        CLR P3_3
+ 474   1        MOV R3,#6
+ 475   1        DJNZ R3,$
+ 476   1        RRC A
+ 477   1        MOV P3_3,C
+ 478   1        MOV R3,#23
+ 479   1        DJNZ R3,$
+ 480   1        SETB P3_3
+ 481   1        NOP
+ 482   1        DJNZ R2,WR1
+ 483   1        SETB P3_3
+ 484   1      #pragma endasm
+ 485   1      }
+ 486          
+ 487          void TMVDS1820(void)  //温度转换指令
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 9   
+
+ 488          {
+ 489   1      #pragma asm
+ 490   1        MOV A,#44H
+ 491   1        MOV R2,#8
+ 492   1        CLR C
+ 493   1        WR2:
+ 494   1        CLR P3_3
+ 495   1        MOV R3,#6
+ 496   1        DJNZ R3,$
+ 497   1        RRC A
+ 498   1        MOV P3_3,C
+ 499   1        MOV R3,#23
+ 500   1        DJNZ R3,$
+ 501   1        SETB P3_3
+ 502   1        NOP
+ 503   1        DJNZ R2,WR2
+ 504   1        SETB P3_3
+ 505   1      #pragma endasm
+ 506   1      }
+ 507          
+ 508          void TMRDS1820(void)  //读出温度指令
+ 509          {
+ 510   1      #pragma asm
+ 511   1        MOV A,#0BEH
+ 512   1        MOV R2,#8
+ 513   1        CLR C
+ 514   1        WR3:
+ 515   1        CLR P3_3
+ 516   1        MOV R3,#6
+ 517   1        DJNZ R3,$
+ 518   1        RRC A
+ 519   1        MOV P3_3,C
+ 520   1        MOV R3,#23
+ 521   1        DJNZ R3,$
+ 522   1        SETB P3_3
+ 523   1        NOP
+ 524   1        DJNZ R2,WR3
+ 525   1        SETB P3_3
+ 526   1      #pragma endasm
+ 527   1      }
+ 528          
+ 529          void TMWDS1820(void)  //写入温度限制指令
+ 530          {
+ 531   1      #pragma asm
+ 532   1        MOV A,#04EH
+ 533   1        MOV R2,#8
+ 534   1        CLR C
+ 535   1        WR13:
+ 536   1        CLR P3_3
+ 537   1        MOV R3,#6
+ 538   1        DJNZ R3,$
+ 539   1        RRC A
+ 540   1        MOV P3_3,C
+ 541   1        MOV R3,#23
+ 542   1        DJNZ R3,$
+ 543   1        SETB P3_3
+ 544   1        NOP
+ 545   1        DJNZ R2,WR13
+ 546   1        SETB P3_3
+ 547   1      #pragma endasm
+ 548   1      }
+ 549          
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 10  
+
+ 550          void TMREDS1820(void)           //COPY RAM to E2PRAM
+ 551          {
+ 552   1      #pragma asm
+ 553   1        MOV A,#48H
+ 554   1        MOV R2,#8
+ 555   1        CLR C
+ 556   1        WR33:
+ 557   1        CLR P3_3
+ 558   1        MOV R3,#6
+ 559   1        DJNZ R3,$
+ 560   1        RRC A
+ 561   1        MOV P3_3,C
+ 562   1        MOV R3,#23
+ 563   1        DJNZ R3,$
+ 564   1        SETB P3_3
+ 565   1        NOP
+ 566   1        DJNZ R2,WR33
+ 567   1        SETB P3_3
+ 568   1      #pragma endasm
+ 569   1      }
+ 570          
+ 571          void TMERDS1820(void)           //COPY E2PRAM to RAM
+ 572          {
+ 573   1      #pragma asm
+ 574   1        MOV A,#0B8H
+ 575   1        MOV R2,#8
+ 576   1        CLR C
+ 577   1        WR43:
+ 578   1        CLR P3_3
+ 579   1        MOV R3,#6
+ 580   1        DJNZ R3,$
+ 581   1        RRC A
+ 582   1        MOV P3_3,C
+ 583   1        MOV R3,#23
+ 584   1        DJNZ R3,$
+ 585   1        SETB P3_3
+ 586   1        NOP
+ 587   1        DJNZ R2,WR43
+ 588   1        SETB P3_3
+ 589   1      #pragma endasm
+ 590   1      }
+ 591          
+ 592          void WriteDS1820(void)  //写入温度限制值
+ 593          {
+ 594   1      #pragma asm
+ 595   1              MOV A,26H                                       //发出4EH写ROM指令后连发两个字节分别为上下限
+ 596   1        MOV R2,#8
+ 597   1        CLR C
+ 598   1        WR23:
+ 599   1        CLR P3_3
+ 600   1        MOV R3,#6
+ 601   1        DJNZ R3,$
+ 602   1        RRC A
+ 603   1        MOV P3_3,C
+ 604   1        MOV R3,#23
+ 605   1        DJNZ R3,$
+ 606   1        SETB P3_3
+ 607   1        NOP
+ 608   1        DJNZ R2,WR23
+ 609   1        SETB P3_3       
+ 610   1      #pragma endasm
+ 611   1      }
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 11  
+
+ 612          
+ 613          void ReadDS1820(void) //读出温度值
+ 614          {
+ 615   1      #pragma asm
+ 616   1        MOV R4,#3 ; 将温度高位和低位，高温限制位从DS18B20中读出
+ 617   1        MOV R1,#29H ; 低位存入29H(TEMPER_L),高位存入28H(TEMPER_H)，高温限制位存入27H(TMRomV)
+ 618   1        RE00:
+ 619   1        MOV R2,#8
+ 620   1        RE01:
+ 621   1        CLR C
+ 622   1        SETB P3_3
+ 623   1        NOP
+ 624   1        NOP
+ 625   1        CLR P3_3
+ 626   1        NOP
+ 627   1        NOP
+ 628   1        NOP
+ 629   1        SETB P3_3
+ 630   1        MOV R3,#09
+ 631   1        RE10: 
+ 632   1        DJNZ R3,RE10
+ 633   1        MOV C,P3_3
+ 634   1        MOV R3,#23
+ 635   1        RE20: 
+ 636   1        DJNZ R3,RE20
+ 637   1        RRC A
+ 638   1        DJNZ R2,RE01
+ 639   1        MOV @R1,A
+ 640   1        DEC R1
+ 641   1        DJNZ R4,RE00
+ 642   1      #pragma endasm
+ 643   1      }
+ 644          
+ 645          void Delay_510(void)    //延时510微秒
+ 646          {
+ 647   1      #pragma asm
+ 648   1              MOV R0,#7DH
+ 649   1              MOV R1,#02H
+ 650   1              TSR1:
+ 651   1              DJNZ R0,TSR1
+ 652   1              MOV R0,#7DH
+ 653   1              DJNZ R1,TSR1
+ 654   1      #pragma endasm
+ 655   1      }
+ 656          
+ 657          void Delay_110(void)    //延时110微秒
+ 658          {
+ 659   1      #pragma asm
+ 660   1              MOV R0,#19H
+ 661   1              MOV R1,#02H
+ 662   1              TSR2:
+ 663   1              DJNZ R0,TSR2
+ 664   1              MOV R0,#19H
+ 665   1              DJNZ R1,TSR2
+ 666   1      #pragma endasm
+ 667   1      }
+ 668          
+ 669          void Delay_10ms(void)   //延时10ms
+ 670          {
+ 671   1      #pragma asm
+ 672   1              MOV R0,#19H
+ 673   1              MOV R1,#0C8H
+C51 COMPILER V8.18   TCMAIN                                                                12/15/2009 16:42:17 PAGE 12  
+
+ 674   1              TSR3:
+ 675   1              DJNZ R0,TSR3
+ 676   1              MOV R0,#19H
+ 677   1              DJNZ R1,TSR3
+ 678   1      #pragma endasm
+ 679   1      }
+ 680          
+ 681          void Delay_4s(void)     //延时4s
+ 682          {
+ 683   1      #pragma asm
+ 684   1        MOV R2,#28H
+ 685   1        TSR5:
+ 686   1              MOV R0,#0FAH
+ 687   1              MOV R1,#0C8H
+ 688   1              TSR4:
+ 689   1              DJNZ R0,TSR4
+ 690   1              MOV R0,#0FAH
+ 691   1              DJNZ R1,TSR4
+ 692   1        DJNZ R2,TSR5
+ 693   1      #pragma endasm
+ 694   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1604    ----
+   CONSTANT SIZE    =     12    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     82       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

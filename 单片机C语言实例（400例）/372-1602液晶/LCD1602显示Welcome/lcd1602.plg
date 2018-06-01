@@ -1,0 +1,31 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+D:\ÐÂ°æ³ÌÐò\1602Òº¾§\LCD1602ÏÔÊ¾Welcome\lcd1602.uv2
+Project File Date:  07/01/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+compiling LCD1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LONGDELAY?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?READDATA?LCD1602
+Program Size: data=15.1 xdata=0 code=655
+creating hex file from "lcd1602"...
+"lcd1602" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling LCD1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LONGDELAY?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?READDATA?LCD1602
+Program Size: data=15.1 xdata=0 code=655
+creating hex file from "lcd1602"...
+"lcd1602" - 0 Error(s), 2 Warning(s).

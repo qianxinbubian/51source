@@ -1,0 +1,55 @@
+C51 COMPILER V8.18   EX61                                                                  01/04/2010 13:06:06 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE EX61
+OBJECT MODULE PLACED IN ex61.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ex61.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //用LED数码显示器循环显示数字0~9
+   2          #include<reg52.h>    //  包含51单片机寄存器定义的头文件
+   3          /**************************************************
+   4          函数功能：延时函数，延时一段时间
+   5          ***************************************************/
+   6           void delay(void)    
+   7          {
+   8   1         unsigned char i,j;
+   9   1         for(i=0;i<255;i++)
+  10   1          for(j=0;j<255;j++)
+  11   1                     ;
+  12   1      }
+  13          /**************************************************
+  14          函数功能：主函数
+  15          ***************************************************/
+  16          void main(void)
+  17          {
+  18   1        unsigned char i;
+  19   1        unsigned char code Tab[10]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};  
+  20   1                    //数码管显示0～9的段码表，程序运行中当数组值不发生变化时，
+  21   1                                   //前面加关键字code ，可以大大节约单片机的存储空间                    
+  22   1        P2=0x7f;   //P2.7引脚输出低电平，数码显示器第7位接通电源工作
+  23   1        while(1)   //无限循环
+  24   1         {
+  25   2           for(i=0;i<10;i++)
+  26   2            {
+  27   3               P0=Tab[i];  //让P0口输出数字的段码92H
+  28   3               delay();   //调用延时函数
+  29   3             }
+  30   2          } 
+  31   1      }
+  32          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     34    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

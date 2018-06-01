@@ -1,0 +1,3 @@
+"main.obj" 
+TO "ds1302time" 
+RAMSIZE(256) 

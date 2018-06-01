@@ -1,0 +1,230 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/04/2010  13:11:05  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 1602chuanhang.obj TO 1602chuanhang RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  1602chuanhang.obj (1602CHUANHANG)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  1602chuanhang (1602CHUANHANG)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         _DATA_GROUP_
+                    0009H     0017H                  *** GAP ***
+            BIT     0020H.0   0000H.2   UNIT         _BIT_GROUP_
+                    0020H.2   0000H.6                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0044H     UNIT         ?PR?LCD_WRITE?1602CHUANHANG
+            CODE    0047H     0033H     UNIT         ?PR?LCD_INIT?1602CHUANHANG
+            CODE    007AH     0033H     UNIT         ?PR?MAIN?1602CHUANHANG
+            CODE    00ADH     0023H     UNIT         ?CO?1602CHUANHANG
+            CODE    00D0H     001AH     UNIT         ?PR?_DELAY?1602CHUANHANG
+            CODE    00EAH     0013H     UNIT         ?PR?LCD_BUSY?1602CHUANHANG
+            CODE    00FDH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0109H     000AH     UNIT         ?PR?_LCD_POS?1602CHUANHANG
+            CODE    0113H     0006H     UNIT         ?PR?DELAYNOP?1602CHUANHANG
+
+
+
+OVERLAY MAP OF MODULE:   1602chuanhang (1602CHUANHANG)
+
+
+SEGMENT                                BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT               START    LENGTH     START    LENGTH
+-----------------------------------------------------------------------
+?C_C51STARTUP                       -----    -----      -----    -----
+  +--> ?PR?MAIN?1602CHUANHANG
+
+?PR?MAIN?1602CHUANHANG              -----    -----      -----    -----
+  +--> ?PR?LCD_INIT?1602CHUANHANG
+  +--> ?PR?_LCD_POS?1602CHUANHANG
+  +--> ?CO?1602CHUANHANG
+  +--> ?PR?LCD_WRITE?1602CHUANHANG
+
+?PR?LCD_INIT?1602CHUANHANG          -----    -----      -----    -----
+  +--> ?PR?LCD_WRITE?1602CHUANHANG
+  +--> ?PR?_DELAY?1602CHUANHANG
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:11:05  PAGE 2
+
+
+
+?PR?LCD_WRITE?1602CHUANHANG         0020H.0  0000H.1    0008H    0001H
+  +--> ?PR?_DELAY?1602CHUANHANG
+  +--> ?PR?LCD_BUSY?1602CHUANHANG
+  +--> ?PR?DELAYNOP?1602CHUANHANG
+
+?PR?LCD_BUSY?1602CHUANHANG          0020H.1  0000H.1    -----    -----
+  +--> ?PR?DELAYNOP?1602CHUANHANG
+
+?PR?_LCD_POS?1602CHUANHANG          -----    -----      -----    -----
+  +--> ?PR?LCD_WRITE?1602CHUANHANG
+
+
+
+SYMBOL TABLE OF MODULE:  1602chuanhang (1602CHUANHANG)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        1602CHUANHANG
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  C:0113H         PUBLIC        delayNOP
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:00D4H         PUBLIC        _delay
+  D:00B8H         PUBLIC        IP
+  C:007AH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:000FH         PUBLIC        lcd_write
+  B:00A0H.2       PUBLIC        LCD_EN
+  C:0047H         PUBLIC        lcd_init
+  C:00ADH         PUBLIC        cdis1
+  C:00BEH         PUBLIC        cdis2
+  B:00A0H.0       PUBLIC        LCD_RS
+  C:00EAH         PUBLIC        lcd_busy
+  B:00A0H.1       PUBLIC        LCD_RW
+  D:00C8H         PUBLIC        T2CON
+  C:0109H         PUBLIC        _lcd_pos
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DELAYNOP
+  C:0113H         LINE#         24
+  C:0113H         LINE#         25
+  C:0113H         LINE#         26
+  C:0114H         LINE#         27
+  C:0115H         LINE#         28
+  C:0116H         LINE#         29
+  C:0117H         LINE#         30
+  C:0118H         LINE#         31
+  -------         ENDPROC       DELAYNOP
+  C:00D0H         SYMBOL        L?0029
+  -------         PROC          L?0028
+  -------         ENDPROC       L?0028
+  C:00D0H         SYMBOL        L?0029
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:11:05  PAGE 3
+
+
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0005H         SYMBOL        t
+  -------         ENDDO         
+  C:00D4H         LINE#         38
+  C:00D4H         LINE#         40
+  C:00D4H         LINE#         42
+  C:00DEH         LINE#         43
+  C:00DEH         LINE#         44
+  C:00E9H         LINE#         45
+  C:00E9H         LINE#         46
+  -------         ENDPROC       _DELAY
+  -------         PROC          LCD_BUSY
+  -------         DO            
+  B:0020H.1       SYMBOL        result
+  -------         ENDDO         
+  C:00EAH         LINE#         56
+  C:00EAH         LINE#         57
+  C:00EAH         LINE#         59
+  C:00ECH         LINE#         60
+  C:00EEH         LINE#         61
+  C:00F0H         LINE#         62
+  C:00F3H         LINE#         63
+  C:00F8H         LINE#         64
+  C:00FAH         LINE#         65
+  C:00FCH         LINE#         66
+  -------         ENDPROC       LCD_BUSY
+  C:0005H         SYMBOL        L?0027
+  -------         PROC          L?0026
+  -------         ENDPROC       L?0026
+  C:0005H         SYMBOL        L?0027
+  -------         PROC          LCD_WRITE
+  B:0020H.0       SYMBOL        start
+  D:0008H         SYMBOL        in_data
+  -------         DO            
+  D:0007H         SYMBOL        Hdata
+  D:0006H         SYMBOL        Ldata
+  -------         ENDDO         
+  C:000FH         LINE#         76
+  C:000FH         LINE#         77
+  C:000FH         LINE#         80
+  C:0014H         LINE#         82
+  C:0019H         LINE#         83
+  C:001FH         LINE#         85
+  C:0022H         LINE#         86
+  C:0026H         LINE#         88
+  C:0028H         LINE#         90
+  C:002AH         LINE#         91
+  C:002CH         LINE#         92
+  C:002FH         LINE#         94
+  C:0031H         LINE#         95
+  C:0033H         LINE#         96
+  C:0036H         LINE#         97
+  C:0038H         LINE#         98
+  C:003BH         LINE#         100
+  C:003DH         LINE#         101
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/04/2010  13:11:05  PAGE 4
+
+
+  C:003FH         LINE#         102
+  C:0042H         LINE#         103
+  C:0044H         LINE#         104
+  -------         ENDPROC       LCD_WRITE
+  -------         PROC          LCD_INIT
+  C:0047H         LINE#         112
+  C:0047H         LINE#         113
+  C:0047H         LINE#         114
+  C:0049H         LINE#         115
+  C:004CH         LINE#         116
+  C:004CH         LINE#         117
+  C:004FH         LINE#         118
+  C:004FH         LINE#         119
+  C:0052H         LINE#         121
+  C:0055H         LINE#         122
+  C:005DH         LINE#         123
+  C:0060H         LINE#         124
+  C:0068H         LINE#         125
+  C:006BH         LINE#         126
+  C:0073H         LINE#         127
+  -------         ENDPROC       LCD_INIT
+  -------         PROC          _LCD_POS
+  D:0007H         SYMBOL        pos
+  C:0109H         LINE#         135
+  C:0109H         LINE#         136
+  C:0109H         LINE#         137
+  -------         ENDPROC       _LCD_POS
+  -------         PROC          MAIN
+  -------         DO            
+  D:0005H         SYMBOL        m
+  -------         ENDDO         
+  C:007AH         LINE#         145
+  C:007AH         LINE#         146
+  C:007AH         LINE#         149
+  C:007DH         LINE#         151
+  C:0082H         LINE#         152
+  C:0084H         LINE#         153
+  C:0094H         LINE#         156
+  C:0099H         LINE#         157
+  C:009BH         LINE#         158
+  C:00ABH         LINE#         160
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        1602CHUANHANG
+
+Program Size: data=10.2 xdata=0 code=281
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

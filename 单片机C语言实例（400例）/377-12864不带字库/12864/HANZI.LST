@@ -1,0 +1,275 @@
+C51 COMPILER V8.18   HANZI                                                                 01/04/2010 08:27:22 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE HANZI
+OBJECT MODULE PLACED IN HANZI.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE HANZI.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           #include<reg51.h>
+   2          #include<intrins.h>
+   3          sbit CS1=P2^3;
+   4          sbit CS2=P2^4;
+   5          sbit RST=P2^5;
+   6          sbit DI=P2^0;
+   7          sbit RW=P2^1;
+   8          sbit ALE=P2^2;
+   9          unsigned char  COM;//指令数据寄存器
+  10          unsigned char  DAT;//显示数据寄存器
+  11          #ifndef __WRITE_12864_H__
+  12          
+  13          //软件复位程序
+  14          void    IntRst(void)
+  15                  {
+  16   1                  unsigned char  i;
+  17   1                  RST=0;
+  18   1                  i=0;
+  19   1                  i=1;
+  20   1                  RST=1;        //软件复位
+  21   1      
+  22   1              }
+  23          
+  24          //12864发送命令子程序
+  25          void    ComSend(void)
+  26                  {       unsigned char   i;
+  27   1              unsigned char  temp;
+  28   1                      DI=0;
+  29   1                      RW=1;        
+  30   1              do {    P0=0xff;
+  31   2                                      ALE=1;
+  32   2                      i=0;
+  33   2                                      temp=P0;
+  34   2                      ALE=0;
+  35   2                              } while((temp&0x80)==1);        //读BUSY信号
+  36   1                      RW=0;
+  37   1                      P0=COM;
+  38   1                      ALE=1;
+  39   1                      i=0;            //NOP           
+  40   1                      ALE=0;
+  41   1              }
+  42          
+  43          //12864发送数据子程序 
+  44          void    DaSend(void)
+  45                  {   unsigned char       i;
+  46   1              unsigned char  temp;
+  47   1                      DI=0;
+  48   1                      RW=1;
+  49   1                      do      {P0=0xff;
+  50   2                              ALE=1;
+  51   2                              i=0;
+  52   2                              temp=P0;
+  53   2                  ALE=0;
+  54   2                              }while((temp&0x80)==1);         //读BUSY信号
+  55   1                      DI=1;
+C51 COMPILER V8.18   HANZI                                                                 01/04/2010 08:27:22 PAGE 2   
+
+  56   1                      RW=0;
+  57   1                      P0=DAT;
+  58   1                      ALE=1;
+  59   1                      i=0;            //NOP
+  60   1                      ALE=0;
+  61   1              }
+  62          
+  63          //左半屏写命令子程序 
+  64          void    Left_ComSend(void)
+  65                  {
+  66   1                      CS2=0;CS1=1;
+  67   1                      ComSend();
+  68   1                      CS1=0;
+  69   1              }
+  70          
+  71          //左半屏写数据子程序 
+  72          void    Left_DaSend(void)
+  73                  {
+  74   1                      CS2=0;CS1=1;
+  75   1                      DaSend();
+  76   1                      CS1=0;
+  77   1              }
+  78          
+  79          //右半屏写命令子程序 
+  80          void    Right_ComSend(void)
+  81                  {
+  82   1                      CS1=0;CS2=1;
+  83   1                      ComSend();
+  84   1                      CS2=0;
+  85   1              }
+  86          
+  87          
+  88          //右半屏写数据子程序 
+  89          void    Right_DaSend(void)
+  90                  {
+  91   1                      CS1=0;CS2=1;
+  92   1                      DaSend();
+  93   1                      CS2=0;
+  94   1              }
+  95          
+  96          //左半屏写一个字节数据程序,
+  97          //入口参数为X,Y的起始地址
+  98          //以及Y的变址范围(写入的字节数)和写入数据的指针
+  99          void    Left_Bytes_DaSend(unsigned char x,unsigned char y,unsigned char *loc,unsigned char bytes)
+ 100                          {       unsigned char   i;
+ 101   1                              COM=(x|0xB8);           //填入特征位0xB8 
+ 102   1                              Left_ComSend();         //定位X
+ 103   1                              COM=(y|0x40);           //填入特征位0x40 
+ 104   1                              Left_ComSend();         //定位Y
+ 105   1                              for(i=0;i<bytes;i++)
+ 106   1                                      {
+ 107   2                                      DAT=*(loc+i);
+ 108   2                                      Left_DaSend();
+ 109   2                                      }
+ 110   1      
+ 111   1                      }
+ 112          
+ 113          //右半屏写一个字节数据程序,
+ 114          //入口参数为X,Y的起始地址
+ 115          //以及Y的变址范围(写入的字节数)和写入数据的指针
+ 116          void    Right_Bytes_DaSend(unsigned char x,unsigned char y,unsigned char *loc,unsigned char bytes)
+ 117                          {       unsigned char   i;
+C51 COMPILER V8.18   HANZI                                                                 01/04/2010 08:27:22 PAGE 3   
+
+ 118   1                              COM=(x|0xB8);                   //填入特征位0xB8 
+ 119   1                              Right_ComSend();                //定位X
+ 120   1                              COM=(y|0x40);                   //填入特征位0x40 
+ 121   1                              Right_ComSend();                //定位Y
+ 122   1                              for(i=0;i<bytes;i++)
+ 123   1                                      {
+ 124   2                                      DAT=*(loc+i);
+ 125   2                                      Right_DaSend();
+ 126   2                                      }
+ 127   1                      }
+ 128          //开LCD
+ 129          void    Lcd_On(void)
+ 130                  {
+ 131   1                   COM=0x3F;
+ 132   1                   Left_ComSend();
+ 133   1                   Right_ComSend();
+ 134   1              }
+ 135          /*
+ 136          //关LCD
+ 137          void    Lcd_Off(void)
+ 138                          {
+ 139                                   COM=0x3e;
+ 140                       Left_ComSend();
+ 141                       Right_ComSend();   
+ 142                          }
+ 143          */
+ 144          //设置Z地址 
+ 145          void    Lcd_Z(unsigned char z)
+ 146                          {
+ 147   1                               COM=(z|0xc0);
+ 148   1                   Left_ComSend();
+ 149   1                   Right_ComSend();   
+ 150   1                      }
+ 151          
+ 152            unsigned char code  tabe[]=
+ 153          {       
+ 154          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//清屏
+ 155          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 156          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 157          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 158          
+ 159          0x10,0x21,0x86,0x70,0x00,0x7E,0x4A,0x4A, //温
+ 160          0x4A,0x4A,0x4A,0x7E,0x00,0x00,0x00,0x00,
+ 161          0x02,0xFE,0x01,0x40,0x7F,0x41,0x41,0x7F,
+ 162          0x41,0x41,0x7F,0x41,0x41,0x7F,0x40,0x00,
+ 163                  
+ 164          0x80,0x40,0xF0,0x2C,0x43,0x20,0x98,0x0F,//你
+ 165          0x0A,0xE8,0x08,0x88,0x28,0x1C,0x08,0x00,
+ 166          0x00,0x00,0x7F,0x00,0x10,0x0C,0x03,0x21,
+ 167          0x40,0x3F,0x00,0x00,0x03,0x1C,0x08,0x00,
+ 168          
+ 169          0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFE,0xFE,0xE0,0xE0,0xE0,0xE0,0xE0,0xE0,0x00,
+ 170          0x07,0x07,0x07,0x07,0x07,0x07,0x7F,0x7F,0x7F,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+ 171          
+ 172          
+ 173          
+ 174                  };
+ 175          
+ 176          
+ 177             void Clean_Lcd(void)
+ 178          {
+ 179   1                      unsigned char   i,*p;
+C51 COMPILER V8.18   HANZI                                                                 01/04/2010 08:27:22 PAGE 4   
+
+ 180   1                      p=tabe;
+ 181   1                      for(i=0;i<8;i++)
+ 182   1                      {
+ 183   2                      Left_Bytes_DaSend( i, 0, p,32);
+ 184   2                      Left_Bytes_DaSend( i, 32, p,32);
+ 185   2                      Right_Bytes_DaSend( i, 0, p,32);
+ 186   2                      Right_Bytes_DaSend( i, 32, p,32);
+ 187   2                      }
+ 188   1      }
+ 189          void write_Code(unsigned char *pon,unsigned char hang,unsigned char lei)          //pon字表的位置列数1=<lei<=8,行
+             -数1=<hang<=4，
+ 190          { 
+ 191   1         unsigned char *str; str=pon+32;      
+ 192   1         switch(hang){case 1: hang=0;break;
+ 193   2                                  case 2: hang=2;break;
+ 194   2                                      case 3: hang=4;break;
+ 195   2                                  case 4: hang=6;break;
+ 196   2                                      }
+ 197   1         switch(lei){ case 1: lei=0;break;
+ 198   2                                  case 2: lei=16;break;
+ 199   2                                      case 3: lei=32;break;
+ 200   2                                  case 4: lei=48;break;
+ 201   2                                      case 5: lei=64;break;
+ 202   2                                  case 6: lei=80;break;
+ 203   2                                      case 7: lei=96;break;
+ 204   2                                  case 8: lei=112;break;
+ 205   2                              
+ 206   2      
+ 207   2                    }
+ 208   1         if(lei<64){      Left_Bytes_DaSend( hang, lei,str,16);
+ 209   2                          str=str+16;hang++;
+ 210   2                                              Left_Bytes_DaSend( hang, lei,str,16);
+ 211   2                               }
+ 212   1         else{lei=lei-64;             Right_Bytes_DaSend( hang, lei,str,16);
+ 213   2                          str=str+16;hang++;
+ 214   2                                              Right_Bytes_DaSend( hang, lei,str,16);
+ 215   2      
+ 216   2             }
+ 217   1      
+ 218   1      
+ 219   1      }
+ 220          
+ 221          void Main()
+ 222                  { //unsigned char *p;                   
+ 223   1                      IntRst();               //软件复位
+ 224   1              Lcd_On();                //开显示                   
+ 225   1                      Clean_Lcd();                            //清屏          
+ 226   1                       write_Code(tabe+32,1,4); 
+ 227   1                       while(1);
+ 228   1      
+ 229   1      
+ 230   1      
+ 231   1      
+ 232   1              /*       p=tabe;
+ 233   1                      p=p+64; Left_Bytes_DaSend( 0, 0, p,16);
+ 234   1                      p=p+16; Left_Bytes_DaSend( 1, 0, p,16);
+ 235   1                      p=tabe;p=p+64;
+ 236   1                      Right_Bytes_DaSend( 0, 0, p,16);
+ 237   1                      p=p+16; 
+ 238   1                      Right_Bytes_DaSend( 1, 0, p,16); 
+ 239   1              */      
+ 240   1              
+C51 COMPILER V8.18   HANZI                                                                 01/04/2010 08:27:22 PAGE 5   
+
+ 241   1      
+ 242   1              }
+*** WARNING C316 IN LINE 242 OF HANZI.c: unterminated conditionals
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    575    ----
+   CONSTANT SIZE    =    128    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      23
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

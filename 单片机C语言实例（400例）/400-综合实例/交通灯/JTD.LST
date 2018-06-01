@@ -1,0 +1,104 @@
+C51 COMPILER V8.02   JTD                                                                   07/23/2009 14:32:11 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE JTD
+OBJECT MODULE PLACED IN JTD.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE JTD.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>
+   3          
+   4          #define uchar unsigned char
+   5          #define uint  unsigned int
+   6          
+   7          sbit     RED_ZHU    =  P0^0; //主路红灯
+   8          sbit     YELLOW_ZHU =  P0^1; //主路黄灯
+   9          sbit     GREEN_ZHU  =  P0^2; //主路绿灯
+  10          
+  11          sbit     RED_ZHI    =  P1^0; //支路红灯
+  12          sbit     YELLOW_ZHI =  P1^1; //支路黄灯
+  13          sbit     GREEN_ZHI  =  P1^2; //支路绿灯
+  14          
+  15          /*********************************************************
+  16             500ms延时函数
+  17             晶振：11.0592MHz
+  18          *********************************************************/
+  19          void delay(unsigned char j) 
+  20          { 
+  21   1         unsigned char k;
+  22   1         unsigned int i;
+  23   1         for(;j>0;j--)
+  24   1        {
+  25   2           for(i=1250;i>0;i--) 
+  26   2           {
+  27   3             for(k=180;k>0;k--);
+  28   3           }
+  29   2         }
+  30   1      } 
+  31          
+  32          /*********************************************************
+  33             主函数
+  34          *********************************************************/
+  35          main()
+  36          {
+  37   1         uchar t;
+  38   1         P0=0xff;
+  39   1         P3=0xff;
+  40   1         RED_ZHU=0;                    //第一个状态
+  41   1        RED_ZHI=0;
+  42   1         delay(10);
+  43   1        while(1)
+  44   1        {    
+  45   2           RED_ZHU=1;                   //第二个状态
+  46   2         RED_ZHI=0;
+  47   2          GREEN_ZHU=0;
+  48   2          delay(60);
+  49   2      
+  50   2           for (t=6;t>0;t--)           //第三个状态
+  51   2          {
+  52   3              GREEN_ZHU=~GREEN_ZHU;
+  53   3             delay(1);
+  54   3            }
+  55   2      
+C51 COMPILER V8.02   JTD                                                                   07/23/2009 14:32:11 PAGE 2   
+
+  56   2          YELLOW_ZHU=0;
+  57   2          GREEN_ZHU=1;
+  58   2          delay(10);
+  59   2          YELLOW_ZHU=1;
+  60   2      
+  61   2           RED_ZHU=0;                  //第四个状态
+  62   2         RED_ZHI=1;
+  63   2          GREEN_ZHI=0;
+  64   2          delay(50);
+  65   2      
+  66   2           for (t=6;t>0;t--)           //第五个状态
+  67   2          {
+  68   3              GREEN_ZHI=~GREEN_ZHI;
+  69   3              delay(1);
+  70   3            }
+  71   2      
+  72   2          YELLOW_ZHI=0;
+  73   2          GREEN_ZHI=1;
+  74   2          delay(10);
+  75   2      
+  76   2           YELLOW_ZHI=1;
+  77   2        }
+  78   1      
+  79   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    110    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

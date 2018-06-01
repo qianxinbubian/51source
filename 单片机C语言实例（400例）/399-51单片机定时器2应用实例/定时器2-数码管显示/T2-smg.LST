@@ -1,0 +1,82 @@
+C51 COMPILER V8.18   T2_SMG                                                                01/06/2010 20:16:00 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE T2_SMG
+OBJECT MODULE PLACED IN T2-smg.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE T2-smg.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          unsigned char code ledcode[11] =
+   4          { 
+   5             0xC0,0xF9,0xA4,0xB0,0x99,
+   6             0x92,0x82,0xF8,0x80,0x90,0xff
+   7          };
+   8          
+   9          unsigned char  shift,n = 0;
+  10          
+  11          char code reserve [3] _at_ 0x3b;  //保留0x3b开始的3个字节
+  12          
+  13          /**********************************************************
+  14          
+  15            主函数
+  16          
+  17          **********************************************************/
+  18          main()
+  19          {
+  20   1         T2CON = 0x00;           //设置T2CON寄存器       
+  21   1         TH2 = 0xfc;             //1ms定时常数
+  22   1         TL2 = 0x66;
+  23   1      
+  24   1         ET2 = 1;                //允许Timer2中断
+  25   1         EA = 1;                 //总中断允许
+  26   1         TR2 = 1;                //启动定时器2
+  27   1         shift = 0xfe;           //送位码初值
+  28   1         while(1);
+  29   1      }
+  30          
+  31          /**********************************************************
+  32          
+  33            Timer2中断服务子函数
+  34          
+  35          **********************************************************/
+  36          void  timer2(void) interrupt 5 
+  37          { 
+  38   1         TF2 = 0;                  //手工清中断标志  
+  39   1         TH2 = 0xfc;               //1ms定时常数
+  40   1         TL2 = 0x66;
+  41   1        
+  42   1         if(n >= 8)
+  43   1         {
+  44   2           n = 0;
+  45   2           shift = 0xfe;           //送位码初值
+  46   2           P2 = 0xff;              //关闭数码管显示 
+  47   2         }
+  48   1         else
+  49   1         {
+  50   2           P0 = ledcode[n+1];        //送段码
+  51   2           P2 = shift;             //送位码
+  52   2           shift = shift<<1|0x01;  //修改位码
+  53   2           n++;
+  54   2         }
+  55   1      }
+C51 COMPILER V8.18   T2_SMG                                                                01/06/2010 20:16:00 PAGE 2   
+
+  56          
+  57          /*********************************************************/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     84    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

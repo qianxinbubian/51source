@@ -1,0 +1,64 @@
+C51 COMPILER V8.18   JDQ                                                                   12/15/2009 21:14:15 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE JDQ
+OBJECT MODULE PLACED IN JDQ.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE JDQ.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          //按K1 继电器吸合
+   3          //按K2 继电器断开
+   4          /*********************************************************/
+   5          
+   6          #include <reg52.h>
+   7          sbit  K1 =P3^2 ;                    //K1
+   8          sbit  K2 =P3^3 ;                    //K2
+   9          sbit JDQ=P3^7;                                     //继电器
+  10          
+  11          /*********************************************************/
+  12          void Delay(unsigned int ii)     //1MS
+  13          {
+  14   1      unsigned int jj;
+  15   1      for(;ii>0;ii--)
+  16   1      for(jj=0;jj<125;jj++)
+  17   1      {;}
+  18   1      }
+  19          void main()
+  20          {  
+  21   1      
+  22   1         while(1){
+  23   2         
+  24   2         if (K1==0) 
+  25   2      {
+  26   3      Delay(10);
+  27   3      if(K1==0){
+  28   4       JDQ=0;//吸合
+  29   4       P0=0x00;//P0口LED亮
+  30   4       }
+  31   3      }
+  32   2      
+  33   2      if (K2==0){
+  34   3      Delay(10);
+  35   3      if(K2==0){
+  36   4               JDQ=1; //释放
+  37   4               P0=0xff; //P0口LED灯灭
+  38   4      } 
+  39   3      } 
+  40   2         }
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     69    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,186 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/22/2009  22:47:56  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE PWMLED.obj TO PWMLED
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  PWMLED.obj (PWMLED)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  PWMLED (PWMLED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?PWMLED
+            DATA    0009H     0001H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0007H     UNIT         ?PR?_DELAY?PWMLED
+                    000AH     0001H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0006H     UNIT         ?PR?TIMER1?PWMLED
+            CODE    0014H     0004H     UNIT         ?C_INITSEG
+                    0018H     0003H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    00AAH     0045H     UNIT         ?PR?MAIN?PWMLED
+            CODE    00EFH     001AH     UNIT         ?PR?BEEP?PWMLED
+            CODE    0109H     0012H     UNIT         ?PR?_DELAYMS?PWMLED
+            CODE    011BH     0011H     UNIT         ?PR?TIMER0?PWMLED
+
+
+
+OVERLAY MAP OF MODULE:   PWMLED (PWMLED)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?PWMLED
+  +--> ?C_INITSEG
+
+?PR?MAIN?PWMLED                -----    -----
+  +--> ?PR?_DELAYMS?PWMLED
+  +--> ?PR?BEEP?PWMLED
+
+?PR?BEEP?PWMLED                0009H    0001H
+  +--> ?PR?_DELAY?PWMLED
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/22/2009  22:47:56  PAGE 2
+
+
+  +--> ?PR?_DELAYMS?PWMLED
+
+
+
+SYMBOL TABLE OF MODULE:  PWMLED (PWMLED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        PWMLED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  B:00B0H.6       PUBLIC        BEEP
+  C:00AAH         PUBLIC        main
+  D:0089H         PUBLIC        TMOD
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  C:0109H         PUBLIC        _delayms
+  C:011BH         PUBLIC        timer0
+  C:000EH         PUBLIC        timer1
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  C:0003H         PUBLIC        _delay
+  D:0008H         PUBLIC        PWM
+  B:00B0H.2       PUBLIC        K1
+  B:00B0H.3       PUBLIC        K2
+  C:00EFH         PUBLIC        Beep
+  -------         PROC          MAIN
+  C:00AAH         LINE#         22
+  C:00AAH         LINE#         23
+  C:00AAH         LINE#         25
+  C:00ADH         LINE#         26
+  C:00B0H         LINE#         27
+  C:00B3H         LINE#         28
+  C:00B6H         LINE#         30
+  C:00B9H         LINE#         31
+  C:00BCH         LINE#         33
+  C:00BEH         LINE#         34
+  C:00C0H         LINE#         35
+  C:00C2H         LINE#         37
+  C:00C4H         LINE#         39
+  C:00C4H         LINE#         40
+  C:00C4H         LINE#         41
+  C:00C4H         LINE#         42
+  C:00C9H         LINE#         43
+  C:00D2H         LINE#         44
+  C:00D5H         LINE#         45
+  C:00D5H         LINE#         46
+  C:00D8H         LINE#         48
+  C:00D8H         LINE#         49
+  C:00DEH         LINE#         50
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/22/2009  22:47:56  PAGE 3
+
+
+  C:00E7H         LINE#         51
+  C:00EAH         LINE#         52
+  C:00EAH         LINE#         53
+  C:00EDH         LINE#         54
+  -------         ENDPROC       MAIN
+  -------         PROC          TIMER0
+  C:011BH         LINE#         60
+  C:011BH         LINE#         62
+  C:011DH         LINE#         63
+  C:0120H         LINE#         64
+  C:0123H         LINE#         65
+  C:0126H         LINE#         66
+  C:0128H         LINE#         67
+  C:012BH         LINE#         68
+  -------         ENDPROC       TIMER0
+  -------         PROC          TIMER1
+  C:000EH         LINE#         73
+  C:000EH         LINE#         75
+  C:0010H         LINE#         76
+  C:0013H         LINE#         77
+  -------         ENDPROC       TIMER1
+  -------         PROC          BEEP
+  -------         DO            
+  D:0009H         SYMBOL        i
+  -------         ENDDO         
+  C:00EFH         LINE#         83
+  C:00EFH         LINE#         84
+  C:00EFH         LINE#         86
+  C:00F2H         LINE#         87
+  C:00F2H         LINE#         88
+  C:00F7H         LINE#         89
+  C:00F9H         LINE#         90
+  C:0102H         LINE#         91
+  C:0104H         LINE#         92
+  -------         ENDPROC       BEEP
+  -------         PROC          _DELAY
+  D:0007H         SYMBOL        t
+  C:0003H         LINE#         98
+  C:0003H         LINE#         99
+  C:0003H         LINE#         100
+  C:0009H         LINE#         101
+  -------         ENDPROC       _DELAY
+  -------         PROC          _DELAYMS
+  D:0007H         SYMBOL        ms
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0109H         LINE#         106
+  C:0109H         LINE#         108
+  C:0109H         LINE#         110
+  C:010FH         LINE#         111
+  C:010FH         LINE#         112
+  C:011AH         LINE#         113
+  C:011AH         LINE#         114
+  -------         ENDPROC       _DELAYMS
+  -------         ENDMOD        PWMLED
+
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/22/2009  22:47:56  PAGE 4
+
+
+Program Size: data=11.0 xdata=0 code=296
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,114 @@
+C51 COMPILER V8.02   JDQ                                                                   08/01/2009 14:17:20 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE JDQ
+OBJECT MODULE PLACED IN JDQ.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE JDQ.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          //按K1 继电器吸合
+   3          //按K2 继电器断开
+   4          /*********************************************************/
+   5          
+   6          #include <reg52.h>
+   7          sbit  K1 =P3^2 ;                    //K1
+   8          sbit  K2 =P3^3 ;                    //K2
+   9          sbit JDQ=P3^7;                                     //继电器
+  10          unsigned char inbuf2[5];//接收缓冲区
+  11          unsigned char count3;
+  12          void init_serialcomm( void )
+  13          {
+  14   1      SCON = 0x50 ; //SCON: serail mode 1, 8-bit UART, enable ucvr
+  15   1      TMOD |= 0x20 ; //TMOD: timer 1, mode 2, 8-bit reload
+  16   1      PCON |= 0x80 ; //SMOD=1;
+  17   1      TH1 = 0xFA ; //Baud:4800 fosc=11.0592MHz
+  18   1      IE |= 0x90 ; //Enable Serial Interrupt
+  19   1      TR1=1;
+  20   1      }
+  21          //串口接收中断函数
+  22          void serial () interrupt 4 using 3
+  23          {
+  24   1      if (RI) //RI==开始接收
+  25   1      {
+  26   2      unsigned char ch;
+  27   2      RI = 0 ; //软件RI=0
+  28   2      ch=SBUF;
+  29   2      if (ch>1)
+  30   2      {
+  31   3      count3= 0 ;
+  32   3      inbuf2[count3]=ch;
+  33   3      }
+  34   2      else
+  35   2      {
+  36   3      count3++;
+  37   3      inbuf2[count3]=ch;
+  38   3      }
+  39   2      }
+  40   1      }       
+  41          
+  42          
+  43          /*********************************************************/
+  44          void Delay(unsigned int ii)     //1MS
+  45          {
+  46   1      unsigned int jj;
+  47   1      for(;ii>0;ii--)
+  48   1      for(jj=0;jj<125;jj++)
+  49   1      {;}
+  50   1      }
+  51          void main()
+  52          {  init_serialcomm();
+  53   1      JDQ=0;
+  54   1         EA = 1;                                      //允许CPU中断
+  55   1      
+C51 COMPILER V8.02   JDQ                                                                   08/01/2009 14:17:20 PAGE 2   
+
+  56   1      
+  57   1         while(1){
+  58   2        
+  59   2               if (inbuf2[0]==0x31){ 
+  60   3               JDQ=1;//吸合
+  61   3       P0=0x00;//P0口LED亮
+  62   3      
+  63   3               }
+  64   2      
+  65   2               if (inbuf2[0]==0x32){
+  66   3               JDQ=0;//吸合
+  67   3       P0=0xff;//P0口LED亮
+  68   3               }
+  69   2      
+  70   2         if (K1==0) 
+  71   2      {
+  72   3      Delay(10);
+  73   3      if(K1==0){
+  74   4       inbuf2[0]=0x00; 
+  75   4       JDQ=1;//吸合
+  76   4       P0=0x00;//P0口LED亮
+  77   4       }
+  78   3      }
+  79   2      
+  80   2      if (K2==0){
+  81   3      Delay(10);
+  82   3      if(K2==0){
+  83   4       inbuf2[0]=0x00; 
+  84   4               JDQ=0; //释放
+  85   4               P0=0xff; //P0口LED灯灭
+  86   4      } 
+  87   3      } 
+  88   2         }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    160    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

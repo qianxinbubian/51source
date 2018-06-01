@@ -1,0 +1,123 @@
+C51 COMPILER V8.02   MAIN                                                                  05/18/2013 13:52:57 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>                
+   2          #include "i2c.h"
+   3          #include "delay.h"
+   4          #include "display.h"
+   5          
+   6          #define AddWr 0x90   //写数据地址 
+   7          #define AddRd 0x91   //读数据地址
+   8          
+   9          extern bit ack;
+  10          bit ReadADFlag;
+  11          
+  12          
+  13          
+  14          unsigned char ReadADC(unsigned char Chl);
+  15          bit WriteDAC(unsigned char dat);
+  16          /*------------------------------------------------
+  17                        主程序
+  18          ------------------------------------------------*/
+  19          main()
+  20          {
+  21   1       unsigned char num=0,i;
+  22   1       Init_Timer0();
+  23   1       DelayMs(20);
+  24   1      
+  25   1      while (1)         //主循环
+  26   1        {
+  27   2       if(ReadADFlag)
+  28   2        {
+  29   3        ReadADFlag=0; 
+  30   3      //连续读5次，输入通道后多读几次，取最后一次值，以便读出稳定值
+  31   3       for(i=0;i<5;i++)
+  32   3           num=ReadADC(0);
+  33   3              
+  34   3      // x10表示把实际值扩大10，如4.5 变成 45 方便做下一步处理 x5 表示基准电压5V 
+  35   3        num=num*5*10/256;   
+  36   3        TempData[0]=DuanMa[num/10]|0x80;    
+  37   3        TempData[1]=DuanMa[num%10];
+  38   3          
+  39   3       for(i=0;i<5;i++)
+  40   3         num=ReadADC(1);
+  41   3       num=num*5*10/256;   // x10表示把实际值扩大10，如4.5 变成 45 方便做下一步处理
+  42   3       TempData[2]=DuanMa[num/10]|0x80;    
+  43   3       TempData[3]=DuanMa[num%10];
+  44   3      
+  45   3       for(i=0;i<5;i++)
+  46   3          num=ReadADC(2);
+  47   3       num=num*5*10/256;   // x10表示把实际值扩大10，如4.5 变成 45 方便做下一步处理
+  48   3       TempData[4]=DuanMa[num/10]|0x80;    
+  49   3       TempData[5]=DuanMa[num%10];
+  50   3      
+  51   3       for(i=0;i<5;i++)
+  52   3           num=ReadADC(3);
+  53   3       num=num*5*10/256;   // x10表示把实际值扩大10，如4.5 变成 45 方便做下一步处理
+  54   3       TempData[6]=DuanMa[num/10]|0x80;    
+  55   3       TempData[7]=DuanMa[num%10];
+C51 COMPILER V8.02   MAIN                                                                  05/18/2013 13:52:57 PAGE 2   
+
+  56   3       //主循环中添加其他需要一直工作的程序
+  57   3         }
+  58   2       
+  59   2        }
+  60   1      }
+  61          /*------------------------------------------------
+  62                       读AD转值程序
+  63          输入参数 Chl 表示需要转换的通道，范围从0-3
+  64          返回值范围0-255
+  65          ------------------------------------------------*/
+  66          unsigned char ReadADC(unsigned char Chl)
+  67           {
+  68   1        unsigned char Val;
+  69   1         Start_I2c();               //启动总线
+  70   1         SendByte(AddWr);             //发送器件地址
+  71   1           if(ack==0)return(0);
+  72   1         SendByte(Chl);            //发送器件子地址
+  73   1           if(ack==0)return(0);
+  74   1         Start_I2c();
+  75   1         SendByte(AddRd);
+  76   1            if(ack==0)return(0);
+  77   1         Val=RcvByte();
+  78   1         NoAck_I2c();                 //发送非应位
+  79   1         Stop_I2c();                  //结束总线
+  80   1        return(Val);
+  81   1       }
+  82          /*------------------------------------------------
+  83                         写入DA转换数值
+  84          输入参数：dat 表示需要转换的DA数值，范围是0-255
+  85          ------------------------------------------------*/
+  86          /*bit WriteDAC(unsigned char dat)
+  87          {
+  88             Start_I2c();               //启动总线
+  89             SendByte(AddWr);             //发送器件地址
+  90               if(ack==0)return(0);
+  91             SendByte(0x40);            //发送器件子地址
+  92               if(ack==0)return(0);
+  93             SendByte(dat);             //发送数据
+  94               if(ack==0)return(0);
+  95             Stop_I2c();  
+  96          }
+  97            */
+  98          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    282    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

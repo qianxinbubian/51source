@@ -1,0 +1,204 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/24/2009  22:56:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE s51yk.obj TO s51yaokong RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  s51yk.obj (S51YK)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  s51yaokong (S51YK)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
+            DATA    0010H     000CH     UNIT         ?DT?S51YK
+            DATA    001CH     0002H     UNIT         _DATA_GROUP_
+            IDATA   001EH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0151H     UNIT         ?PR?MAIN?S51YK
+            CODE    015FH     004CH     UNIT         ?PR?TIMER0?S51YK
+            CODE    01ABH     0020H     UNIT         ?PR?IR_GET_LOW?S51YK
+            CODE    01CBH     0020H     UNIT         ?PR?IR_GET_HIGH?S51YK
+            CODE    01EBH     001EH     UNIT         ?PR?_DELAY_50MS?S51YK
+            CODE    0209H     0019H     UNIT         ?CO?S51YK
+            CODE    0222H     0016H     UNIT         ?C?LIB_CODE
+            CODE    0238H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   s51yaokong (S51YK)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?TIMER0?S51YK               -----    -----
+  +--> ?CO?S51YK
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?S51YK
+
+?PR?MAIN?S51YK                 001CH    0002H
+  +--> ?PR?IR_GET_LOW?S51YK
+  +--> ?PR?IR_GET_HIGH?S51YK
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  22:56:06  PAGE 2
+
+
+  +--> ?PR?_DELAY_50MS?S51YK
+
+
+
+SYMBOL TABLE OF MODULE:  s51yaokong (S51YK)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        S51YK
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  C:0209H         PUBLIC        Led_Tab
+  D:0010H         PUBLIC        Led_Buf
+  C:01EBH         PUBLIC        _delay_50ms
+  C:021AH         PUBLIC        Led_Sel
+  B:00B0H.6       PUBLIC        beep
+  C:01CBH         PUBLIC        Ir_Get_High
+  C:000EH         PUBLIC        main
+  D:0089H         PUBLIC        TMOD
+  D:0017H         PUBLIC        Ir_Buf
+  B:00B0H.2       PUBLIC        Ir_Pin
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  C:01ABH         PUBLIC        Ir_Get_Low
+  D:008BH         PUBLIC        TL1
+  C:015FH         PUBLIC        timer0
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  D:001BH         PUBLIC        Led_Index
+  -------         PROC          _DELAY_50MS
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:01EBH         LINE#         11
+  C:01EBH         LINE#         12
+  C:01EBH         LINE#         14
+  C:01F4H         LINE#         15
+  C:01F8H         LINE#         16
+  C:0208H         LINE#         17
+  -------         ENDPROC       _DELAY_50MS
+  -------         PROC          TIMER0
+  C:015FH         LINE#         21
+  C:016AH         LINE#         23
+  C:016DH         LINE#         24
+  C:0170H         LINE#         25
+  C:0173H         LINE#         26
+  C:0188H         LINE#         27
+  C:0194H         LINE#         28
+  C:01A2H         LINE#         30
+  -------         ENDPROC       TIMER0
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  22:56:06  PAGE 3
+
+
+  -------         PROC          IR_GET_LOW
+  C:01ABH         LINE#         32
+  C:01ABH         LINE#         33
+  C:01ABH         LINE#         34
+  C:01AEH         LINE#         35
+  C:01B0H         LINE#         36
+  C:01B2H         LINE#         37
+  C:01BAH         LINE#         38
+  C:01BCH         LINE#         39
+  C:01CAH         LINE#         40
+  -------         ENDPROC       IR_GET_LOW
+  -------         PROC          IR_GET_HIGH
+  C:01CBH         LINE#         42
+  C:01CBH         LINE#         43
+  C:01CBH         LINE#         44
+  C:01CEH         LINE#         45
+  C:01D0H         LINE#         46
+  C:01D2H         LINE#         47
+  C:01DAH         LINE#         48
+  C:01DCH         LINE#         49
+  C:01EAH         LINE#         50
+  -------         ENDPROC       IR_GET_HIGH
+  -------         PROC          MAIN
+  -------         DO            
+  D:0082H         SYMBOL        temp
+  D:001CH         SYMBOL        i
+  D:001DH         SYMBOL        j
+  C:0020H         SYMBOL        restart
+  -------         ENDDO         
+  C:000EH         LINE#         52
+  C:000EH         LINE#         53
+  C:000EH         LINE#         56
+  C:0011H         LINE#         57
+  C:0014H         LINE#         58
+  C:0017H         LINE#         59
+  C:001AH         LINE#         60
+  C:001CH         LINE#         61
+  C:001EH         LINE#         62
+  C:0020H         LINE#         72
+  C:0020H         LINE#         73
+  C:0020H         LINE#         74
+  C:0023H         LINE#         75
+  C:002AH         LINE#         76
+  C:004BH         LINE#         77
+  C:0052H         LINE#         78
+  C:0072H         LINE#         79
+  C:0081H         LINE#         80
+  C:0090H         LINE#         81
+  C:0090H         LINE#         82
+  C:0097H         LINE#         83
+  C:00BDH         LINE#         84
+  C:00C4H         LINE#         85
+  C:00EAH         LINE#         86
+  C:00F7H         LINE#         87
+  C:0113H         LINE#         88
+  C:011DH         LINE#         89
+  C:0124H         LINE#         90
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  22:56:06  PAGE 4
+
+
+  C:012AH         LINE#         91
+  C:0131H         LINE#         92
+  C:0137H         LINE#         93
+  C:013EH         LINE#         94
+  C:0144H         LINE#         95
+  C:014BH         LINE#         96
+  C:0151H         LINE#         97
+  C:0153H         LINE#         98
+  C:015AH         LINE#         99
+  C:015CH         LINE#         100
+  C:015CH         LINE#         101
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        S51YK
+
+  -------         MODULE        ?C?SLCMP
+  C:0222H         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+Program Size: data=31.0 xdata=0 code=572
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

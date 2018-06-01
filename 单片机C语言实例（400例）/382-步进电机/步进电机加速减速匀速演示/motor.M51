@@ -1,0 +1,157 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        11/30/2015  20:25:36  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE bujindianji.obj TO motor RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  bujindianji.obj (BUJINDIANJI)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  motor (BUJINDIANJI)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?BUJINDIANJI
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0021H     UNIT         ?PR?MOTOR_TURN?BUJINDIANJI
+            CODE    0024H     001FH     UNIT         ?PR?MOTOR_FFW?BUJINDIANJI
+            CODE    0043H     0013H     UNIT         ?PR?DELAY?BUJINDIANJI
+            CODE    0056H     0010H     UNIT         ?CO?BUJINDIANJI
+            CODE    0066H     000EH     UNIT         ?PR?MAIN?BUJINDIANJI
+            CODE    0074H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   motor (BUJINDIANJI)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?BUJINDIANJI
+
+?PR?MAIN?BUJINDIANJI
+  +--> ?PR?MOTOR_TURN?BUJINDIANJI
+
+?PR?MOTOR_TURN?BUJINDIANJI
+  +--> ?PR?MOTOR_FFW?BUJINDIANJI
+
+?PR?MOTOR_FFW?BUJINDIANJI
+  +--> ?CO?BUJINDIANJI
+  +--> ?PR?DELAY?BUJINDIANJI
+
+
+
+SYMBOL TABLE OF MODULE:  motor (BUJINDIANJI)
+
+  VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.00                                                      11/30/2015  20:25:36  PAGE 2
+
+
+  ----------------------------------
+
+  -------         MODULE        BUJINDIANJI
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0043H         PUBLIC        delay
+  D:00B8H         PUBLIC        IP
+  C:0066H         PUBLIC        main
+  D:0008H         PUBLIC        rate
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0024H         PUBLIC        motor_ffw
+  C:0003H         PUBLIC        motor_turn
+  C:0056H         PUBLIC        FFW
+  D:00C8H         PUBLIC        T2CON
+  C:005EH         PUBLIC        REV
+  D:00D0H         PUBLIC        PSW
+  B:0090H.2       PUBLIC        K1
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        k
+  D:0004H         SYMBOL        s
+  -------         ENDDO         
+  C:0043H         LINE#         17
+  C:0043H         LINE#         18
+  C:0043H         LINE#         21
+  C:0045H         LINE#         23
+  C:0045H         LINE#         24
+  C:0053H         LINE#         25
+  C:0055H         LINE#         26
+  -------         ENDPROC       DELAY
+  -------         PROC          MOTOR_FFW
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0024H         LINE#         33
+  C:0024H         LINE#         34
+  C:0024H         LINE#         37
+  C:0027H         LINE#         38
+  C:0027H         LINE#         40
+  C:0029H         LINE#         41
+  C:0029H         LINE#         42
+  C:0030H         LINE#         43
+  C:0033H         LINE#         44
+  C:0037H         LINE#         45
+  C:0042H         LINE#         46
+  -------         ENDPROC       MOTOR_FFW
+  -------         PROC          MOTOR_TURN
+  -------         DO            
+  D:0001H         SYMBOL        x
+  -------         ENDDO         
+  C:0003H         LINE#         53
+  C:0003H         LINE#         54
+BL51 BANKED LINKER/LOCATER V6.00                                                      11/30/2015  20:25:36  PAGE 3
+
+
+  C:0003H         LINE#         56
+  C:0006H         LINE#         57
+  C:0008H         LINE#         59
+  C:0008H         LINE#         60
+  C:000BH         LINE#         61
+  C:000DH         LINE#         62
+  C:0012H         LINE#         65
+  C:0012H         LINE#         66
+  C:0015H         LINE#         67
+  C:0016H         LINE#         68
+  C:0019H         LINE#         71
+  C:0019H         LINE#         72
+  C:001CH         LINE#         73
+  C:001EH         LINE#         74
+  C:0023H         LINE#         75
+  -------         ENDPROC       MOTOR_TURN
+  -------         PROC          MAIN
+  C:0066H         LINE#         82
+  C:0066H         LINE#         83
+  C:0066H         LINE#         85
+  C:0069H         LINE#         87
+  C:0069H         LINE#         88
+  C:0069H         LINE#         89
+  C:006CH         LINE#         90
+  C:006FH         LINE#         91
+  C:006FH         LINE#         92
+  C:0072H         LINE#         93
+  C:0072H         LINE#         94
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BUJINDIANJI
+
+Program Size: data=10.0 xdata=0 code=128
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

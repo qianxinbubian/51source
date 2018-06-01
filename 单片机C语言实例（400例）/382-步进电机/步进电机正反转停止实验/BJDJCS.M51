@@ -1,0 +1,215 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        12/15/2009  20:10:53  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE BJDJCS.obj TO BJDJCS RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  BJDJCS.obj (BJDJCS)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  BJDJCS (BJDJCS)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         _DATA_GROUP_
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     003DH     UNIT         ?PR?MAIN?BJDJCS
+            CODE    0040H     0026H     UNIT         ?PR?_DELAY?BJDJCS
+            CODE    0066H     0026H     UNIT         ?PR?MOTOR_FFW?BJDJCS
+            CODE    008CH     0026H     UNIT         ?PR?MOTOR_REV?BJDJCS
+            CODE    00B2H     0012H     UNIT         ?PR?_DELAYB?BJDJCS
+            CODE    00C4H     0010H     UNIT         ?PR?BEEP?BJDJCS
+            CODE    00D4H     0010H     UNIT         ?CO?BJDJCS
+            CODE    00E4H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   BJDJCS (BJDJCS)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?BJDJCS
+
+?PR?MAIN?BJDJCS                0008H    0001H
+  +--> ?PR?BEEP?BJDJCS
+  +--> ?PR?MOTOR_FFW?BJDJCS
+  +--> ?PR?MOTOR_REV?BJDJCS
+
+?PR?BEEP?BJDJCS                -----    -----
+  +--> ?PR?_DELAYB?BJDJCS
+
+?PR?MOTOR_FFW?BJDJCS           0009H    0002H
+  +--> ?CO?BJDJCS
+  +--> ?PR?_DELAY?BJDJCS
+
+?PR?MOTOR_REV?BJDJCS           0009H    0002H
+BL51 BANKED LINKER/LOCATER V6.20                                                      12/15/2009  20:10:53  PAGE 2
+
+
+  +--> ?CO?BJDJCS
+  +--> ?PR?_DELAY?BJDJCS
+
+
+
+SYMBOL TABLE OF MODULE:  BJDJCS (BJDJCS)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        BJDJCS
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:0048H         PUBLIC        _delay
+  B:00B0H.6       PUBLIC        BEEP
+  C:00C4H         PUBLIC        beep
+  C:0003H         PUBLIC        main
+  C:00B2H         PUBLIC        _delayB
+  C:0066H         PUBLIC        motor_ffw
+  C:008CH         PUBLIC        motor_rev
+  C:00D4H         PUBLIC        FFW
+  C:00DCH         PUBLIC        REV
+  B:00B0H.2       PUBLIC        K1
+  B:00B0H.3       PUBLIC        K2
+  B:00B0H.4       PUBLIC        K3
+  -------         PROC          L?0053
+  -------         ENDPROC       L?0053
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        k
+  -------         ENDDO         
+  C:0048H         LINE#         17
+  C:0048H         LINE#         18
+  C:0048H         LINE#         20
+  C:0052H         LINE#         21
+  C:0052H         LINE#         22
+  C:005EH         LINE#         23
+  C:0065H         LINE#         24
+  C:0065H         LINE#         25
+  -------         ENDPROC       _DELAY
+  -------         PROC          _DELAYB
+  D:0007H         SYMBOL        x
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:00B2H         LINE#         28
+  C:00B2H         LINE#         29
+  C:00B2H         LINE#         31
+  C:00B8H         LINE#         32
+  C:00B8H         LINE#         33
+  C:00C0H         LINE#         34
+  C:00C3H         LINE#         35
+  C:00C3H         LINE#         36
+  -------         ENDPROC       _DELAYB
+  -------         PROC          BEEP
+BL51 BANKED LINKER/LOCATER V6.20                                                      12/15/2009  20:10:53  PAGE 3
+
+
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:00C4H         LINE#         39
+  C:00C4H         LINE#         40
+  C:00C4H         LINE#         42
+  C:00C6H         LINE#         43
+  C:00C6H         LINE#         44
+  C:00CBH         LINE#         45
+  C:00CDH         LINE#         46
+  C:00D1H         LINE#         47
+  C:00D3H         LINE#         48
+  -------         ENDPROC       BEEP
+  -------         PROC          MOTOR_FFW
+  -------         DO            
+  D:0003H         SYMBOL        i
+  D:0009H         SYMBOL        j
+  -------         ENDDO         
+  C:0066H         LINE#         55
+  C:0066H         LINE#         56
+  C:0066H         LINE#         59
+  C:006BH         LINE#         60
+  C:006BH         LINE#         61
+  C:006EH         LINE#         62
+  C:006EH         LINE#         63
+  C:0070H         LINE#         64
+  C:0070H         LINE#         65
+  C:0073H         LINE#         66
+  C:0076H         LINE#         67
+  C:007AH         LINE#         68
+  C:008BH         LINE#         69
+  -------         ENDPROC       MOTOR_FFW
+  -------         PROC          MOTOR_REV
+  -------         DO            
+  D:0003H         SYMBOL        i
+  D:0009H         SYMBOL        j
+  -------         ENDDO         
+  C:008CH         LINE#         76
+  C:008CH         LINE#         77
+  C:008CH         LINE#         80
+  C:0091H         LINE#         81
+  C:0091H         LINE#         82
+  C:0094H         LINE#         83
+  C:0094H         LINE#         84
+  C:0096H         LINE#         85
+  C:0096H         LINE#         86
+  C:0099H         LINE#         87
+  C:009CH         LINE#         88
+  C:00A0H         LINE#         89
+  C:00B1H         LINE#         90
+  -------         ENDPROC       MOTOR_REV
+  -------         PROC          MAIN
+  -------         DO            
+  D:0001H         SYMBOL        r
+  D:0008H         SYMBOL        N
+  -------         ENDDO         
+  C:0003H         LINE#         98
+BL51 BANKED LINKER/LOCATER V6.20                                                      12/15/2009  20:10:53  PAGE 4
+
+
+  C:0003H         LINE#         99
+  C:0003H         LINE#         100
+  C:0006H         LINE#         101
+  C:0006H         LINE#         102
+  C:0006H         LINE#         103
+  C:0009H         LINE#         104
+  C:0009H         LINE#         105
+  C:000CH         LINE#         106
+  C:0014H         LINE#         107
+  C:0014H         LINE#         108
+  C:0017H         LINE#         109
+  C:001AH         LINE#         110
+  C:001CH         LINE#         111
+  C:001FH         LINE#         112
+  C:001FH         LINE#         113
+  C:0022H         LINE#         114
+  C:0022H         LINE#         115
+  C:0025H         LINE#         116
+  C:002DH         LINE#         117
+  C:002DH         LINE#         118
+  C:0030H         LINE#         119
+  C:0033H         LINE#         120
+  C:0038H         LINE#         121
+  C:003BH         LINE#         122
+  C:003BH         LINE#         124
+  C:003EH         LINE#         125
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BJDJCS
+
+Program Size: data=12.0 xdata=0 code=240
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

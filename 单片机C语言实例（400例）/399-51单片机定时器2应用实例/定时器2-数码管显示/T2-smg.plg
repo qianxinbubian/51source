@@ -1,0 +1,24 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\待更新的程序\定时器2-数码管显示\T2-smg.uv2
+Project File Date:  01/06/2010
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling T2-smg.c...
+linking...
+Program Size: data=11.0 xdata=0 code=248
+creating hex file from "T2-smg"...
+"T2-smg" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling T2-smg.c...
+linking...
+Program Size: data=11.0 xdata=0 code=248
+creating hex file from "T2-smg"...
+"T2-smg" - 0 Error(s), 0 Warning(s).
+</pre>
+</body>
+</html>

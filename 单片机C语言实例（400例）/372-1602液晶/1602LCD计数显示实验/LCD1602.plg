@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+D:\光盘\RZ-51V20\RZ-51V20 实例程序\7-1602液晶\1602LCD计数显示实验\LCD1602.uv2
+Project File Date:  06/24/2007
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling LCD1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PRINT?LCD1602
+Program Size: data=32.1 xdata=0 code=672
+creating hex file from "LCD1602"...
+"LCD1602" - 0 Error(s), 1 Warning(s).

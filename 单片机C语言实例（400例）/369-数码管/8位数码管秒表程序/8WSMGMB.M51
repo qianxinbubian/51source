@@ -1,0 +1,254 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/24/2009  14:16:03  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 8WMB.obj TO 8WSMGMB RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  8WMB.obj (8WMB)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  8WSMGMB (8WMB)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0015H     UNIT         ?DT?8WMB
+            IDATA   001DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     000CH     UNIT         ?C_C51STARTUP
+                    001AH     0001H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     0055H     UNIT         ?PR?TIMER1?8WMB
+            CODE    0073H     0041H     UNIT         ?PR?MAIN?8WMB
+            CODE    00B4H     003AH     UNIT         ?PR?TIMER0?8WMB
+            CODE    00EEH     002EH     UNIT         ?PR?UPDATE_DISBUF?8WMB
+            CODE    011CH     001EH     UNIT         ?PR?PROC_KEY?8WMB
+            CODE    013AH     0014H     UNIT         ?PR?CLR_TIME?8WMB
+            CODE    014EH     0012H     UNIT         ?PR?_DELAYMS?8WMB
+            CODE    0160H     000FH     UNIT         ?PR?SCAN_KEY?8WMB
+            CODE    016FH     000BH     UNIT         ?CO?8WMB
+
+
+
+OVERLAY MAP OF MODULE:   8WSMGMB (8WMB)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?TIMER1?8WMB
+  +--> ?PR?UPDATE_DISBUF?8WMB
+
+?PR?UPDATE_DISBUF?8WMB
+  +--> ?CO?8WMB
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?8WMB
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  14:16:03  PAGE 2
+
+
+
+?PR?MAIN?8WMB
+  +--> ?PR?CLR_TIME?8WMB
+  +--> ?PR?SCAN_KEY?8WMB
+  +--> ?PR?_DELAYMS?8WMB
+  +--> ?PR?PROC_KEY?8WMB
+
+?PR?CLR_TIME?8WMB
+  +--> ?PR?UPDATE_DISBUF?8WMB
+
+?PR?PROC_KEY?8WMB
+  +--> ?PR?CLR_TIME?8WMB
+
+
+
+SYMBOL TABLE OF MODULE:  8WSMGMB (8WMB)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        8WMB
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:0008H         PUBLIC        key_s
+  D:0009H         PUBLIC        key_v
+  C:0073H         PUBLIC        main
+  D:0089H         PUBLIC        TMOD
+  D:000AH         PUBLIC        dis_digit
+  D:000BH         PUBLIC        dis_index
+  C:016FH         PUBLIC        dis_code
+  D:000CH         PUBLIC        sec_bcd
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:0014H         PUBLIC        key_times
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  C:0160H         PUBLIC        scan_key
+  C:014EH         PUBLIC        _delayms
+  C:00B4H         PUBLIC        timer0
+  C:013AH         PUBLIC        clr_time
+  C:001EH         PUBLIC        timer1
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  D:0015H         PUBLIC        dis_buf
+  C:011CH         PUBLIC        proc_key
+  C:00EEH         PUBLIC        update_disbuf
+  B:00B0H.2       PUBLIC        K1
+  -------         PROC          MAIN
+  C:0073H         LINE#         25
+  C:0073H         LINE#         26
+  C:0073H         LINE#         27
+  C:0076H         LINE#         28
+  C:0079H         LINE#         29
+  C:007CH         LINE#         30
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  14:16:03  PAGE 3
+
+
+  C:007FH         LINE#         31
+  C:0082H         LINE#         33
+  C:0085H         LINE#         34
+  C:0088H         LINE#         36
+  C:008BH         LINE#         38
+  C:008EH         LINE#         39
+  C:0091H         LINE#         41
+  C:0093H         LINE#         42
+  C:0096H         LINE#         44
+  C:0099H         LINE#         46
+  C:009BH         LINE#         47
+  C:009DH         LINE#         48
+  C:009DH         LINE#         49
+  C:009DH         LINE#         50
+  C:00A2H         LINE#         51
+  C:00A2H         LINE#         52
+  C:00A7H         LINE#         53
+  C:00ACH         LINE#         54
+  C:00ACH         LINE#         55
+  C:00AFH         LINE#         56
+  C:00B2H         LINE#         57
+  C:00B2H         LINE#         58
+  C:00B2H         LINE#         60
+  -------         ENDPROC       MAIN
+  -------         PROC          CLR_TIME
+  C:013AH         LINE#         63
+  C:013AH         LINE#         64
+  C:013AH         LINE#         65
+  C:013DH         LINE#         66
+  C:013FH         LINE#         67
+  C:0141H         LINE#         68
+  C:0143H         LINE#         69
+  C:0145H         LINE#         70
+  C:0147H         LINE#         71
+  C:0149H         LINE#         72
+  C:014BH         LINE#         74
+  -------         ENDPROC       CLR_TIME
+  -------         PROC          SCAN_KEY
+  C:0160H         LINE#         78
+  C:0160H         LINE#         79
+  C:0160H         LINE#         80
+  C:0163H         LINE#         81
+  C:0168H         LINE#         82
+  C:016EH         LINE#         83
+  -------         ENDPROC       SCAN_KEY
+  -------         PROC          PROC_KEY
+  C:011CH         LINE#         85
+  C:011CH         LINE#         86
+  C:011CH         LINE#         87
+  C:0121H         LINE#         88
+  C:0121H         LINE#         89
+  C:0123H         LINE#         90
+  C:0128H         LINE#         91
+  C:0128H         LINE#         92
+  C:012AH         LINE#         93
+  C:012BH         LINE#         94
+  C:0130H         LINE#         95
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  14:16:03  PAGE 4
+
+
+  C:0130H         LINE#         96
+  C:0132H         LINE#         97
+  C:0133H         LINE#         99
+  C:0133H         LINE#         100
+  C:0136H         LINE#         101
+  C:0139H         LINE#         102
+  C:0139H         LINE#         104
+  C:0139H         LINE#         105
+  -------         ENDPROC       PROC_KEY
+  -------         PROC          TIMER0
+  C:00B4H         LINE#         107
+  C:00BFH         LINE#         114
+  C:00C2H         LINE#         115
+  C:00C5H         LINE#         117
+  C:00C8H         LINE#         118
+  C:00D0H         LINE#         119
+  C:00D3H         LINE#         121
+  C:00E0H         LINE#         122
+  C:00E2H         LINE#         124
+  C:00E5H         LINE#         125
+  -------         ENDPROC       TIMER0
+  -------         PROC          TIMER1
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:001EH         LINE#         127
+  C:003BH         LINE#         131
+  C:003EH         LINE#         132
+  C:0040H         LINE#         133
+  C:0040H         LINE#         134
+  C:0045H         LINE#         135
+  C:004FH         LINE#         136
+  C:004FH         LINE#         137
+  C:0051H         LINE#         138
+  C:0055H         LINE#         139
+  C:0058H         LINE#         140
+  -------         ENDPROC       TIMER1
+  -------         PROC          UPDATE_DISBUF
+  C:00EEH         LINE#         142
+  C:00EEH         LINE#         144
+  C:00EEH         LINE#         145
+  C:00F6H         LINE#         146
+  C:00FBH         LINE#         147
+  C:0102H         LINE#         148
+  C:0107H         LINE#         149
+  C:010CH         LINE#         150
+  C:0111H         LINE#         151
+  C:0116H         LINE#         152
+  C:011BH         LINE#         153
+  -------         ENDPROC       UPDATE_DISBUF
+  -------         PROC          _DELAYMS
+  D:0007H         SYMBOL        ms
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:014EH         LINE#         155
+  C:014EH         LINE#         157
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  14:16:03  PAGE 5
+
+
+  C:014EH         LINE#         159
+  C:0154H         LINE#         160
+  C:0154H         LINE#         161
+  C:015FH         LINE#         162
+  C:015FH         LINE#         163
+  -------         ENDPROC       _DELAYMS
+  -------         ENDMOD        8WMB
+
+Program Size: data=30.0 xdata=0 code=369
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

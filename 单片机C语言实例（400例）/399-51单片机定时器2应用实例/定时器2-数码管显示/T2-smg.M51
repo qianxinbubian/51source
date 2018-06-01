@@ -1,0 +1,128 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        01/06/2010  20:16:00  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE T2-smg.obj TO T2-smg RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  T2-smg.obj (T2_SMG)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  T2-smg (T2_SMG)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?T2_SMG
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0014H     UNIT         ?PR?MAIN?T2_SMG
+            CODE    0017H     000BH     UNIT         ?CO?T2_SMG
+            CODE    0022H     0004H     UNIT         ?C_INITSEG
+                    0026H     0005H                  *** GAP ***
+            CODE    002BH     0003H     ABSOLUTE     
+                    002EH     000DH                  *** GAP ***
+            CODE    003BH     0003H     ABSOLUTE     
+            CODE    003EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    00CAH     0040H     UNIT         ?PR?TIMER2?T2_SMG
+
+
+
+OVERLAY MAP OF MODULE:   T2-smg (T2_SMG)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?TIMER2?T2_SMG
+  +--> ?CO?T2_SMG
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?T2_SMG
+  +--> ?C_INITSEG
+
+
+
+SYMBOL TABLE OF MODULE:  T2-smg (T2_SMG)
+
+  VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/06/2010  20:16:00  PAGE 2
+
+
+  ----------------------------------
+
+  -------         MODULE        T2_SMG
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  C:003BH         PUBLIC        reserve
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:0008H         PUBLIC        shift
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A8H.5       PUBLIC        ET2
+  B:00C8H.7       PUBLIC        TF2
+  D:00CDH         PUBLIC        TH2
+  D:00CCH         PUBLIC        TL2
+  C:0017H         PUBLIC        ledcode
+  C:00CAH         PUBLIC        timer2
+  B:00C8H.2       PUBLIC        TR2
+  D:00C8H         PUBLIC        T2CON
+  D:0009H         PUBLIC        n
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0003H         LINE#         18
+  C:0003H         LINE#         19
+  C:0003H         LINE#         20
+  C:0006H         LINE#         21
+  C:0009H         LINE#         22
+  C:000CH         LINE#         24
+  C:000EH         LINE#         25
+  C:0010H         LINE#         26
+  C:0012H         LINE#         27
+  C:0015H         LINE#         28
+  -------         ENDPROC       MAIN
+  -------         PROC          TIMER2
+  C:00CAH         LINE#         36
+  C:00D2H         LINE#         38
+  C:00D4H         LINE#         39
+  C:00D7H         LINE#         40
+  C:00DAH         LINE#         42
+  C:00E1H         LINE#         43
+  C:00E1H         LINE#         44
+  C:00E4H         LINE#         45
+  C:00E7H         LINE#         46
+  C:00EAH         LINE#         47
+  C:00ECH         LINE#         49
+  C:00ECH         LINE#         50
+  C:00F4H         LINE#         51
+  C:00F7H         LINE#         52
+  C:00FFH         LINE#         53
+  C:0101H         LINE#         54
+  C:0101H         LINE#         55
+  -------         ENDPROC       TIMER2
+BL51 BANKED LINKER/LOCATER V6.20                                                      01/06/2010  20:16:00  PAGE 3
+
+
+  -------         ENDMOD        T2_SMG
+
+Program Size: data=11.0 xdata=0 code=248
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

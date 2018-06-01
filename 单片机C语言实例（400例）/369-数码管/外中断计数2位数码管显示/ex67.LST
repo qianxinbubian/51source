@@ -1,0 +1,90 @@
+C51 COMPILER V8.18   EX67                                                                  01/04/2010 13:06:22 PAGE 1   
+
+
+C51 COMPILER V8.18, COMPILATION OF MODULE EX67
+OBJECT MODULE PLACED IN ex67.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ex67.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //用LED数码管显示计数器T0的计数值
+   2          #include<reg52.h>   //包含51单片机寄存器定义的头文件
+   3          sbit S=P3^2 ;  //将S位定义为P3.2引脚
+   4          unsigned char Tab[ ]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};  //段码表
+   5          unsigned char x;
+   6          /******************************************************************
+   7          函数功能： 延时约0.6ms
+   8          ********************************************************************/
+   9           void delay(void)      
+  10           {
+  11   1          unsigned char j;
+  12   1                for(j=0;j<200;j++)
+  13   1                      ;
+  14   1        } 
+  15          
+  16          /******************************************************************
+  17          函数功能：显示计数次数的子程序
+  18          入口参数：x
+  19          ********************************************************************/
+  20           void Display(unsigned char x)
+  21          {
+  22   1          P2=0xbf;        //P3.6引脚输出低电平，DS6点亮 
+  23   1          P0=Tab[x/10];   //显示十位
+  24   1          delay();
+  25   1               delay();
+  26   1                delay();
+  27   1               delay();
+  28   1          P2=0x7f;      //P3.7引脚输出低电平，DS7点亮 
+  29   1          P0=Tab[x%10];  //显示个位
+  30   1          delay();
+  31   1               delay();
+  32   1                delay();
+  33   1               delay();
+  34   1              P2=0xff;
+  35   1              P0=0xff;
+  36   1               delay();
+  37   1               delay();
+  38   1                delay();
+  39   1               delay(); 
+  40   1       } 
+  41          
+  42          /*******************************************
+  43          函数功能：主函数
+  44          ******************************************/     
+  45          void main(void)
+  46            {
+  47   1         EA=1;   //开放总中断
+  48   1         EX0=1;  //允许使用外中断
+  49   1         IT0=1;  //选择负跳变来触发外中断
+  50   1              x=0;
+  51   1              
+  52   1              while(1) 
+  53   1          Display(x);
+  54   1          
+  55   1       }
+C51 COMPILER V8.18   EX67                                                                  01/04/2010 13:06:22 PAGE 2   
+
+  56          /**************************************************************
+  57          函数功能：外中断T0的中断服务程序
+  58          **************************************************************/
+  59          void int0(void) interrupt 0 using 0 //外中断0的中断编号为0
+  60          {
+  61   1        x++;
+  62   1        if(x==100)
+  63   1         x=0;
+  64   1      
+  65   1       }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     97    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

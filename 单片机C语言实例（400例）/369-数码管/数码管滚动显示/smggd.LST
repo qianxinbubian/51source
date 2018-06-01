@@ -1,0 +1,113 @@
+C51 COMPILER V8.02   SMGGD                                                                 07/21/2009 18:55:17 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE SMGGD
+OBJECT MODULE PLACED IN smggd.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE smggd.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include <reg52.h> //51芯片管脚定义头文件 
+   3          #include <intrins.h>//内部包含延时函数 _nop_(); 
+   4          
+   5          #define uchar unsigned char 
+   6          #define uint unsigned int 
+   7          
+   8          uchar display[ ]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+   9          
+  10           0xBF,0xBF,0x89,0x86,0xC7,0xC7,0xC0,0xBF,0xBF, 
+  11          
+  12          // --H E L L O -
+  13          
+  14          
+  15          0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff}; 
+  16          
+  17          uchar shift,j=0; 
+  18          
+  19          /********************************************************
+  20          
+  21           ms延时函数 
+  22          
+  23          ********************************************************/ 
+  24          
+  25          void delayms(uint ms) 
+  26          
+  27          {
+  28   1      
+  29   1       uchar t; 
+  30   1      
+  31   1      while(ms--)
+  32   1      
+  33   1      
+  34   1       { 
+  35   2      for(t = 0; t < 120; t++); 
+  36   2      } 
+  37   1      } 
+  38          
+  39          /******************************************************* 
+  40          显示函数 
+  41          *******************************************************/ 
+  42          
+  43          void disp(void) 
+  44          
+  45          { 
+  46   1      uchar i; 
+  47   1      shift=0x7f; 
+  48   1      
+  49   1      for(i=8; i>0; i--)
+  50   1      
+  51   1       {      P2=0xff ; 
+  52   2      P0=display[i+j]; 
+  53   2      P2=shift; 
+  54   2      shift=(shift>>1)|0x80; 
+  55   2      delayms(1);
+C51 COMPILER V8.02   SMGGD                                                                 07/21/2009 18:55:17 PAGE 2   
+
+  56   2      
+  57   2      
+  58   2       } 
+  59   1      
+  60   1      } 
+  61          
+  62          /******************************************************* 
+  63          主函数 
+  64          *******************************************************/ 
+  65          
+  66          void main() 
+  67          { 
+  68   1      uchar k;
+  69   1      
+  70   1       P0=0xFF; 
+  71   1      P2=0xFF; 
+  72   1      
+  73   1      
+  74   1      while(1)
+  75   1      
+  76   1      
+  77   1       { 
+  78   2      for(j=0;j<17;j++) 
+  79   2      { 
+  80   3      
+  81   3      
+  82   3      for(k=0;k<125;k++) 
+  83   3      disp(); 
+  84   3      } 
+  85   2      } 
+  86   1      } 
+  87          
+  88          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     89    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     27    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,62 @@
+C51 COMPILER V8.02   EX1                                                                   07/24/2009 14:19:12 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE EX1
+OBJECT MODULE PLACED IN ex1.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ex1.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #define uint unsigned int 
+   3          #define uchar unsigned char 
+   4          sbit P27=P2^7;
+   5          sbit K1=P3^2;
+   6          uchar num;
+   7          uchar code table[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xf8,0x80,0x90,0x88,0x83,0xC6,0xA1,0x86,0x8E};
+   8          void delay(uint z);
+   9          void main()
+  10          {
+  11   1      P1=0xff;
+  12   1       while(1){
+  13   2         
+  14   2      if(K1==0){
+  15   3              delay(20);
+  16   3                      if(K1==0){
+  17   4                              num++;
+  18   4                                      if(num==16){
+  19   5                                                      num=0;
+  20   5                               } 
+  21   4      
+  22   4                      while(!K1);
+  23   4      
+  24   4                                      }
+  25   3      }
+  26   2      P27=0;
+  27   2      P0=table[num];  
+  28   2      }
+  29   1      }
+  30          
+  31          
+  32          void delay(uint z)
+  33          {
+  34   1              uint x,y;
+  35   1              for(x=z;x>0;x--)
+  36   1                      for(y=110;y>0;y--);     
+  37   1      }
+  38          
+  39          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     71    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

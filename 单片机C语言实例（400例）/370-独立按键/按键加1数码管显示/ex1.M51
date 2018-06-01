@@ -1,0 +1,111 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/24/2009  14:19:12  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE ex1.obj TO ex1 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ex1.obj (EX1)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ex1 (EX1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?EX1
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0029H     UNIT         ?PR?MAIN?EX1
+            CODE    002CH     001EH     UNIT         ?PR?_DELAY?EX1
+            CODE    004AH     0010H     UNIT         ?CO?EX1
+            CODE    005AH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   ex1 (EX1)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX1
+
+?PR?MAIN?EX1
+  +--> ?PR?_DELAY?EX1
+  +--> ?CO?EX1
+
+
+
+SYMBOL TABLE OF MODULE:  ex1 (EX1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/24/2009  14:19:12  PAGE 2
+
+
+  C:004AH         PUBLIC        table
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A0H.7       PUBLIC        P27
+  D:0008H         PUBLIC        num
+  D:00C8H         PUBLIC        T2CON
+  C:002CH         PUBLIC        _delay
+  D:00D0H         PUBLIC        PSW
+  B:00B0H.2       PUBLIC        K1
+  -------         PROC          MAIN
+  C:0003H         LINE#         9
+  C:0003H         LINE#         10
+  C:0003H         LINE#         11
+  C:0006H         LINE#         12
+  C:0006H         LINE#         14
+  C:0009H         LINE#         15
+  C:0010H         LINE#         16
+  C:0013H         LINE#         17
+  C:0015H         LINE#         18
+  C:001AH         LINE#         19
+  C:001DH         LINE#         20
+  C:001DH         LINE#         22
+  C:0020H         LINE#         24
+  C:0020H         LINE#         25
+  C:0020H         LINE#         26
+  C:0022H         LINE#         27
+  C:002AH         LINE#         28
+  -------         ENDPROC       MAIN
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        z
+  -------         DO            
+  D:0006H         SYMBOL        x
+  D:0004H         SYMBOL        y
+  -------         ENDDO         
+  C:002CH         LINE#         32
+  C:002CH         LINE#         33
+  C:002CH         LINE#         35
+  C:0035H         LINE#         36
+  C:0049H         LINE#         37
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        EX1
+
+Program Size: data=10.0 xdata=0 code=102
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

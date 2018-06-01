@@ -1,0 +1,69 @@
+C51 COMPILER V8.02   MAIN                                                                  07/23/2009 11:16:49 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "LCD1602.h"
+   3          
+   4          
+   5          //LCD初始化
+   6          void InitLCD()
+   7          {
+   8   1              LCDReset();
+   9   1              InputMode(0x06);        //增量方式，不移位
+  10   1              DispControl(0x0c);      //显示开，光标关，闪烁关
+  11   1              FunctionSet(0x38);      //8位，2行，5×7
+  12   1              }
+  13          
+  14          void main()
+  15          {
+  16   1              InitP0(0);
+  17   1              InitLCD();
+  18   1              
+  19   1              while(1)
+  20   1              {
+  21   2                      //显示"Welcome!"
+  22   2                      DispCharacter(0,4,'W');
+  23   2                      DispCharacter(0,5,'e');
+  24   2                      DispCharacter(0,6,'l');
+  25   2                      DispCharacter(0,7,'c');
+  26   2                      DispCharacter(0,8,'o');
+  27   2                      DispCharacter(0,9,'m');
+  28   2                      DispCharacter(0,10,'e');
+  29   2                      DispCharacter(0,11,'!');
+  30   2                      //显示"03-01-2007"
+  31   2                      DispCharacter(1,3,'0');
+  32   2                      DispCharacter(1,4,'6');
+  33   2                      DispCharacter(1,5,'-');
+  34   2                      DispCharacter(1,6,'2');
+  35   2                      DispCharacter(1,7,'8');
+  36   2                      DispCharacter(1,8,'-');
+  37   2                      DispCharacter(1,9,'2');
+  38   2                      DispCharacter(1,10,'0');
+  39   2                      DispCharacter(1,11,'0');
+  40   2                      DispCharacter(1,12,'9');
+  41   2                      }
+  42   1              }
+  43          
+  44                  
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    297    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V8.02   MAIN                                                                  07/23/2009 11:16:49 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
