@@ -2,5 +2,5 @@
 #*.opt
 #*.Bak
 #忽略obj目录
-obj/
+./*/*/obj/
 #!/obj/*.hex
